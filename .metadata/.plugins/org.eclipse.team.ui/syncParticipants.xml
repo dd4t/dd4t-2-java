@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syncparticipants>
+<participant displayName="Git (dd4t-core, Se...est-spring-web)" id="org.eclipse.egit.ui.modelCompareParticipant" secondary_id="1423837472450">
+<data forceFetch="false" root="false">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS org.eclipse.team.ui.MODEL_PARTICIPANT_DESCRIPTION="dd4t-core, Se...est-spring-web" startupAction="none">
+<org.eclipse.team.ui.MODEL_PARTICIPANT_REFRESH_SCHEDULE org.eclipse.team.ui.CTX_REFRESHSCHEDULE_ENABLED="false" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_INTERVAL="3600" org.eclipse.team.ui.CTX_REFRESHSCHEDULE_RUNONCE="false"/>
+<org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS modelProviderId="org.eclipse.core.resources.modelProvider">
+<mappings>
+<resources resourcePath="/dd4t-core" resourceType="4"/>
+<resources resourcePath="/Servers" resourceType="4"/>
+<resources resourcePath="/dd4t-api" resourceType="4"/>
+<resources resourcePath="/dd4t-example-site" resourceType="4"/>
+<resources resourcePath="/dd4t-providers" resourceType="4"/>
+<resources resourcePath="/dd4t-test-spring-web" resourceType="4"/>
+</mappings>
+</org.eclipse.team.ui.MODEL_PARTICIPANT_MAPPINGS>
+</org.eclipse.team.ui.MODEL_PARTICIPANT_SETTINGS>
+<gitSynchronizeData container="D:/Users/rooudsho/workspace/dd4t-2/Servers" dstRev="refs/remotes/origin/rogier-dev" inludeLocal="false" srcRev="HEAD"/>
+</data>
+</participant>
+</syncparticipants>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration Version="6.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="schemas/cd_dynamic_conf.xsd">
+    <!-- The URLMappings define the relation between publication id's and domain names. -->
+	<URLMappings>
+	  <StaticMappings>
+	    <Publications>
+	      <Publication Id="1">
+	        <Host Domain="localhost" Port="8080" Protocol="http" Path="/dd4t-example-site/dd4t" />
+	      </Publication>		  
+	      <Publication Id="11">
+			<Host Domain="localhost" Port="8080" Protocol="http" Path="/public-sites" />
+			<Host Domain="localdev.nordea.dk" Port="8080" Protocol="http" Path="/public-sites"/>		
+	      </Publication>		  
+	    </Publications>
+	  </StaticMappings>
+	  <StorageMapping IdentifyPublicationByProperty="publicationUrl" />
+	</URLMappings>
+
+</Configuration>

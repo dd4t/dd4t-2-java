@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;dd4t-core&apos;&#x0D;&#x0A;- Original project: &apos;dd4t-core&apos;&#x0D;&#x0A;- Original element: &apos;org.dd4t.core.request.RequestContext.java&apos;" description="Delete element" element1="/src\/main\/java&lt;org.dd4t.core.request{RequestContext.java" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1423236776975" subPackages="false" version="1.0"/>
+</session>

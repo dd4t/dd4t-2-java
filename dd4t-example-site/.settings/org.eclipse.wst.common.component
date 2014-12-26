@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="dd4t-example-site">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="dd4t-core.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dd4t-core/dd4t-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dd4t-databind.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dd4t-databind/dd4t-databind">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dd4t-api.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dd4t-api/dd4t-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dd4t-mvc-support.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dd4t-mvc-support/dd4t-mvc-support">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="dd4t-providers.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/dd4t-providers/dd4t-providers">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="dd4t-example-site"/>
+        <property name="java-output-path" value="/dd4t-example-site/target/classes"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration Version="6.1"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="schemas/cd_ambient_conf.xsd">
+    <!-- 
+    <Security>
+        <RequestValidator>com.tridion.webservices.security.validator.OAuth2RequestValidator</RequestValidator>
+        <SharedSecret>sample_passphrase</SharedSecret>
+    </Security>
+ 	-->
+ 
+    <!-- Excluded Paths -->
+    <!-- You can add paths relative to the context path for which the Ambient Framework Filter shouldn't execute.
+    This is very probable to happen when you map the Ambient Framework Filter to /* path.
+    You may want to exclude, for example, the path with which the upload servlet is mapped to. -->
+    <!--
+    <ExcludedPaths>
+		<Path>/httpupload</Path>
+	</ExcludedPaths>
+    -->
+    <Cartridges>
+    	<Cartridge File="cd_webservice_preview_cartridge.xml"/>
+		<Cartridge File="footprint_cartridge_conf.xml"/>
+
+        <!--
+        <Cartridge File="cd_ambient_cartridge_conf.xml"/>
+        
+        <Cartridge File="ugc_ambient_cartridge.xml"/>
+        -->
+    </Cartridges>
+    <!-- Cookies settings -->
+    <!--
+    <Cookies>
+        <CookieClaim DefaultValue="true" Name="CookieClaim"/>
+        <Cookie Type="Tracking" Name="myTrackingCookie" Path="/"/>
+        <Cookie Type="Session" Name="mySessionCookie" Path="/"/>
+    </Cookies>
+    -->
+	<ClaimStoreProvider>com.tridion.siteedit.preview.PreviewClaimStoreProvider</ClaimStoreProvider>
+	
+    <!-- ClaimStoreProvider definition -->
+    <!-- Custom ClaimStore providers can be defined by implementing the
+    com.tridion.ambientdata.claimstore.providers.ClaimStoreProvider interface and by declaring here the
+    implementation class. There are available two default implementations of a ClaimStoreProvider:
+    com.tridion.ambientdata.claimstore.providers.WebClaimStoreProvider (used by default on a Java environment)
+    and com.tridion.ambientdata.claimstore.providers.DotNetClaimStoreProvider (used by default on a .NET environment) -->
+    <!--
+    <ClaimStoreProvider>com.tridion.ambientdata.claimstore.providers.WebClaimStoreProvider</ClaimStoreProvider>
+    -->
+</Configuration>

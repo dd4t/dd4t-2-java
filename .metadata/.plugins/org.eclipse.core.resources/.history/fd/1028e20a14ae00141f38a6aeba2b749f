@@ -1,0 +1,57 @@
+/**  
+ *  Copyright 2011 Capgemini & SDL
+ * 
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ * 
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+package org.dd4t.core.factories.impl;
+
+import java.text.ParseException;
+
+import org.dd4t.contentmodel.Component;
+import org.dd4t.contentmodel.ComponentPresentation;
+import org.dd4t.contentmodel.DynamicComponent;
+import org.dd4t.contentmodel.GenericComponent;
+import org.dd4t.contentmodel.GenericPage;
+import org.dd4t.contentmodel.exceptions.ItemNotFoundException;
+import org.dd4t.contentmodel.exceptions.NotAuthenticatedException;
+import org.dd4t.contentmodel.exceptions.NotAuthorizedException;
+import org.dd4t.contentmodel.impl.BasePublishedItem;
+import org.dd4t.contentmodel.impl.DynamicComponentImpl;
+import org.dd4t.core.factories.ComponentFactory;
+import org.dd4t.core.filters.FilterException;
+import org.dd4t.core.filters.impl.BaseFilter;
+import org.dd4t.core.request.RequestContext;
+import org.dd4t.providers.ComponentProvider;
+import org.dd4t.providers.impl.BrokerComponentProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.StopWatch;
+
+import com.tridion.broker.StorageException;
+import com.tridion.linking.ComponentLink;
+import com.tridion.linking.Link;
+import com.tridion.storage.ComponentMeta;
+import com.tridion.util.TCMURI;
+
+/**
+ * Backwards compatibility class
+ * @author Rogier Oudshoorn
+ *
+ */
+public class GenericComponentFactory extends BaseFactory implements ComponentFactory {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(GenericComponentFactory.class);
+
+
+}

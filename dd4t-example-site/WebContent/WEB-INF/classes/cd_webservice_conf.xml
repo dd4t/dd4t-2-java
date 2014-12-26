@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration Version="6.1"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="schemas/cd_webservice_conf.xsd">
+    <!--
+    OData specific settings.
+
+    The default top value that will be used if the client doesn't specify one.
+    The fixed publication id to use in the friendly URL, this allows only one
+    publication to be queried through the friendly URL filter.
+    -->
+    <OData>
+        <DefaultTop>25</DefaultTop>
+        <FixedPublicationId>1</FixedPublicationId>
+    </OData>
+
+    <!--
+    Built-in authentication server's configuration.
+    -->
+    <AuthenticationServer ForceSecure="false">
+        <TokenExpireTime TimeInSeconds="300"/>
+        <SharedSecret>sample_passphrase</SharedSecret>
+    </AuthenticationServer>
+
+    <!--
+    Built-in authentication server's users.
+
+    First example is a user with an Tridion encrypted password.
+    The second example is a user, password not encrypted.
+    -->
+    <Accounts>
+        <Account Id="tridion" Password="encrypted:fhS6whphjS2G2rG6aI6T/g==">
+            <Metadata>
+                <Param Name="FirstName" Value="SDL"/>
+                <Param Name="LastName" Value="Tridion"/>
+                <Param Name="Role" Value="Tridion test account"/>
+                <Param Name="AllowedServices" Value="contentService"/>
+            </Metadata>
+        </Account>
+        <Account Id="testuser" Password="testpass"/>
+    </Accounts>
+
+</Configuration>

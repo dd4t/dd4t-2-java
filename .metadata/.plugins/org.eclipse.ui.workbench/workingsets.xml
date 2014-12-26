@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1422013922878_1" label="dd4t-parent" name="dd4t-parent">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-databind" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-mvc-support" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-providers-rs" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-test" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-api" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-example-site" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-providers" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/dd4t-test-spring-web" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1422013902986_0" label="Window Working Set" name="Aggregate for window 1422013902986"/>
+</workingSetManager>

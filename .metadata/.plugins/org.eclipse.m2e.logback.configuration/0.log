@@ -4524,3 +4524,7 @@ Caused by: java.io.FileNotFoundException: D:\Users\rooudsho\workspace\dd4t-2\dd4
 2015-02-20 15:50:03,996 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2015-02-20 15:50:03,996 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2015-02-20 15:50:03,996 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Users\rooudsho\workspace\dd4t-2\dd4t-databind\src\test\resources
+2015-02-20 15:51:04,095 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-02-20 15:51:04,095 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2015-02-20 15:51:04,095 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-02-20 15:51:04,095 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Users\rooudsho\workspace\dd4t-2\dd4t-databind\src\test\resources

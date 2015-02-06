@@ -27,6 +27,7 @@ public class RichTextWithLinksResolver extends RichTextResolver implements Proce
 	private LinkResolver linkResolver;
 
 	public RichTextWithLinksResolver () {
+		setCachingAllowed(false);
 		LinkResolverFactory factory = LinkResolverFactory.getInstance();
 		setLinkResolver(factory.getLinkResolver());
 		LOG.debug("Init RichTextWithLinksResolverFilter");

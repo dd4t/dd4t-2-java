@@ -32,7 +32,7 @@ public class LinkResolverFactory {
 
     @Autowired
     public void setLinkResolver(LinkResolver linkResolver) {
-        LOG.debug("Set LinkResolver {}",linkResolver);
+	    LOG.debug("Set LinkResolver " + linkResolver);
         this.linkResolver = linkResolver;
     }
 }

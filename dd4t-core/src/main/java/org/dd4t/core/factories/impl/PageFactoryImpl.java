@@ -134,11 +134,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
 	                try {
 		                page = deserialize(pageSource, PageImpl.class);
-<<<<<<< HEAD
-=======
-                        // TODO: put CPs on the request stack here
-		                doFilters(page, RunPhase.BEFORE_CACHING);
->>>>>>> Commits to core necessary to get site running
+
 		                cacheElement.setPayload(page);
 
 		                final TCMURI tcmUri = new TCMURI(page.getId());
@@ -146,11 +142,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                         this.executeProcessors(page, RunPhase.BEFORE_CACHING);
 		                cacheProvider.storeInItemCache(cacheKey, cacheElement, publicationId, tcmUri.getItemId());
 		                LOG.debug("Added page with uri: {} and publicationId: {} to cache", url, publicationId);
-<<<<<<< HEAD
 	                } catch (FactoryException | ProcessorException | ParseException e) {
-=======
-	                } catch (SerializationException | ParseException | FilterException e) {
->>>>>>> Commits to core necessary to get site running
 		                throw new FactoryException(e);
 	                }
 
@@ -163,7 +155,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             LOG.debug("Return page with url: {} and publicationId: {} from cache", url, publicationId);
             page = cacheElement.getPayload();
         }
-<<<<<<< HEAD
+
         if (page != null) {
             LOG.debug("Running Post caching Processors");
             try {
@@ -172,15 +164,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                 LOG.error(e.getLocalizedMessage(),e);
             }
         }
-=======
 
-        try {
-			doFilters(page, RunPhase.AFTER_CACHING);
-		} catch (FilterException | SerializationException e) {
-            throw new FactoryException(e);
-		}
-        
->>>>>>> Commits to core necessary to get site running
         return page;
     }
 

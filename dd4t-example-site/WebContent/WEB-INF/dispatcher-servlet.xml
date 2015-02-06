@@ -37,18 +37,18 @@
 		<property name="contentIsCompressed"><value>false</value></property>
 	</bean>	
 	
-	<bean id="componentProvider" class="org.dd4t.providers.impl.BrokerComponentProvider">
+	<bean id="componentPresentationProvider" class="org.dd4t.providers.impl.BrokerComponentPresentationProvider">
 		<property name="contentIsCompressed"><value>false</value></property>	
 	</bean>
 
 	<!-- Factory filters -->
 	<bean id="hybridPublishingFilter"
-		class="org.dd4t.core.filters.impl.HybridPublishingFilter">
+		class="org.dd4t.core.processors.impl.DcpResolver">
 		<!-- <property name="genericComponentFactory"><ref bean="genericComponentFactory" /></property>  -->					
 	</bean>
 
 	<bean id="richTextWithLinksResolverFilter"
-		class="org.dd4t.core.filters.impl.RichTextWithLinksResolverFilter">
+		class="org.dd4t.core.processors.impl.RichTextWithLinksResolver">
 		<property name="linkResolver"><ref bean="LinkResolver" /></property>		
 	</bean>	
 
@@ -62,7 +62,7 @@
 		class="org.dd4t.core.factories.impl.PageFactoryImpl">
 	    <property name="cacheProvider"><ref bean="cacheProvider" /></property>
 		<property name="pageProvider"><ref bean="pageProvider" /></property>
-		<property name="filters">
+		<property name="processors">
 			<list>
 				<ref bean="hybridPublishingFilter" />
 				<ref bean="richTextWithLinksResolverFilter" />				
@@ -71,10 +71,8 @@
 	</bean>	
 	
 	<bean id="genericComponentFactory"
-		class="org.dd4t.core.factories.impl.ComponentFactoryImpl">
-	    <property name="cacheProvider"><ref bean="cacheProvider" /></property>	
-		<property name="componentProvider"><ref bean="componentProvider" /></property>			
-	    <!-- <property name="pageFactory"><ref bean="genericPageFactory" /></property> -->		    	    
+		class="org.dd4t.core.factories.impl.GenericComponentFactory">
+    	    
 	</bean>
 
 	

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.dd4t.contentmodel.GenericComponent;
 import org.dd4t.contentmodel.GenericPage;
 import org.dd4t.core.factories.ComponentFactory;
+import org.dd4t.core.request.impl.BasicRequestContext;
 import org.dd4t.springmvc.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,7 +113,7 @@ public class NewsList extends AbstractController {
                      * as we know that in the example these components are found embedded on the page.
                      */
                     GenericComponent comp = 
-                    		(GenericComponent) genericComponentFactory.getComponent(result, null);
+                    		(GenericComponent) genericComponentFactory.getComponent(result, new BasicRequestContext(request));
                     
                     if(comp != null){
                     	comps.add(comp);

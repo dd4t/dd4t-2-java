@@ -5,7 +5,7 @@ import java.text.ParseException;
 import javax.servlet.ServletRequest;
 
 import org.dd4t.contentmodel.ComponentPresentation;
-import org.dd4t.contentmodel.DynamicComponent;
+//import org.dd4t.contentmodel.DynamicComponent;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.GenericComponent;
 import org.dd4t.contentmodel.GenericPage;

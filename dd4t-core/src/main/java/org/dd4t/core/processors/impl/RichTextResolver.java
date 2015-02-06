@@ -4,12 +4,14 @@ import org.dd4t.contentmodel.*;
 import org.dd4t.contentmodel.impl.EmbeddedField;
 import org.dd4t.contentmodel.impl.XhtmlField;
 import org.dd4t.core.processors.Processor;
+import org.dd4t.core.processors.RunPhase;
 import org.dd4t.core.exceptions.ProcessorException;
 import org.dd4t.core.util.XSLTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.transform.TransformerException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,6 +29,7 @@ public class RichTextResolver extends BaseProcessor implements Processor {
 	private final XSLTransformer xslTransformer = XSLTransformer.getInstance();
 
 	public RichTextResolver () {
+		setRunPhase(RunPhase.BEFORE_CACHING);
 	}
 
 	/**

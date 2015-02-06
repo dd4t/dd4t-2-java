@@ -3,12 +3,14 @@ package org.dd4t.core.processors.impl;
 import org.dd4t.contentmodel.impl.XhtmlField;
 import org.dd4t.core.factories.impl.LinkResolverFactory;
 import org.dd4t.core.processors.Processor;
+import org.dd4t.core.processors.RunPhase;
 import org.dd4t.core.resolvers.LinkResolver;
 import org.dd4t.core.util.XSLTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.transform.TransformerException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,7 @@ public class RichTextWithLinksResolver extends RichTextResolver implements Proce
 	private LinkResolver linkResolver;
 
 	public RichTextWithLinksResolver () {
-		setCachingAllowed(false);
+		setRunPhase(RunPhase.AFTER_CACHING);
 		LinkResolverFactory factory = LinkResolverFactory.getInstance();
 		setLinkResolver(factory.getLinkResolver());
 		LOG.debug("Init RichTextWithLinksResolverFilter");

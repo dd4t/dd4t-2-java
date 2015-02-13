@@ -36,11 +36,13 @@
 	<bean id="pageProvider" class="org.dd4t.providers.impl.BrokerPageProvider" >
 		<property name="contentIsCompressed"><value>false</value></property>
 	</bean>	
-	
-	<bean id="componentPresentationProvider" class="org.dd4t.providers.impl.BrokerComponentPresentationProvider">
-		<property name="contentIsCompressed"><value>false</value></property>	
-	</bean>
 
+    <bean id="componentPresentationProvider" scope="singleton" class="org.dd4t.providers.impl.BrokerComponentPresentationProvider">
+        <property name="contentIsCompressed" value="true"/>
+        <property name="concreteComponentPresentation" value="org.dd4t.contentmodel.impl.ComponentPresentationImpl" />
+        <property name="concreteComponentTemplateImpl" value="org.dd4t.contentmodel.impl.ComponentTemplateImpl" />
+    </bean>
+    
 	<!-- Factory filters -->
 	<bean id="hybridPublishingFilter"
 		class="org.dd4t.core.processors.impl.DcpResolver">
@@ -71,10 +73,13 @@
 	</bean>	
 	
 	<bean id="genericComponentFactory"
-		class="org.dd4t.core.factories.impl.GenericComponentFactory">
-    	    
+		class="org.dd4t.core.factories.impl.GenericComponentFactory">    	
 	</bean>
 
+    <bean id="componentPresentationFactory" class="org.dd4t.core.factories.impl.ComponentPresentationFactoryImpl" factory-method="getInstance">
+        <property name="componentPresentationProvider" ref="componentPresentationProvider" />
+        <property name="cacheProvider" ref="cacheProvider" />
+    </bean>
 	
 	<!-- viewmanagers -->	 
 	<bean id="pageViewManager" class="org.dd4t.springmvc.view.impl.SimplePageViewManager">

@@ -1,30 +1,30 @@
 package org.dd4t.core.caching.impl;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.concurrent.ConcurrentSkipListSet;
+
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
+import org.dd4t.core.caching.Cachable;
 import org.dd4t.core.caching.CacheElement;
 import org.dd4t.core.caching.CacheInvalidator;
-import org.dd4t.core.factories.impl.PropertiesServiceFactory;
-import org.dd4t.core.services.PropertiesService;
 import org.dd4t.core.util.TridionUtils;
 import org.dd4t.providers.CacheProvider;
 import org.dd4t.providers.PayloadCacheProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
-import java.util.concurrent.ConcurrentSkipListSet;
-
 /**
  * EH Cache implementation
  *
  * TODO: this class has bugs! Only use for Tridion Object invalidation!
  *
- * @author R. Kempees, Mihai Cadariu
+ * @author R. Kempees, Mihai Cadariu, Rogier Oudshoorn
  */
-public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
+public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator, CacheProvider {
 
     /**
      * The name of the EHCache that contains the cached items for this application
@@ -33,18 +33,16 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     private final Cache cache = CacheManager.create().getCache(CACHE_NAME);
     public static final String DEPENDENT_KEY_FORMAT = "%s:%s";
     private static final Logger LOG = LoggerFactory.getLogger(EHCacheProvider.class);
-	private final int expiredTTL;
+	
+    private int expiredTTL = 299;
 
-    private EHCacheProvider () {
-        LOG.debug("Create new instance");
-        PropertiesServiceFactory propertiesServiceFactory = PropertiesServiceFactory.getInstance();
-        PropertiesService propertiesService = propertiesServiceFactory.getPropertiesService();
-	    final String ttlExpired = "cache.expired.ttl";
-	    final String ttlExpiredDefault = "299";
-	    String ttl = propertiesService.getProperty(ttlExpired, ttlExpiredDefault);
-        expiredTTL = Integer.parseInt(ttl);
-        LOG.debug("Using {} = {} seconds", ttlExpired, expiredTTL);
-    }
+    public int getExpiredTTL() {
+		return expiredTTL;
+	}
+
+	public void setExpiredTTL(int expiredTTL) {
+		this.expiredTTL = expiredTTL;
+	}
 
     /**
      * Loads given object from the cache and returns it inside a CacheItem wrapper.
@@ -235,4 +233,52 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     private static String getKey(int publicationId, int itemId) {
         return String.format(DEPENDENT_KEY_FORMAT, publicationId, itemId);
     }
+
+	@Override
+	public Object loadFromLocalCache(String key) {
+		CacheElement<Object> item = loadPayloadFromLocalCache(key);
+				
+		return item.getPayload();
+	}
+
+	@Override
+	public void storeInCache(String key, Cachable ob, Collection<Cachable> deps) {
+        if (cache == null) {
+            LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
+            return;
+        }
+        CacheElement<Object> cacheElement = new CacheElementImpl<Object>(ob);
+        cacheElement.setExpired(false);
+   
+        Element element = cache.get(key);
+
+        if (element == null) {
+            cache.put(new Element(key, cacheElement, true));
+        } else {
+            setNotExpired(element);
+        }
+		
+		for(Cachable item : deps){
+			addDependency(key, item.getCacheKey());
+		}		
+	}
+
+	@Override
+	public void storeInItemCache(String key, Object ob,
+			int dependingPublicationId, int dependingItemId) {
+		storeInItemCache(key, new CacheElementImpl<Object>(ob), dependingPublicationId, dependingItemId);		
+	}
+
+	@Override
+	public void storeInComponentPresentationCache(String key, Object ob,
+			int dependingPublicationId, int dependingCompId,
+			int dependingTemplateId) {
+		storeInItemCache(key, new CacheElementImpl<Object>(ob), dependingPublicationId, dependingCompId);				
+	}
+
+	@Override
+	public void storeInKeywordCache(String key, Object ob,
+			int dependingPublicationId, int dependingItemId) {
+		storeInItemCache(key, new CacheElementImpl<Object>(ob), dependingPublicationId, dependingItemId);				
+	}
 }

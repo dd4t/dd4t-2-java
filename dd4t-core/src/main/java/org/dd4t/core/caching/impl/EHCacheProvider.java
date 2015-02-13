@@ -54,7 +54,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
      * payload. It can also return an expired (stale) payload, which must be updated.
      */
     @Override
-    public <T> CacheElement<T> loadFromLocalCache(String key) {
+    public <T> CacheElement<T> loadPayloadFromLocalCache(String key) {
         String sessionPreviewToken = TridionUtils.getSessionPreviewToken();
 
         if (sessionPreviewToken == null && cache != null) {

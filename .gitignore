@@ -6,6 +6,7 @@
 .recommenders
 .metadata
 cd_*.xml
-targetMETA-INF
+target
+META-INF
 Servers
 

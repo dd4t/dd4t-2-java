@@ -1,7 +1,0 @@
-#Tomcat publish data
-#Fri Feb 06 16:54:18 GMT+01:00 2015
-org.eclipse.jst.j2ee.server\:dd4t-core=WEB-INF/lib/dd4t-core.jar
-org.eclipse.jst.j2ee.server\:dd4t-api=WEB-INF/lib/dd4t-api.jar
-org.eclipse.jst.j2ee.server\:dd4t-databind=WEB-INF/lib/dd4t-databind.jar
-org.eclipse.jst.j2ee.server\:dd4t-providers=WEB-INF/lib/dd4t-providers.jar
-org.eclipse.jst.j2ee.server\:dd4t-mvc-support=WEB-INF/lib/dd4t-mvc-support.jar

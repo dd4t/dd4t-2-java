@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="org.dd4t.core.filters.impl.BaseFilter.RunPhase"/>
-<fullyQualifiedTypeName name="org.dd4t.core.processors.RunPhase"/>
-<fullyQualifiedTypeName name="org.dd4t.core.factories.ComponentFactory"/>
-<fullyQualifiedTypeName name="org.dd4t.core.factories.impl.ComponentPresentationFactoryImpl"/>
-<fullyQualifiedTypeName name="org.dd4t.contentmodel.ComponentPresentation"/>
-<fullyQualifiedTypeName name="org.dd4t.core.request.impl.BasicRequestContext"/>
-</qualifiedTypeNameHistroy>

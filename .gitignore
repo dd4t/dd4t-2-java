@@ -4,10 +4,8 @@
 .settings
 .metadata
 .recommenders
-cd_*.xml
-
-target
-cd_licenses.xml
 .metadata
-META-INF
+cd_*.xml
+targetMETA-INF
 Servers
+

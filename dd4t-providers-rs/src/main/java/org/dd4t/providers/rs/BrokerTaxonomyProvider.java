@@ -16,8 +16,11 @@
 
 package org.dd4t.providers.rs;
 
+import org.dd4t.contentmodel.Keyword;
+import org.dd4t.contentmodel.impl.KeywordImpl;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
+import org.dd4t.core.serializers.impl.SerializerFactory;
 import org.dd4t.providers.TaxonomyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,24 +43,16 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
 
 	private static final Logger LOG = LoggerFactory.getLogger(BrokerTaxonomyProvider.class);
 
-	/**
-	 * Retrieves a Taxonomy TCMURI. It returns a Keyword object representing the root taxonomy node with all the parent/
-	 * children relationships resolved.
-	 *
-	 * @param taxonomyURI    String representing the TCMURI of the taxonomy to retrieve
-	 * @param resolveContent boolean indicating whether or not to resolverepresenting the context Publication id to read the Page from
-	 * @return String representing the JSON encoded Keyword object
-	 * @throws ItemNotFoundException  if said taxonomy cannot be found
-	 * @throws SerializationException if response from service does not represent a serialized Keyword object
-	 */
 	@Override
-	public String getTaxonomyByURI (final String taxonomyURI, final boolean resolveContent) throws ItemNotFoundException, SerializationException {
+	public Keyword getTaxonomyByURI (final String taxonomyURI, final boolean resolveContent) throws ItemNotFoundException, SerializationException {
 		long time = System.currentTimeMillis();
 		LOG.debug("Fetching taxonomy with uri: {}", taxonomyURI);
 
 		try {
-			Invocation.Builder builder = JAXRSClient.INSTANCE.getTaxonomyByURITarget().
-					path(taxonomyURI).path(String.valueOf(resolveContent)).request(MediaType.TEXT_PLAIN);
+			Invocation.Builder builder = JAXRSClient.INSTANCE.getTaxonomyByURITarget()
+					.path(taxonomyURI)
+					.path(String.valueOf(resolveContent))
+					.request(MediaType.TEXT_PLAIN);
 			builder = getSessionPreviewBuilder(builder);
 			String content = builder.get(String.class);
 
@@ -70,13 +65,18 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
 			time = System.currentTimeMillis() - time;
 			LOG.debug("Finished fetching taxonomy. Duration {}s", time / 1000.0);
 
-			return result;
+			return deserialize(result, KeywordImpl.class);
 		} catch (NotFoundException nfe) {
 			throw new ItemNotFoundException(nfe);
 		} catch (ClientErrorException | ProcessingException e) {
 			throw new SerializationException(e);
 		}
 	}
+
+	private Keyword deserialize(final String taxonomySource, final Class<KeywordImpl> keywordClass) throws SerializationException {
+		return SerializerFactory.deserialize(taxonomySource, keywordClass);
+	}
+
 
 	/**
 	 * Retrieves a Taxonomy TCMURI. It returns a Keyword object representing the root taxonomy node with all the parent/

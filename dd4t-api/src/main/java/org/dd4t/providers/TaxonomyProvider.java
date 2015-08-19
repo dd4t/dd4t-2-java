@@ -16,6 +16,7 @@
 
 package org.dd4t.providers;
 
+import org.dd4t.contentmodel.Keyword;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
 
@@ -27,11 +28,11 @@ public interface TaxonomyProvider {
      *
      * @param taxonomyURI    String representing the TCMURI of the taxonomy to retrieve
      * @param resolveContent boolean indicating whether or not to resolverepresenting the context Publication id to read the Page from
-     * @return String representing the Keyword object
+     * @return Keyword the root node of the Taxonomy
      * @throws ItemNotFoundException  if said taxonomy cannot be found
      * @throws SerializationException if response from service does not represent a serialized Keyword object
      */
-    public String getTaxonomyByURI(String taxonomyURI, boolean resolveContent) throws ItemNotFoundException, SerializationException;
+    Keyword getTaxonomyByURI(String taxonomyURI, boolean resolveContent) throws ItemNotFoundException, SerializationException;
 
     /**
      * Retrieves a Taxonomy TCMURI. It returns a Keyword object representing the root taxonomy node with all the parent/
@@ -43,5 +44,5 @@ public interface TaxonomyProvider {
      * @throws ItemNotFoundException  if said taxonomy cannot be found
      * @throws SerializationException if response from service does not represent a serialized Keyword object
      */
-    public String getTaxonomyFilterBySchema(String taxonomyURI, String schemaURI) throws ItemNotFoundException, SerializationException;
+    String getTaxonomyFilterBySchema(String taxonomyURI, String schemaURI) throws ItemNotFoundException, SerializationException;
 }

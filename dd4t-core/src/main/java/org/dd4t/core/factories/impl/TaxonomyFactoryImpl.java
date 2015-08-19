@@ -75,14 +75,8 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
                 if (cacheElement.isExpired()) {
                     cacheElement.setExpired(false);
                     try {
-                        String taxonomySource = taxonomyProvider.getTaxonomyByURI(taxonomyURI, true);
-                        if (taxonomySource == null || taxonomySource.length() == 0) {
-                            cacheElement.setPayload(null);
-                            cacheProvider.storeInItemCache(taxonomyURI, cacheElement);
-                            throw new ItemNotFoundException(String.format("Taxonomy with uri: %s not found.", taxonomyURI));
-                        }
+                        taxonomy = taxonomyProvider.getTaxonomyByURI(taxonomyURI, true);
 
-                        taxonomy = deserialize(taxonomySource, KeywordImpl.class);
                         cacheElement.setPayload(taxonomy);
 
                         TCMURI tcmUri = new TCMURI(taxonomyURI);
@@ -90,6 +84,8 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
                         LOG.debug("Added taxonomy with uri: {} to cache", taxonomyURI);
                     } catch (ItemNotFoundException | ParseException | SerializationException e) {
                         LOG.error("Failed to read taxonomy {} from provider", taxonomyURI, e);
+                        cacheElement.setPayload(null);
+                        cacheProvider.storeInItemCache(taxonomyURI, cacheElement);
                         throw new IOException(e);
                     }
                 } else {
@@ -109,8 +105,8 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
         return taxonomy;
     }
 
-    private Keyword deserialize (final String taxonomySource, final Class<KeywordImpl> keywordClass) throws SerializationException {
-        return SerializerFactory.deserialize(taxonomySource,keywordClass);
+    private Keyword deserialize(final String taxonomySource, final Class<KeywordImpl> keywordClass) throws SerializationException {
+        return SerializerFactory.deserialize(taxonomySource, keywordClass);
     }
 
     /**

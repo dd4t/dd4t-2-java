@@ -105,6 +105,27 @@ public class TCMURI implements Serializable {
         return this.version;
     }
 
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TCMURI tcmuri = (TCMURI) o;
+
+        if (itemType != tcmuri.itemType) return false;
+        if (itemId != tcmuri.itemId) return false;
+        if (pubId != tcmuri.pubId) return false;
+        return version == tcmuri.version;
+
+    }
+
+    @Override public int hashCode() {
+        int result = itemType;
+        result = 31 * result + itemId;
+        result = 31 * result + pubId;
+        result = 31 * result + version;
+        return result;
+    }
+
     public static class Builder {
         private static final Pattern PATTERN = Pattern.compile(
                 "^tcm:(?<pubId>\\d+)-(?<itemId>\\d+)(-(?<itemType>\\d+))?(-v(?<version>\\d+))?$");

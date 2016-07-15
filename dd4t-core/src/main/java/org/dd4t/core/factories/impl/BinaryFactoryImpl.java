@@ -68,7 +68,6 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     try {
                         binary = binaryProvider.getBinaryByURI(tcmUri);
                         cacheElement.setPayload(binary);
@@ -77,8 +76,8 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
                         LOG.debug("Added binary with uri: {} to cache", tcmUri);
                     } catch (ParseException e) {
                         cacheElement.setPayload(null);
-                        cacheElement.setExpired(true);
                         cacheProvider.storeInItemCache(tcmUri, cacheElement);
+                        cacheElement.setExpired(true);
                         throw new ItemNotFoundException(e);
                     }
                 } else {
@@ -116,7 +115,6 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     try {
                         binary = binaryProvider.getBinaryByURL(url, publicationId);
                         cacheElement.setPayload(binary);

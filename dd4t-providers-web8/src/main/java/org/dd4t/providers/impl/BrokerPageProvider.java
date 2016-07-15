@@ -244,11 +244,8 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
-
 
                     TCMURI tcmuri = null;
-
                     try {
                         final PageMeta pageMeta = getPageMetaByURL(url,publicationId);
                         if (pageMeta != null) {

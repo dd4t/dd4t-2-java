@@ -74,7 +74,6 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     try {
                         String taxonomySource = taxonomyProvider.getTaxonomyByURI(taxonomyURI, true);
                         if (taxonomySource == null || taxonomySource.length() == 0) {
@@ -137,7 +136,6 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     try {
                         String taxonomySource = taxonomyProvider.getTaxonomyFilterBySchema(taxonomyURI, schemaURI);
                         if (taxonomySource == null || taxonomySource.length() == 0) {

@@ -85,7 +85,6 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
 
                     final PageMeta pageMeta = loadPageMetaByConcreteFactory(url);
                     if (pageMeta != null) {

@@ -236,7 +236,6 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     final PublicationCriteria publicationCriteria = new PublicationCriteria(publicationId);
                     final PageURLCriteria pageURLCriteria = new PageURLCriteria(url);
 

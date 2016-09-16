@@ -126,6 +126,6 @@
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>woodstox-core-asl</artifactId>
             <scope>provided</scope>
-        </dependency>
+        </dependency>             
     </dependencies>
 </project>

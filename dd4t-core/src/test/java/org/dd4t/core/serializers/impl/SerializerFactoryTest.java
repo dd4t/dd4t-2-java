@@ -3,7 +3,6 @@ package org.dd4t.core.serializers.impl;
 import org.apache.commons.io.FileUtils;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.contentmodel.impl.PageImpl;
-import org.dd4t.core.serializers.Serializer;
 import org.dd4t.core.util.CompressionUtils;
 import org.dd4t.core.util.DateUtils;
 import org.dd4t.databind.DataBindFactory;
@@ -22,38 +21,33 @@ public class SerializerFactoryTest {
     public void setUp () throws Exception {
         // Load Spring
         ApplicationContext context = new ClassPathXmlApplicationContext("application-context.xml");
-
-        Serializer serializer = new org.dd4t.core.serializers.impl.json.JSONSerializer();
-        SerializerFactory.setSerializer(serializer);
     }
 
     @Test
     public void testDeserializePage () throws Exception {
 
-        String notFoundPage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()));
+        String testPage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json").toURI()));
 
-        String pageSource = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(notFoundPage));
+        //System.out.println(CompressionUtils.encodeBase64(CompressionUtils.compressGZip(testPage)));
 
-        // Deserialize Test Content
+        String pageSource = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(testPage));
 
-        // TODO: move away from the SerializerFactory for Pages and CPs
-        //Page page = SerializerFactory.deserialize(pageSource, PageImpl.class);
         Page page = DataBindFactory.buildPage(pageSource, PageImpl.class);
 
-        DateTime revisionDate = DateUtils.convertStringToDate("2015-05-10T00:03:25");
+        DateTime revisionDate = DateUtils.convertStringToDate("2016-03-05T11:40:25");
         assertEquals("RevisionDate", revisionDate, page.getRevisionDate());
 
         DateTime lastpublishDate = DateUtils.convertStringToDate("0001-01-01T00:00:00");
         assertEquals("LastPublishDate", lastpublishDate, page.getLastPublishedDate());
 
-        assertEquals("FileName", "404", page.getFileName());
+        assertEquals("FileName", "index", page.getFileName());
         assertEquals("FileExtension", "html", page.getFileExtension());
-        assertEquals("Title", "404", page.getTitle());
+        assertEquals("Title", "Homepage", page.getTitle());
 
-        DateTime pageTemplateRevisionDate = DateUtils.convertStringToDate("2015-05-06T21:45:55.913");
+        DateTime pageTemplateRevisionDate = DateUtils.convertStringToDate("2016-08-10T14:42:30.170");
         assertEquals("PageTemplate:RevisionDate", pageTemplateRevisionDate, page.getPageTemplate().getRevisionDate());
 
-        assertEquals("PageId", "tcm:7-112-64", page.getId());
+        assertEquals("PageId", "tcm:7-108-64-v0", page.getId());
 
     }
 }

@@ -16,8 +16,8 @@
 
 package org.dd4t.core.providers;
 
-import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import org.dd4t.core.caching.Cachable;
 import org.dd4t.core.caching.CacheElement;
@@ -53,8 +53,8 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator, 
     public static final String CACHE_NAME_DEPENDENCY = "DD4T-Dependencies";
     public static final String DEPENDENT_KEY_FORMAT = "%s:%s";
 
-    private final Cache cache = CacheManager.getInstance().getCache(CACHE_NAME);
-    private final Cache dependencyCache = CacheManager.create().getCache(CACHE_NAME_DEPENDENCY);
+    private final Ehcache cache = CacheManager.getInstance().getEhcache(CACHE_NAME);
+    private final Ehcache dependencyCache = CacheManager.create().getEhcache(CACHE_NAME_DEPENDENCY);
 
     private static final Logger LOG = LoggerFactory.getLogger(EHCacheProvider.class);
 
@@ -106,7 +106,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator, 
         this.cacheTTL = cacheTTL;
     }
 
-    public Cache getDependencyCache () {
+    public Ehcache getDependencyCache () {
         return dependencyCache;
     }
 
@@ -170,7 +170,6 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator, 
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
         }
-        cacheElement.setExpired(false);
         Element element = new Element(key, cacheElement);
         element.setTimeToLive(cacheTTL);
         if (cache.isKeyInCache(key)) {
@@ -196,7 +195,6 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator, 
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
         }
-        cacheElement.setExpired(false);
         Element element = cache.get(key);
         if (element == null) {
             element = new Element(key, cacheElement);

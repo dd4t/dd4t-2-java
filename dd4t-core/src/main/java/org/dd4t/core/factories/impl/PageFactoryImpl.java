@@ -60,8 +60,16 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws org.dd4t.core.exceptions.FactoryException
      */
     @Override
-    public Page getPage (String uri) throws FactoryException {
+    public Page getPage (final String uri) throws FactoryException {
+        return getPage(uri, PageImpl.class);
+    }
+
+    @Override
+    public <T extends Page> T getPage (final String uri, final Class<T> pageModel) throws FactoryException {
         LOG.debug("Enter getPage with uri: {}", uri);
+        if (!pageModel.getClass().isInstance(Page.class)) {
+            throw new SerializationException("Given model class does not implement the Page interface");
+        }
 
         CacheElement<Page> cacheElement = cacheProvider.loadPayloadFromLocalCache(uri);
         Page page;
@@ -70,7 +78,6 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     String pageSource;
                     ProviderResultItem<String> resultItem;
                     TCMURI tcmUri;
@@ -87,11 +94,12 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                     if (StringUtils.isEmpty(pageSource)) {
                         cacheElement.setPayload(null);
                         cacheProvider.storeInItemCache(uri, cacheElement);
+                        cacheElement.setExpired(true);
                         throw new ItemNotFoundException("Unable to find page by id " + uri);
                     }
 
 
-                    page = deserialize(pageSource, PageImpl.class);
+                    page = deserialize(pageSource, pageModel);
                     page.setLastPublishedDate(resultItem.getLastPublishDate());
                     page.setRevisionDate(resultItem.getRevisionDate());
 
@@ -100,6 +108,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                     cacheElement.setPayload(page);
 
                     cacheProvider.storeInItemCache(uri, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
+                    cacheElement.setExpired(false);
                     LOG.debug("Added page with uri: {} to cache", uri);
 
                 } else {
@@ -112,7 +121,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             page = cacheElement.getPayload();
         }
         executePostCacheProcessors(page);
-        return page;
+        return (T) page;
     }
 
     /**
@@ -123,7 +132,23 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      */
     @Override
     public Page findPageByUrl (String url, int publicationId) throws FactoryException {
+        return findPageByUrl(url, publicationId, PageImpl.class);
+    }
+
+    /**
+     * @param url           the url of the page
+     * @param publicationId the publication Id
+     * @return a GenericPage object
+     * @throws org.dd4t.core.exceptions.FactoryException
+     */
+    @Override
+    public <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel) throws FactoryException {
         LOG.debug("Enter findPageByUrl with url: {} and publicationId: {}", url, publicationId);
+
+        if (!pageModel.getClass().isInstance(Page.class)) {
+            throw new SerializationException("Given model class does not implement the Page interface");
+        }
+
 
         String cacheKey = publicationId + "-" + url.toLowerCase();
         CacheElement<Page> cacheElement = cacheProvider.loadPayloadFromLocalCache(cacheKey);
@@ -133,7 +158,6 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired() || cacheElement.getPayload() == null) {
-                    cacheElement.setExpired(false);
                     String pageSource;
                     ProviderResultItem<String> resultItem;
                     resultItem = pageProvider.getPageByURL(url, publicationId);
@@ -141,13 +165,13 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
                     if (StringUtils.isEmpty(pageSource)) {
                         cacheElement.setPayload(null);
-                        cacheElement.setExpired(true);
                         cacheProvider.storeInItemCache(cacheKey, cacheElement);
+                        cacheElement.setExpired(true);
                         throw new ItemNotFoundException("Page with url: " + url + " not found.");
                     }
 
                     try {
-                        page = deserialize(pageSource, PageImpl.class);
+                        page = deserialize(pageSource, pageModel);
                         // TODO: replace DCPs here with the real DCPs?
 
                         page.setLastPublishedDate(resultItem.getLastPublishDate());
@@ -158,6 +182,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                         this.executeProcessors(page, RunPhase.BEFORE_CACHING, getRequestContext());
                         cacheElement.setPayload(page);
                         cacheProvider.storeInItemCache(cacheKey, cacheElement, publicationId, tcmUri.getItemId());
+                        cacheElement.setExpired(false);
 
                         LOG.debug("Added page with uri: {} and publicationId: {} to cache", url, publicationId);
                     } catch (ParseException e) {
@@ -173,7 +198,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             page = cacheElement.getPayload();
         }
         executePostCacheProcessors(page);
-        return page;
+        return (T) page;
     }
 
     private void executePostCacheProcessors (final Page page) {
@@ -212,18 +237,18 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
                     page = pageProvider.getPageContentByURL(url, publicationId);
 
                     if (page == null || page.length() == 0) {
                         cacheElement.setPayload(null);
-                        cacheElement.setExpired(true);
                         cacheProvider.storeInItemCache(cacheKey, cacheElement);
+                        cacheElement.setExpired(true);
                         throw new ItemNotFoundException("XML Page with url: " + url + " not found.");
                     }
 
                     cacheElement.setPayload(page);
                     cacheProvider.storeInItemCache(cacheKey, cacheElement);
+                    cacheElement.setExpired(false);
 
                     LOG.debug("Added XML page with uri: {} and publicationId: {} to cache", url, publicationId);
                 } else {
@@ -263,7 +288,6 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
-                    cacheElement.setExpired(false);
 
                     try {
                         pageSource = pageProvider.getPageContentById(tcmId);
@@ -274,13 +298,14 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
                     if (StringUtils.isEmpty(pageSource)) {
                         cacheElement.setPayload(null);
-                        cacheElement.setExpired(true);
                         cacheProvider.storeInItemCache(cacheKey, cacheElement);
+                        cacheElement.setExpired(true);
                         throw new ItemNotFoundException("Unable to find page by id " + tcmId);
                     }
 
                     cacheElement.setPayload(pageSource);
                     cacheProvider.storeInItemCache(cacheKey, cacheElement);
+                    cacheElement.setExpired(false);
                 } else {
                     LOG.debug("Return a page with uri: {} from cache", tcmId);
                     pageSource = cacheElement.getPayload();

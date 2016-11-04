@@ -34,11 +34,7 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git@github.com:/dd4t/dd4t-2-java.git</connection>
-        <developerConnection>scm:git:git@github.com:/dd4t/dd4t-2-java.git</developerConnection>
-        <url>git@github.com:/dd4t/dd4t-2-java.git</url>
-    </scm>
+
     <artifactId>dd4t-providers</artifactId>
     <packaging>jar</packaging>
 

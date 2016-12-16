@@ -24,6 +24,8 @@ import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.providers.AbstractComponentPresentationProvider;
 import org.dd4t.providers.ComponentPresentationProvider;
+import org.dd4t.providers.ComponentPresentationResultItem;
+import org.dd4t.providers.ComponentPresentationResultItemImpl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -87,5 +89,50 @@ public class BrokerComponentPresentationProvider extends AbstractComponentPresen
             return decodeAndDecompressContent(resultString);
         }
         return null;
+    }
+
+    @Override
+    public ComponentPresentationResultItem<String> getDynamicComponentPresentationItem (final int componentId, final int publicationId) throws ItemNotFoundException, SerializationException {
+        return getDynamicComponentPresentationItem(componentId,0,publicationId);
+    }
+
+    @Override
+    public ComponentPresentationResultItem<String> getDynamicComponentPresentationItem (final int componentId, final int templateId, final int publicationId) throws ItemNotFoundException, SerializationException {
+        WebComponentPresentationFactory factory = FACTORY_CACHE.get(publicationId);
+
+        if (factory == null) {
+            factory = new WebComponentPresentationFactoryImpl(publicationId);
+            FACTORY_CACHE.put(publicationId, factory);
+        }
+
+        ComponentPresentation result;
+        String resultString;
+        ComponentPresentationResultItemImpl resultmodel;
+
+        if (templateId != 0) {
+            result = factory.getComponentPresentation(componentId, templateId);
+        } else {
+            result = factory.getComponentPresentationWithHighestPriority(componentId);
+        }
+
+        if(result != null){
+            resultmodel = new ComponentPresentationResultItemImpl(result.getPublicationId(), result.getComponentId(), result.getComponentTemplateId());
+
+            assertQueryResultNotNull(result,componentId,templateId,publicationId);
+            resultString = result.getContent();
+
+            if (!StringUtils.isEmpty(resultString)) {
+                resultmodel.setContentSource(decodeAndDecompressContent(resultString));
+            }
+            else{
+                resultmodel.setContentSource(resultString);
+            }
+        }
+        else{
+            resultmodel = new ComponentPresentationResultItemImpl(0, 0, 0);
+        }
+
+        return resultmodel;
+
     }
 }

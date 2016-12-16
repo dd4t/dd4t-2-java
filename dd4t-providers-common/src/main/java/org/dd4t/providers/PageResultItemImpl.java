@@ -3,8 +3,8 @@ package org.dd4t.providers;
 public class PageResultItemImpl extends StringResultItemImpl implements PageProviderResultItem<String>{
 
 	private String url;
-	public PageResultItemImpl(int pubid, int itemid, String url) {
-		super(pubid, itemid);
+	public PageResultItemImpl(int publicationId, int itemId, String url) {
+		super(publicationId, itemId);
 		
 		this.url = url;
 	}

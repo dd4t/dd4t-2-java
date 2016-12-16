@@ -195,6 +195,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
         return schema;
     }
 
+    @Override
     public void setSchema (Schema schema) {
         this.schema = schema;
     }

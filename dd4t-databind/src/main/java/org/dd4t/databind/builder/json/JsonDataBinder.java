@@ -116,6 +116,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
             final JsonNode rawComponentData = GENERIC_MAPPER.readTree(componentPresentation.getRawComponentContent());
             final Map<String, BaseViewModel> models = buildModels(rawComponentData, modelNames, componentPresentation.getComponentTemplate().getId());
 
+
+
             componentPresentation.setViewModel(models);
         } catch (SerializationException | IOException e) {
             LOG.error(e.getLocalizedMessage(), e);
@@ -189,6 +191,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
 
         try {
             // This appears a limitation in the Java Generics implementation.
+            // TODO: check for abstract or interface types and try to find a concrete type for it!
             final T concreteModel = (T) modelClass.newInstance();
 
             if (concreteModel instanceof TridionViewModel && !StringUtils.isEmpty(templateUri)) {

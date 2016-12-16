@@ -58,8 +58,80 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws org.dd4t.core.exceptions.FactoryException
      */
     @Override
-    public Page getPage (String uri) throws FactoryException {
-    	return getPage(uri, null);
+    public Page getPage (final String uri) throws FactoryException {
+        return getPage(uri, PageImpl.class, null);
+    }
+    
+	@Override
+	public Page getPage(String uri, RequestContext context)
+			throws FactoryException {
+        return getPage(uri, PageImpl.class, context);
+	}    
+
+    @Override
+    public <T extends Page> T getPage (final String uri, final Class<T> pageModel) throws FactoryException {
+    	return getPage(uri, pageModel, null);
+    }
+	
+    @Override
+    public <T extends Page> T getPage (final String uri, final Class<T> pageModel, RequestContext context) throws FactoryException {
+        LOG.debug("Enter getPage with uri: {}", uri);
+        if (!pageModel.getClass().isInstance(Page.class)) {
+            throw new SerializationException("Given model class does not implement the Page interface");
+        }
+
+        CacheElement<Page> cacheElement = cacheProvider.loadPayloadFromLocalCache(uri);
+        Page page;
+
+        if (cacheElement.isExpired()) {
+            //noinspection SynchronizationOnLocalVariableOrMethodParameter
+            synchronized (cacheElement) {
+                if (cacheElement.isExpired()) {
+                    String pageSource;
+                    PageProviderResultItem<String> resultItem;
+                    TCMURI tcmUri;
+                    try {
+                        tcmUri = new TCMURI(uri);
+                        resultItem = pageProvider.getPageById(tcmUri.getItemId(), tcmUri.getPublicationId());
+                        pageSource = resultItem.getSourceContent();
+
+                    } catch (ParseException | IOException e) {
+                        LOG.error(e.getLocalizedMessage(), e);
+                        throw new SerializationException(e);
+                    }
+
+                    if (StringUtils.isEmpty(pageSource)) {
+                        cacheElement.setPayload(null);
+                        cacheProvider.storeInItemCache(uri, cacheElement);
+                        cacheElement.setExpired(true);
+                        throw new ItemNotFoundException("Unable to find page by id " + uri);
+                    }
+
+
+                    page = deserialize(pageSource, pageModel);
+                    page.setLastPublishedDate(resultItem.getLastPublishDate());
+                    page.setRevisionDate(resultItem.getRevisionDate());
+                    page.setUrl(resultItem.getUrl());
+                    
+                    LOG.debug("Running pre caching processors");
+                    this.executeProcessors(page, RunPhase.BEFORE_CACHING, context);
+                    cacheElement.setPayload(page);
+
+                    cacheProvider.storeInItemCache(uri, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
+                    cacheElement.setExpired(false);
+                    LOG.debug("Added page with uri: {} to cache", uri);
+
+                } else {
+                    LOG.debug("Return a page with uri: {} from cache", uri);
+                    page = cacheElement.getPayload();
+                }
+            }
+        } else {
+            LOG.debug("Return page with uri: {} from cache", uri);
+            page = cacheElement.getPayload();
+        }
+        executePostCacheProcessors(page, context);
+        return (T) page;
     }
 
     /**
@@ -70,7 +142,84 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      */
     @Override
     public Page findPageByUrl (String url, int publicationId) throws FactoryException {
-    	return findPageByUrl(url, publicationId, null);
+        return findPageByUrl(url, publicationId, PageImpl.class, null);
+    }
+    
+	@Override
+	public Page findPageByUrl(String url, int publicationId,
+			RequestContext context) throws FactoryException {
+        return findPageByUrl(url, publicationId, PageImpl.class, context);
+    }	
+
+	@Override
+	public <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel) throws FactoryException {
+		return findPageByUrl(url, publicationId, pageModel, null);
+	}
+	 
+    /**
+     * @param url           the url of the page
+     * @param publicationId the publication Id
+     * @return a GenericPage object
+     * @throws org.dd4t.core.exceptions.FactoryException
+     */
+    @Override
+    public <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel, RequestContext context) throws FactoryException {
+        LOG.debug("Enter findPageByUrl with url: {} and publicationId: {}", url, publicationId);
+
+        if (!pageModel.getClass().isInstance(Page.class)) {
+            throw new SerializationException("Given model class does not implement the Page interface");
+        }
+
+
+        String cacheKey = publicationId + "-" + url.toLowerCase();
+        CacheElement<Page> cacheElement = cacheProvider.loadPayloadFromLocalCache(cacheKey);
+        Page page;
+
+        if (cacheElement.isExpired() || cacheElement.getPayload() == null) {
+            //noinspection SynchronizationOnLocalVariableOrMethodParameter
+            synchronized (cacheElement) {
+                if (cacheElement.isExpired() || cacheElement.getPayload() == null) {
+                    String pageSource;
+                    PageProviderResultItem<String> resultItem;
+                    resultItem = pageProvider.getPageByURL(url, publicationId);
+                    pageSource = resultItem.getSourceContent();
+
+                    if (StringUtils.isEmpty(pageSource)) {
+                        cacheElement.setPayload(null);
+                        cacheProvider.storeInItemCache(cacheKey, cacheElement);
+                        cacheElement.setExpired(true);
+                        throw new ItemNotFoundException("Page with url: " + url + " not found.");
+                    }
+
+                    try {
+                        page = deserialize(pageSource, pageModel);
+
+                        page.setLastPublishedDate(resultItem.getLastPublishDate());
+                        page.setRevisionDate(resultItem.getRevisionDate());
+                        page.setUrl(resultItem.getUrl());
+                        final TCMURI tcmUri = new TCMURI(page.getId());
+                        LOG.debug("Running pre caching processors");
+
+                        this.executeProcessors(page, RunPhase.BEFORE_CACHING, context);
+                        cacheElement.setPayload(page);
+                        cacheProvider.storeInItemCache(cacheKey, cacheElement, publicationId, tcmUri.getItemId());
+                        cacheElement.setExpired(false);
+
+                        LOG.debug("Added page with uri: {} and publicationId: {} to cache", url, publicationId);
+                    } catch (ParseException e) {
+                        throw new ItemNotFoundException(e);
+                    }
+                } else {
+                    LOG.debug("Return a page with url: {} and publicationId: {} from cache", url, publicationId);
+                    page = cacheElement.getPayload();
+                }
+            }
+        } else {
+            LOG.debug("Return page with url: {} and publicationId: {} from cache", url, publicationId);
+            page = cacheElement.getPayload();
+        }
+        executePostCacheProcessors(page, context);
+        return (T) page;
     }
 
     private void executePostCacheProcessors (final Page page, RequestContext context) {
@@ -276,117 +425,4 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 	public void setDataBinders(List<DataBinder> dataBinder) {
 		this.dataBinders = dataBinder;
 	}
-
-	@Override
-	public Page getPage(String uri, RequestContext context)
-			throws FactoryException {
-        LOG.debug("Enter getPage with uri: {}", uri);
-
-        CacheElement<Page> cacheElement = cacheProvider.loadPayloadFromLocalCache(uri);
-        Page page;
-
-        if (cacheElement.isExpired()) {
-            //noinspection SynchronizationOnLocalVariableOrMethodParameter
-            synchronized (cacheElement) {
-                if (cacheElement.isExpired()) {
-                    String pageSource;
-                    PageProviderResultItem<String> resultItem;
-                    TCMURI tcmUri;
-                    try {
-                        tcmUri = new TCMURI(uri);
-                        resultItem = pageProvider.getPageById(tcmUri.getItemId(), tcmUri.getPublicationId());
-                        pageSource = resultItem.getSourceContent();
-
-                    } catch (ParseException | IOException e) {
-                        LOG.error(e.getLocalizedMessage(), e);
-                        throw new SerializationException(e);
-                    }
-
-                    if (StringUtils.isEmpty(pageSource)) {
-                        cacheElement.setPayload(null);
-                        cacheProvider.storeInItemCache(uri, cacheElement);
-                        cacheElement.setExpired(true);
-                        throw new ItemNotFoundException("Unable to find page by id " + uri);
-                    }
-
-                    page = producePage(resultItem, context);
-
-                    cacheElement.setPayload(page);
-
-                    cacheProvider.storeInItemCache(uri, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
-                    cacheElement.setExpired(false);
-                    LOG.debug("Added page with uri: {} to cache", uri);
-
-                } else {
-                    LOG.debug("Return a page with uri: {} from cache", uri);
-                    page = cacheElement.getPayload();
-                }
-            }
-        } else {
-            LOG.debug("Return page with uri: {} from cache", uri);
-            page = cacheElement.getPayload();
-        }
-        executePostCacheProcessors(page, context);
-        return page;
-	}
-	
-	private Page producePage(PageProviderResultItem<String> resultItem, RequestContext context) throws FactoryException{
-
-        String pageSource = resultItem.getSourceContent();       
-        
-        Page page = deserialize(pageSource, PageImpl.class);
-        page.setLastPublishedDate(resultItem.getLastPublishDate());
-        page.setRevisionDate(resultItem.getRevisionDate());
-        page.setUrl(resultItem.getUrl());
-
-        LOG.debug("Running pre caching processors");
-        this.executeProcessors(page, RunPhase.BEFORE_CACHING, context);
-
-        return page;
-	}
-
-	@Override
-	public Page findPageByUrl(String url, int publicationId,
-			RequestContext context) throws FactoryException {
-        LOG.debug("Enter findPageByUrl with url: {} and publicationId: {}", url, publicationId);
-
-        String cacheKey = publicationId + "-" + url.toLowerCase();
-        CacheElement<Page> cacheElement = cacheProvider.loadPayloadFromLocalCache(cacheKey);
-        Page page;
-
-        if (cacheElement.isExpired() || cacheElement.getPayload() == null) {
-            //noinspection SynchronizationOnLocalVariableOrMethodParameter
-            synchronized (cacheElement) {
-                if (cacheElement.isExpired() || cacheElement.getPayload() == null) {
-                    PageProviderResultItem<String> resultItem;
-                    resultItem = pageProvider.getPageByURL(url, publicationId);
-                    String pageSource = resultItem.getSourceContent();
-
-                    if (StringUtils.isEmpty(pageSource)) {
-                        cacheElement.setPayload(null);
-                        cacheProvider.storeInItemCache(cacheKey, cacheElement);
-                        cacheElement.setExpired(true);
-                        throw new ItemNotFoundException("Page with url: " + url + " not found.");
-                    }
-
-                    page = producePage(resultItem, context);
-                    
-                    cacheElement.setPayload(page);
-                    cacheProvider.storeInItemCache(cacheKey, cacheElement, resultItem.getPublicationId(), resultItem.getItemId());
-                    cacheElement.setExpired(false);
-                    
-
-                    LOG.debug("Added page with uri: {} and publicationId: {} to cache", url, publicationId);
-                } else {
-                    LOG.debug("Return a page with url: {} and publicationId: {} from cache", url, publicationId);
-                    page = cacheElement.getPayload();
-                }
-            }
-        } else {
-            LOG.debug("Return page with url: {} and publicationId: {} from cache", url, publicationId);
-            page = cacheElement.getPayload();
-        }
-        executePostCacheProcessors(page, context);
-        return page;
-    }	    
 }

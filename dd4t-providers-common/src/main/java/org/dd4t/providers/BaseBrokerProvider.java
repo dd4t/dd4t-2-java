@@ -42,11 +42,10 @@ public abstract class BaseBrokerProvider {
     private static final Base64 URL_CODER = new Base64(true);
 
     // Set these values in Spring configuration
-    protected boolean contentIsCompressed = true;
-    protected boolean contentIsBase64Encoded = true;   
-
-
-	@Resource
+    protected boolean contentIsCompressed = true;  
+    protected boolean contentIsBase64Encoded = true;
+    
+    @Resource
     protected PayloadCacheProvider cacheProvider;
 
     public static String convertStreamToString (InputStream is) throws IOException {
@@ -86,9 +85,9 @@ public abstract class BaseBrokerProvider {
 		return contentIsBase64Encoded;
 	}
 
-	public void setContentIsBase64Encoded(boolean contentIsBase64Encoded) {
-		this.contentIsBase64Encoded = contentIsBase64Encoded;
-	}
+    public void setContentIsBase64Encoded (final boolean contentIsBase64Encoded) {
+        this.contentIsBase64Encoded = contentIsBase64Encoded;
+    }
 
     /**
      * Performs a Base64 decode of the given content String. If property <b>contentIsCompressed</b> is true, it then

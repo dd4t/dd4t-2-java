@@ -18,7 +18,6 @@ package org.dd4t.core.providers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -27,14 +26,12 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
-import org.dd4t.core.caching.Cachable;
 import org.dd4t.core.caching.CacheDependency;
 import org.dd4t.core.caching.CacheElement;
 import org.dd4t.core.caching.CacheInvalidator;
 import org.dd4t.core.caching.impl.CacheDependencyImpl;
 import org.dd4t.core.caching.impl.CacheElementImpl;
 import org.dd4t.core.util.TridionUtils;
-import org.dd4t.providers.CacheProvider;
 import org.dd4t.providers.PayloadCacheProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +43,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author R. Kempees, Mihai Cadariu, Rogier Oudshoorn
  */
-public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator,
-		CacheProvider {
+public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
 
 	/**
 	 * The name of the EHCache that contains the cached items for this
@@ -392,73 +388,5 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator,
 
 	private static String getKey(int publicationId, int itemId) {
 		return String.format(DEPENDENT_KEY_FORMAT, publicationId, itemId);
-	}
-
-	@Override
-	public Object loadFromLocalCache(String key) {
-		CacheElement<Object> item = loadPayloadFromLocalCache(key);
-
-		if (item.isExpired()) {
-			LOG.debug("Not returning expired item");
-			return null;
-		} else {
-			return item.getPayload();
-		}
-	}
-
-	@Override
-	public void storeInCache(String key, Cachable ob, Collection<Cachable> deps) {
-		if (cache == null) {
-			LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
-			return;
-		}
-		CacheElement<Object> cacheElement = loadPayloadFromLocalCache(key);
-		cacheElement.setPayload(ob);
-
-		storeInItemCache(key, cacheElement);
-
-		for (Cachable item : deps) {
-			addDependency(key, item.getCacheKey());
-		}
-	}
-
-	@Override
-	public void storeInItemCache(String key, Object ob,
-			int dependingPublicationId, int dependingItemId) {
-		CacheElement<Object> cacheElement = loadPayloadFromLocalCache(key);
-		cacheElement.setPayload(ob);
-
-		storeInItemCache(key, cacheElement, dependingPublicationId,
-				dependingItemId);
-	}
-
-	@Override
-	public void storeInComponentPresentationCache(String key, Object ob,
-			int dependingPublicationId, int dependingCompId,
-			int dependingTemplateId) {
-		CacheElement<Object> cacheElement = loadPayloadFromLocalCache(key);
-		cacheElement.setPayload(ob);
-
-		storeInItemCache(key, cacheElement, dependingPublicationId,
-				dependingCompId);
-	}
-
-	@Override
-	public void storeInKeywordCache(String key, Object ob,
-			int dependingPublicationId, int dependingItemId) {
-		CacheElement<Object> cacheElement = loadPayloadFromLocalCache(key);
-		cacheElement.setPayload(ob);
-
-		storeInItemCache(key, cacheElement, dependingPublicationId,
-				dependingItemId);
-	}
-
-	@Override
-	public void storeInItemCache(String key, Object ob,
-			List<CacheDependency> dependencies) {
-		CacheElement<Object> cacheElement = loadPayloadFromLocalCache(key);
-		cacheElement.setPayload(ob);
-
-		storeInItemCache(key, cacheElement, dependencies);		
 	}
 }

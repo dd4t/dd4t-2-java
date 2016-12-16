@@ -107,7 +107,7 @@ public class BrokerComponentPresentationProvider extends AbstractComponentPresen
 
         ComponentPresentation result;
         String resultString;
-        ComponentPresentationResultItemImpl resultmodel;
+        ComponentPresentationResultItemImpl resultModel;
 
         if (templateId != 0) {
             result = factory.getComponentPresentation(componentId, templateId);
@@ -116,23 +116,22 @@ public class BrokerComponentPresentationProvider extends AbstractComponentPresen
         }
 
         if(result != null){
-            resultmodel = new ComponentPresentationResultItemImpl(result.getPublicationId(), result.getComponentId(), result.getComponentTemplateId());
+            resultModel = new ComponentPresentationResultItemImpl(result.getPublicationId(), result.getComponentId(), result.getComponentTemplateId());
 
             assertQueryResultNotNull(result,componentId,templateId,publicationId);
             resultString = result.getContent();
 
             if (!StringUtils.isEmpty(resultString)) {
-                resultmodel.setContentSource(decodeAndDecompressContent(resultString));
+                resultModel.setContentSource(decodeAndDecompressContent(resultString));
             }
             else{
-                resultmodel.setContentSource(resultString);
+                resultModel.setContentSource(resultString);
             }
         }
         else{
-            resultmodel = new ComponentPresentationResultItemImpl(0, 0, 0);
+            resultModel = new ComponentPresentationResultItemImpl(0, 0, 0);
         }
 
-        return resultmodel;
-
+        return resultModel;
     }
 }

@@ -21,8 +21,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import org.dd4t.core.caching.CacheElement;
-import org.dd4t.core.caching.CacheType;
+import org.dd4t.caching.CacheElement;
+import org.dd4t.caching.CacheType;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.core.util.Constants;

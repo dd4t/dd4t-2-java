@@ -25,7 +25,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.contentmodel.impl.PageImpl;
-import org.dd4t.core.caching.CacheElement;
+import org.dd4t.caching.CacheElement;
 import org.dd4t.core.databind.DataBinder;
 import org.dd4t.core.exceptions.FactoryException;
 import org.dd4t.core.exceptions.ItemNotFoundException;

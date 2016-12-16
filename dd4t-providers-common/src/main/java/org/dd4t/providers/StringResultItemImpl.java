@@ -1,7 +1,6 @@
 package org.dd4t.providers;
 
 import org.dd4t.core.util.Constants;
-import org.dd4t.providers.ProviderResultItem;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -19,9 +18,9 @@ public class StringResultItemImpl implements ProviderResultItem<String> {
     private int itemId;
     private int publicationId;    
     
-    public StringResultItemImpl(int pubid, int itemid){
-    	this.itemId = itemid;
-    	this.publicationId = pubid;
+    public StringResultItemImpl(int publicationId, int itemId){
+    	this.itemId = itemId;
+    	this.publicationId = publicationId;
     }
 
 

@@ -1,7 +1,6 @@
 package org.dd4t.providers;
 
 import org.dd4t.core.util.Constants;
-import org.dd4t.providers.ProviderResultItem;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -16,6 +15,13 @@ public class StringResultItemImpl implements ProviderResultItem<String> {
     private String sourceContent;
     private DateTime lastPublishDate;
     private DateTime revisionDate;
+    private int itemId;
+    private int publicationId;    
+    
+    public StringResultItemImpl(int publicationId, int itemId){
+    	this.itemId = itemId;
+    	this.publicationId = publicationId;
+    }
 
 
     @Override
@@ -56,4 +62,22 @@ public class StringResultItemImpl implements ProviderResultItem<String> {
             this.revisionDate = new DateTime(revisionDate);
         }
     }
+
+    @Override
+	public int getPublicationId() {
+		return publicationId;
+	}
+
+	public void setPublicationId(int publicationId) {
+		this.publicationId = publicationId;
+	}
+
+    @Override
+	public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
 }

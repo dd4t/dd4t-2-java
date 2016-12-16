@@ -22,8 +22,8 @@ import com.sdl.web.api.meta.WebPageMetaFactory;
 import com.sdl.web.api.meta.WebPageMetaFactoryImpl;
 import com.tridion.data.CharacterData;
 import com.tridion.meta.PageMeta;
-import org.dd4t.core.caching.CacheElement;
-import org.dd4t.core.caching.CacheType;
+import org.dd4t.caching.CacheElement;
+import org.dd4t.caching.CacheType;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.NotImplementedException;
 import org.dd4t.core.exceptions.SerializationException;
@@ -31,8 +31,8 @@ import org.dd4t.core.util.Constants;
 import org.dd4t.core.util.TCMURI;
 import org.dd4t.providers.BaseBrokerProvider;
 import org.dd4t.providers.PageProvider;
-import org.dd4t.providers.ProviderResultItem;
-import org.dd4t.providers.StringResultItemImpl;
+import org.dd4t.providers.PageProviderResultItem;
+import org.dd4t.providers.PageResultItemImpl;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,14 +50,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class BrokerPageProvider extends BaseBrokerProvider implements PageProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(BrokerPageProvider.class);
-    private static final Map<Integer,WebPageMetaFactory> WEB_PAGE_META_FACTORIES = new ConcurrentHashMap<>();
+    private static final Map<Integer, WebPageMetaFactory> WEB_PAGE_META_FACTORIES = new ConcurrentHashMap<>();
     private static final PageContentRetriever PAGE_CONTENT_RETRIEVER = new PageContentRetrieverImpl();
 
     @Override
-    public ProviderResultItem<String> getPageById (final int id, final int publication) throws IOException, ItemNotFoundException, SerializationException {
+    public PageProviderResultItem<String> getPageById (final int id, final int publication) throws IOException, ItemNotFoundException, SerializationException {
 
         final PageMeta pageMeta = getPageMetaById(id, publication);
-        final ProviderResultItem<String> pageResult = new StringResultItemImpl();
+        final PageProviderResultItem<String> pageResult = new PageResultItemImpl(pageMeta.getPublicationId(), pageMeta.getId(), pageMeta.getURLPath());
+
         pageResult.setLastPublishDate(pageMeta.getLastPublicationDate());
         pageResult.setRevisionDate(pageMeta.getModificationDate());
         pageResult.setContentSource(getPageContentById(id, publication));
@@ -66,9 +67,10 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
     }
 
     @Override
-    public ProviderResultItem<String> getPageByURL (final String url, final int publication) throws ItemNotFoundException, SerializationException {
+    public PageProviderResultItem<String> getPageByURL (final String url, final int publication) throws ItemNotFoundException, SerializationException {
         final PageMeta pageMeta = getPageMetaByURL(url, publication);
-        final ProviderResultItem<String> pageResult = new StringResultItemImpl();
+        final PageProviderResultItem<String> pageResult = new PageResultItemImpl(pageMeta.getPublicationId(), pageMeta.getId(), pageMeta.getURLPath());
+
         pageResult.setLastPublishDate(pageMeta.getLastPublicationDate());
         pageResult.setRevisionDate(pageMeta.getModificationDate());
         pageResult.setContentSource(getPageContentById(pageMeta.getId(), pageMeta.getPublicationId()));
@@ -86,7 +88,7 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
     @Override
     public String getPageContentById (int id, int publication) throws ItemNotFoundException, SerializationException {
 
-        final CharacterData data = PAGE_CONTENT_RETRIEVER.getPageContent(publication,id);
+        final CharacterData data = PAGE_CONTENT_RETRIEVER.getPageContent(publication, id);
 
         if (data == null) {
             throw new ItemNotFoundException("Unable to find page by id '" + id + "' and publication '" + publication + "'.");
@@ -105,7 +107,7 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
      * @param publication int representing the Publication id of the page
      * @return String representing the content of the Page
      * @throws SerializationException if something goes wrong deserializing
-     * @throws ItemNotFoundException if the requested page does not exist
+     * @throws ItemNotFoundException  if the requested page does not exist
      */
     @Override
     public String getPageContentByURL (String url, int publication) throws ItemNotFoundException, SerializationException {
@@ -173,7 +175,7 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
 
         if (webPageMetaFactory == null) {
             webPageMetaFactory = new WebPageMetaFactoryImpl(publication);
-            WEB_PAGE_META_FACTORIES.put(publication,webPageMetaFactory);
+            WEB_PAGE_META_FACTORIES.put(publication, webPageMetaFactory);
         }
         return webPageMetaFactory;
     }
@@ -196,7 +198,6 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
         }
         return pageMeta;
     }
-
 
 
     /**
@@ -237,13 +238,13 @@ public class BrokerPageProvider extends BaseBrokerProvider implements PageProvid
 
                     TCMURI tcmuri = null;
                     try {
-                        final PageMeta pageMeta = getPageMetaByURL(url,publicationId);
+                        final PageMeta pageMeta = getPageMetaByURL(url, publicationId);
                         if (pageMeta != null) {
                             result = 1;
-                            tcmuri = new TCMURI(pageMeta.getPublicationId(),pageMeta.getId(),pageMeta.getType());
+                            tcmuri = new TCMURI(pageMeta.getPublicationId(), pageMeta.getId(), pageMeta.getType());
                         }
                     } catch (ItemNotFoundException e) {
-                        LOG.trace(String.format("Page with url:%s does not seem to exist.",url),e);
+                        LOG.trace(String.format("Page with url:%s does not seem to exist.", url), e);
                     }
 
                     if (result == 1) {

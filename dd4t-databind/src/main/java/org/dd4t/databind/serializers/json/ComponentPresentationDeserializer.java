@@ -16,27 +16,33 @@
 
 package org.dd4t.databind.serializers.json;
 
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.dd4t.contentmodel.Component;
+import org.dd4t.contentmodel.ComponentPresentation;
+import org.dd4t.contentmodel.ComponentTemplate;
+import org.dd4t.core.databind.BaseViewModel;
+import org.dd4t.core.databind.DataBinder;
+import org.dd4t.core.databind.TridionViewModel;
+import org.dd4t.core.exceptions.SerializationException;
+import org.dd4t.databind.builder.json.JsonDataBinder;
+import org.dd4t.databind.util.DataBindConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.lang3.StringUtils;
-import org.dd4t.contentmodel.Component;
-import org.dd4t.contentmodel.ComponentPresentation;
-import org.dd4t.contentmodel.ComponentTemplate;
-import org.dd4t.core.databind.BaseViewModel;
-import org.dd4t.core.databind.TridionViewModel;
-import org.dd4t.core.exceptions.SerializationException;
-import org.dd4t.databind.DataBindFactory;
-import org.dd4t.databind.builder.json.JsonDataBinder;
-import org.dd4t.databind.util.DataBindConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * test
@@ -49,12 +55,14 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
     private Class<? extends ComponentTemplate> concreteComponentTemplateClass = null;
     private Class<? extends Component> concreteComponentClass = null;
 
-    public ComponentPresentationDeserializer (Class<? extends ComponentPresentation> componentPresentation, Class<? extends ComponentTemplate> componentTemplateClass, Class<? extends Component> concreteComponentClass) {
+    protected JsonDataBinder dataBinder;
+    
+	public ComponentPresentationDeserializer (Class<? extends ComponentPresentation> componentPresentation, Class<? extends ComponentTemplate> componentTemplateClass, Class<? extends Component> concreteComponentClass, JsonDataBinder databinder) {
         super(componentPresentation);
         this.concreteComponentTemplateClass = componentTemplateClass;
         this.concreteComponentClass = concreteComponentClass;
+        this.dataBinder = databinder;
     }
-
 
     @Override
     public ComponentPresentation deserialize (final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException {
@@ -88,7 +96,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
                 if (componentPresentation != null) {
                     componentPresentation.setComponentTemplate(componentTemplate);
                 }
-                viewModelName = DataBindFactory.findComponentTemplateViewName(componentTemplate);
+                viewModelName = dataBinder.findComponentTemplateViewName(componentTemplate);
                 LOG.debug("Found view model name: " + viewModelName);
             } else if (key.equalsIgnoreCase(DataBindConstants.IS_DYNAMIC_NODE)) {
                 final String isDynamic = element.getValue().asText().toLowerCase();
@@ -110,7 +118,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         }
 
         try {
-            renderComponentData(componentPresentation, rawComponentData, viewModelName, DataBindFactory.getRootElementName(rawComponentData));
+            renderComponentData(componentPresentation, rawComponentData, viewModelName, dataBinder.getRootElementName(rawComponentData));
         } catch (SerializationException e) {
             LOG.error(e.getLocalizedMessage(), e);
             throw new IOException(e);
@@ -124,7 +132,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         try {
             // Note: Components actually always have to be set
             // TODO: figure out a way to not have to do it.
-            componentPresentation.setComponent(DataBindFactory.buildComponent(rawComponentData, this.concreteComponentClass));
+            componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this.concreteComponentClass));
         } catch (SerializationException e) {
             throw new IOException(e.getLocalizedMessage(), e);
         }
@@ -139,11 +147,11 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
             modelNames.add(rootElementName);
         }
 
-        final Map<String, BaseViewModel> models = DataBindFactory.buildModels(rawComponentData, modelNames, componentPresentation.getComponentTemplate().getId());
+        final Map<String, BaseViewModel> models = dataBinder.buildModels(rawComponentData, modelNames, componentPresentation.getComponentTemplate().getId());
 
         if (models == null || models.isEmpty()) {
-            if (DataBindFactory.renderDefaultComponentsIfNoModelFound()) {
-                componentPresentation.setComponent(DataBindFactory.buildComponent(rawComponentData, this.concreteComponentClass));
+            if (dataBinder.renderDefaultComponentsIfNoModelFound()) {
+                componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this.concreteComponentClass));
             } else {
                 LOG.warn("No model found for CT {}, with component: {}. Fall back deserialization is also turned off.", componentPresentation.getComponentTemplate().getId(), componentPresentation.getComponent().getId());
             }
@@ -154,7 +162,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
 
                     if (((TridionViewModel)model).setGenericComponentOnComponentPresentation()) {
                         LOG.debug("Also setting a Component object on the CP.");
-                        componentPresentation.setComponent(DataBindFactory.buildComponent(rawComponentData, this.concreteComponentClass));
+                        componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this.concreteComponentClass));
                     }
                     if (componentPresentation.isDynamic()) {
                         ((TridionViewModel)model).setIsDynamicCP(true);

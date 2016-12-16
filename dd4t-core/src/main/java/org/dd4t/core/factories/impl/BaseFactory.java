@@ -16,18 +16,17 @@
 
 package org.dd4t.core.factories.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.dd4t.contentmodel.Item;
 import org.dd4t.core.exceptions.ProcessorException;
 import org.dd4t.core.processors.Processor;
 import org.dd4t.core.processors.RunPhase;
 import org.dd4t.core.request.RequestContext;
-import org.dd4t.core.util.HttpRequestContext;
 import org.dd4t.providers.PayloadCacheProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Base class for all factories. All factories have a list of processors and a
@@ -39,7 +38,6 @@ public abstract class BaseFactory {
     private static final Logger LOG = LoggerFactory.getLogger(BaseFactory.class);
     protected PayloadCacheProvider cacheProvider;
     protected List<Processor> processors;
-    private Class requestContextClass;
 
     public List<Processor> getProcessors () {
         if (processors == null) {
@@ -87,26 +85,5 @@ public abstract class BaseFactory {
      */
     public void setCacheProvider (PayloadCacheProvider cacheAgent) {
         cacheProvider = cacheAgent;
-    }
-
-    protected RequestContext getRequestContext () {
-
-        if (requestContextClass == null) {
-            requestContextClass = HttpRequestContext.class;
-        }
-
-        if (RequestContext.class.isAssignableFrom(requestContextClass)) {
-            try {
-                return (RequestContext) requestContextClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                LOG.error(e.getLocalizedMessage(), e);
-            }
-        }
-        LOG.error("Class {} does not extend from AbstractRequestContext!", requestContextClass.getCanonicalName());
-        return null;
-    }
-
-    public void setRequestContextClass (final Class requestContextClass) {
-        this.requestContextClass = requestContextClass;
     }
 }

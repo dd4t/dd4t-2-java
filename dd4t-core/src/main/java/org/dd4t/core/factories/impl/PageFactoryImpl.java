@@ -16,44 +16,42 @@
 
 package org.dd4t.core.factories.impl;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.contentmodel.impl.PageImpl;
-import org.dd4t.core.caching.CacheElement;
+import org.dd4t.caching.CacheElement;
+import org.dd4t.core.databind.DataBinder;
 import org.dd4t.core.exceptions.FactoryException;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.ProcessorException;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.core.factories.PageFactory;
 import org.dd4t.core.processors.RunPhase;
+import org.dd4t.core.request.RequestContext;
 import org.dd4t.core.util.TCMURI;
-import org.dd4t.databind.DataBindFactory;
 import org.dd4t.providers.PageProvider;
-import org.dd4t.providers.ProviderResultItem;
+import org.dd4t.providers.PageProviderResultItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Resource;
-import java.io.IOException;
-import java.text.ParseException;
 
 // TODO: refactor duplicate code
 public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageFactoryImpl.class);
-    private static final PageFactoryImpl INSTANCE = new PageFactoryImpl();
-
-    protected PageFactoryImpl () {
-        LOG.debug("Create new instance");
-    }
-
-    public static PageFactoryImpl getInstance () {
-        return INSTANCE;
-    }
-
+    
     @Resource
     protected PageProvider pageProvider;
+    
+    @Resource
+    protected List<DataBinder> dataBinders;
 
+            
     /**
      * @param uri of the page
      * @return the Page Object
@@ -61,11 +59,22 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      */
     @Override
     public Page getPage (final String uri) throws FactoryException {
-        return getPage(uri, PageImpl.class);
+        return getPage(uri, PageImpl.class, null);
     }
+    
+	@Override
+	public Page getPage(String uri, RequestContext context)
+			throws FactoryException {
+        return getPage(uri, PageImpl.class, context);
+	}    
 
     @Override
     public <T extends Page> T getPage (final String uri, final Class<T> pageModel) throws FactoryException {
+    	return getPage(uri, pageModel, null);
+    }
+	
+    @Override
+    public <T extends Page> T getPage (final String uri, final Class<T> pageModel, RequestContext context) throws FactoryException {
         LOG.debug("Enter getPage with uri: {}", uri);
         if (!pageModel.getClass().isInstance(Page.class)) {
             throw new SerializationException("Given model class does not implement the Page interface");
@@ -79,7 +88,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
                     String pageSource;
-                    ProviderResultItem<String> resultItem;
+                    PageProviderResultItem<String> resultItem;
                     TCMURI tcmUri;
                     try {
                         tcmUri = new TCMURI(uri);
@@ -102,9 +111,10 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                     page = deserialize(pageSource, pageModel);
                     page.setLastPublishedDate(resultItem.getLastPublishDate());
                     page.setRevisionDate(resultItem.getRevisionDate());
-
+                    page.setUrl(resultItem.getUrl());
+                    
                     LOG.debug("Running pre caching processors");
-                    this.executeProcessors(page, RunPhase.BEFORE_CACHING, getRequestContext());
+                    this.executeProcessors(page, RunPhase.BEFORE_CACHING, context);
                     cacheElement.setPayload(page);
 
                     cacheProvider.storeInItemCache(uri, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
@@ -120,7 +130,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             LOG.debug("Return page with uri: {} from cache", uri);
             page = cacheElement.getPayload();
         }
-        executePostCacheProcessors(page);
+        executePostCacheProcessors(page, context);
         return (T) page;
     }
 
@@ -132,9 +142,20 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      */
     @Override
     public Page findPageByUrl (String url, int publicationId) throws FactoryException {
-        return findPageByUrl(url, publicationId, PageImpl.class);
+        return findPageByUrl(url, publicationId, PageImpl.class, null);
     }
+    
+	@Override
+	public Page findPageByUrl(String url, int publicationId,
+			RequestContext context) throws FactoryException {
+        return findPageByUrl(url, publicationId, PageImpl.class, context);
+    }	
 
+	@Override
+	public <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel) throws FactoryException {
+		return findPageByUrl(url, publicationId, pageModel, null);
+	}
+	 
     /**
      * @param url           the url of the page
      * @param publicationId the publication Id
@@ -142,7 +163,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws org.dd4t.core.exceptions.FactoryException
      */
     @Override
-    public <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel) throws FactoryException {
+    public <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel, RequestContext context) throws FactoryException {
         LOG.debug("Enter findPageByUrl with url: {} and publicationId: {}", url, publicationId);
 
         if (!pageModel.getClass().isInstance(Page.class)) {
@@ -159,7 +180,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             synchronized (cacheElement) {
                 if (cacheElement.isExpired() || cacheElement.getPayload() == null) {
                     String pageSource;
-                    ProviderResultItem<String> resultItem;
+                    PageProviderResultItem<String> resultItem;
                     resultItem = pageProvider.getPageByURL(url, publicationId);
                     pageSource = resultItem.getSourceContent();
 
@@ -172,14 +193,14 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
                     try {
                         page = deserialize(pageSource, pageModel);
-                        // TODO: replace DCPs here with the real DCPs?
 
                         page.setLastPublishedDate(resultItem.getLastPublishDate());
                         page.setRevisionDate(resultItem.getRevisionDate());
+                        page.setUrl(resultItem.getUrl());
                         final TCMURI tcmUri = new TCMURI(page.getId());
                         LOG.debug("Running pre caching processors");
 
-                        this.executeProcessors(page, RunPhase.BEFORE_CACHING, getRequestContext());
+                        this.executeProcessors(page, RunPhase.BEFORE_CACHING, context);
                         cacheElement.setPayload(page);
                         cacheProvider.storeInItemCache(cacheKey, cacheElement, publicationId, tcmUri.getItemId());
                         cacheElement.setExpired(false);
@@ -197,15 +218,15 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             LOG.debug("Return page with url: {} and publicationId: {} from cache", url, publicationId);
             page = cacheElement.getPayload();
         }
-        executePostCacheProcessors(page);
+        executePostCacheProcessors(page, context);
         return (T) page;
     }
 
-    private void executePostCacheProcessors (final Page page) {
+    private void executePostCacheProcessors (final Page page, RequestContext context) {
         if (page != null) {
             LOG.debug("Running Post caching Processors");
             try {
-                this.executeProcessors(page, RunPhase.AFTER_CACHING, getRequestContext());
+                this.executeProcessors(page, RunPhase.AFTER_CACHING, context);
             } catch (ProcessorException e) {
                 LOG.error(e.getLocalizedMessage(), e);
             }
@@ -340,11 +361,39 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @param clazz  Class representing the implementation type to deserialize into
      * @return the deserialized object
      */
-
+    /**
+     * Method finds the relevant databinder for given source by calling canDeserialize() on them.
+     * 
+     * @param source
+     * @return
+     */
+    protected DataBinder selectDataBinder(final String source) throws FactoryException{
+    	if(dataBinders == null || dataBinders.size() == 0 ){
+    		return null;
+    	}
+    	
+    	if(dataBinders.size() == 1){
+    		return dataBinders.get(0);
+    	}
+    	
+    	for(DataBinder binder : dataBinders){
+    		if(binder.canDeserialize(source)){
+    			return binder;
+    		}
+    	}
+    	
+    	return null;
+    }
 
     @Override
     public <T extends Page> T deserialize (final String source, final Class<? extends T> clazz) throws FactoryException {
-        return DataBindFactory.buildPage(source, clazz);
+    	DataBinder binder = selectDataBinder(source);
+    	
+    	if(binder == null){
+    		throw new SerializationException("Unable to select databinder.") ;
+    	}
+    	
+        return binder.buildPage(source, clazz);
     }
 
     /**
@@ -368,4 +417,12 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
     public void setPageProvider (PageProvider provider) {
         this.pageProvider = provider;
     }
+    
+    public List<DataBinder> getDataBinders() {
+		return dataBinders;
+	}
+
+	public void setDataBinders(List<DataBinder> dataBinder) {
+		this.dataBinders = dataBinder;
+	}
 }

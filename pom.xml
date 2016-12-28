@@ -7,7 +7,7 @@
     <groupId>org.dd4t</groupId>
     <artifactId>dd4t-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.6</version>
+    <version>2.0.7</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Parent for all DD4T projects.</description>
     <url>https://github.com/dd4t</url>
@@ -160,6 +160,7 @@
                 <module>dd4t-compatibility</module>
                 <module>dd4t-databind</module>
                 <module>dd4t-mvc-support</module>
+                <module>dd4t-thymeleaf-support</module>
                 <module>dd4t-providers-common</module>
                 <module>dd4t-providers</module>
                 <module>dd4t-providers-web8</module>
@@ -189,6 +190,7 @@
                 <module>dd4t-compatibility</module>
                 <module>dd4t-databind</module>
                 <module>dd4t-mvc-support</module>
+                <module>dd4t-thymeleaf-support</module>
                 <module>dd4t-providers-common</module>
                 <module>dd4t-providers</module>
                 <module>dd4t-providers-web8</module>

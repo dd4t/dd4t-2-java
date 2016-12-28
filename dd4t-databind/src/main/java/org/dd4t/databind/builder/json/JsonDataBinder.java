@@ -119,6 +119,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
             final JsonNode rawComponentData = GENERIC_MAPPER.readTree(componentPresentation.getRawComponentContent());
             final Map<String, BaseViewModel> models = DataBindFactory.buildModels(rawComponentData, modelNames, componentPresentation.getComponentTemplate().getId());
 
+
+
             componentPresentation.setViewModel(models);
         } catch (SerializationException | IOException e) {
             LOG.error(e.getLocalizedMessage(), e);
@@ -148,13 +150,19 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     @Override
     public Map<String, BaseViewModel> buildModels (final Object source, final Set<String> modelNames, final String templateUri) throws SerializationException {
 
+        // TODO: this should then be Map<String, List<BaseViewModel>> ?
         final Map<String, BaseViewModel> models = new HashMap<>();
 
         for (String modelName : modelNames) {
             if (VIEW_MODELS.containsKey(modelName)) {
-                final Class modelClass = VIEW_MODELS.get(modelName);
-                // check to ensure we don't already have built the same model. We can reuse it if the case
+                final List<Class<? extends BaseViewModel>> modelClasses = VIEW_MODELS.get(modelName);
+                // TODO check to ensure we don't already have built the same model. We can reuse it if the case
                 // this loop is cheaper than deserializing new models all the time
+
+                // TODO. This is temp. We should offer all classes, not just the first.
+                final Class<? extends BaseViewModel> modelClass = modelClasses.get(0);
+
+                // TODO: if there are multiple models for the same modelName, add a collection.
                 final BaseViewModel alreadyExistingModel = getModelOrNullForExistingEntry(models, modelClass);
                 if (alreadyExistingModel != null) {
                     models.put(modelName, alreadyExistingModel);
@@ -179,9 +187,13 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     @Override
     public <T extends BaseViewModel> T buildModel (final Object source, final String modelName, final String templateUri) throws SerializationException {
         if (VIEW_MODELS.containsKey(modelName)) {
-            Class modelClass = VIEW_MODELS.get(modelName);
-            LOG.info("Start building model for viewName: {}, with class: {}", modelName, modelClass);
-            return buildModel(source, modelClass, templateUri);
+            List<Class<? extends BaseViewModel>> modelClasses = VIEW_MODELS.get(modelName);
+            // TODO. This is temp. We should offer all classes, not just the first.
+            final Class<? extends BaseViewModel> modelClass = modelClasses.get(0);
+            if (modelClass != null) {
+                LOG.info("Start building model for viewName: {}, with class: {}", modelName, modelClass);
+                return buildModel(source, modelClass, templateUri);
+            }
         }
         LOG.info("Could not load Model Class for viewName: {}", modelName);
         return null;
@@ -192,6 +204,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
 
         try {
             // This appears a limitation in the Java Generics implementation.
+            // TODO: check for abstract or interface types and try to find a concrete type for it!
             final T concreteModel = (T) modelClass.newInstance();
 
             if (concreteModel instanceof TridionViewModel && !StringUtils.isEmpty(templateUri)) {

@@ -10,11 +10,11 @@ import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
  * @author R. Kempees
  */
 @ViewModel (rootElementNames = {"EmbeddableTest"})
-public class EmbeddedOne extends TridionViewModelBase {
+public class EmbeddedOne extends TridionViewModelBase implements GenericModelInterface {
     @ViewModelProperty
     private String testfieldOne;
     @ViewModelProperty
-    private EmbeddedTwo embeddableTwo;
+    private GenericModelInterface embeddableTwo;
 
     public String getTestfieldOne () {
         return testfieldOne;
@@ -24,11 +24,11 @@ public class EmbeddedOne extends TridionViewModelBase {
         this.testfieldOne = testfieldOne;
     }
 
-    public EmbeddedTwo getEmbeddableTwo () {
+    public GenericModelInterface getEmbeddableTwo () {
         return embeddableTwo;
     }
 
-    public void setEmbeddableTwo (final EmbeddedTwo embeddableTwo) {
+    public void setEmbeddableTwo (final GenericModelInterface embeddableTwo) {
         this.embeddableTwo = embeddableTwo;
     }
 }

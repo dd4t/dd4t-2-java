@@ -132,10 +132,9 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
                     //rawComponentPresentation = componentPresentationProvider.getDynamicComponentPresentation(componentId, templateId, publicationId);
 
                     if (rawComponentPresentation == null) {
-
                         cacheElement.setPayload(null);
-                        cacheProvider.storeInItemCache(key, cacheElement);
-                        cacheElement.setExpired(true);
+                        cacheElement.setNull(true);
+                        cacheProvider.storeInItemCache(key, cacheElement);                        
                         throw new ItemNotFoundException(String.format("Could not find DCP with componentURI: %s and templateURI: %s", componentURI, templateURI));
                     }
 
@@ -170,6 +169,9 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
             } catch (ProcessorException e) {
                 LOG.error(e.getLocalizedMessage(), e);
             }
+        }
+        else{
+        	throw new ItemNotFoundException("Found nullreference in DCP cache. Try again later.");
         }
 
         LOG.debug("Exit getComponentPresentation");

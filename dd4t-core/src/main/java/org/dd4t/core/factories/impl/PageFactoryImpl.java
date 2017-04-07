@@ -102,8 +102,8 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
                     if (StringUtils.isEmpty(pageSource)) {
                         cacheElement.setPayload(null);
-                        cacheProvider.storeInItemCache(uri, cacheElement);
-                        cacheElement.setExpired(true);
+                        cacheElement.setNull(true);
+                        cacheProvider.storeInItemCache(uri, cacheElement);                        
                         throw new ItemNotFoundException("Unable to find page by id " + uri);
                     }
 
@@ -130,6 +130,11 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             LOG.debug("Return page with uri: {} from cache", uri);
             page = cacheElement.getPayload();
         }
+        
+        if(page == null){
+        	throw new ItemNotFoundException("Found nullreference for page in cache. Please try again later.");
+        }
+        
         executePostCacheProcessors(page, context);
         return (T) page;
     }

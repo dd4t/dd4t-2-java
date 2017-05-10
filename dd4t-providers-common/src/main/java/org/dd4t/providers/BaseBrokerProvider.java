@@ -18,7 +18,7 @@ package org.dd4t.providers;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.CharEncoding;
-import org.dd4t.core.caching.CacheType;
+import org.dd4t.caching.CacheType;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.core.util.CompressionUtils;
 import org.slf4j.Logger;
@@ -44,7 +44,9 @@ public abstract class BaseBrokerProvider {
     // Set these values in Spring configuration
     protected boolean contentIsCompressed = true;
     protected boolean contentIsBase64Encoded = true;
-    @Resource
+
+
+	@Resource
     protected PayloadCacheProvider cacheProvider;
 
     public static String convertStreamToString (InputStream is) throws IOException {
@@ -80,9 +82,13 @@ public abstract class BaseBrokerProvider {
         this.contentIsCompressed = Boolean.parseBoolean(contentIsCompressed);
     }
 
-    public void setContentIsBase64Encoded (final boolean contentIsBase64Encoded) {
-        this.contentIsBase64Encoded = contentIsBase64Encoded;
-    }
+    public boolean isContentIsBase64Encoded() {
+		return contentIsBase64Encoded;
+	}
+
+	public void setContentIsBase64Encoded(boolean contentIsBase64Encoded) {
+		this.contentIsBase64Encoded = contentIsBase64Encoded;
+	}
 
     /**
      * Performs a Base64 decode of the given content String. If property <b>contentIsCompressed</b> is true, it then

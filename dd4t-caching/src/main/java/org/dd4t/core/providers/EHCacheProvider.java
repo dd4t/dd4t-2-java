@@ -16,18 +16,9 @@
 
 package org.dd4t.core.providers;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-
 import org.dd4t.core.caching.CacheDependency;
 import org.dd4t.core.caching.CacheElement;
 import org.dd4t.core.caching.CacheInvalidator;
@@ -38,6 +29,13 @@ import org.dd4t.core.util.TridionUtils;
 import org.dd4t.providers.PayloadCacheProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * EH Cache implementation
@@ -210,8 +208,8 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         Element element = cache.get(key);
         if (element == null) {
             element = new Element(key, cacheElement);
-            cache.put(element);
         }
+        cache.put(element);
         element.setTimeToLive(cacheDependencyTTL);
         String dependentKey = getKey(dependingPublicationId, dependingItemId);
         cacheElement.setDependentKey(dependentKey);
@@ -232,8 +230,8 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
 		Element element = cache.get(key);
 		if (element == null) {
 			element = new Element(key, cacheElement);
-			cache.put(element);
 		}
+        cache.put(element);
 		element.setTimeToLive(cacheDependencyTTL);
 		
 		for(CacheDependency dep : dependencies){

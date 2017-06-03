@@ -16,11 +16,16 @@
 
 package org.dd4t.core.factories;
 
+import org.dd4t.contentmodel.Item;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.core.exceptions.FactoryException;
+import org.dd4t.core.processors.RunPhase;
+import org.dd4t.core.request.RequestContext;
 import org.dd4t.core.util.TCMURI;
 
 public interface PageFactory extends Factory {
+
+    void executeProcessors(Item item, RunPhase runPhase, RequestContext context) throws FactoryException;
 
     /**
      * Get a page by its URI. No security available; the method will fail if a

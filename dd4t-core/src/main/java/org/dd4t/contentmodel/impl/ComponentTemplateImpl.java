@@ -19,7 +19,11 @@ package org.dd4t.contentmodel.impl;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.ComponentTemplate;
 
-public class ComponentTemplateImpl extends BaseRepositoryLocalItem implements ComponentTemplate {
+import java.io.Serializable;
+
+public class ComponentTemplateImpl extends BaseRepositoryLocalItem implements ComponentTemplate, Serializable {
+
+    private static final long serialVersionUID = -5298380361943500591L;
 
     @JsonProperty ("OutputFormat")
     private String outputFormat;

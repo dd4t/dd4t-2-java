@@ -20,10 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldType;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TextField extends BaseField implements Field {
+public class TextField extends BaseField implements Field, Serializable {
+
+    private static final long serialVersionUID = -818637646285558123L;
 
     @JsonProperty ("CategoryId")
     private String categoryId;

@@ -21,10 +21,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.*;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentImpl extends BaseComponent implements GenericComponent, HasContent, HasMetadata, HasMultimedia {
+public class ComponentImpl extends BaseComponent implements GenericComponent, HasContent, HasMetadata, HasMultimedia, Serializable {
+
+    private static final long serialVersionUID = -6643617039360444651L;
 
     @JsonProperty ("ComponentType")
     @JsonDeserialize (as = ComponentImpl.ComponentType.class)

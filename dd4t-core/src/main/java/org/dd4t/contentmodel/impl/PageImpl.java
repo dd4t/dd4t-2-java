@@ -20,13 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: Region support. Or are we just sticking the region on the CP?
- */
-public class PageImpl extends BasePage implements GenericPage, HasMetadata {
+public class PageImpl extends BasePage implements GenericPage, HasMetadata, Serializable {
+
+    private static final long serialVersionUID = 4393211269602154657L;
 
     @JsonProperty ("Filename")
     protected String fileName;

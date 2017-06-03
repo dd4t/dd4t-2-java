@@ -22,10 +22,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.Category;
 import org.dd4t.contentmodel.Keyword;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class CategoryImpl extends BaseItem implements Category {
+public class CategoryImpl extends BaseItem implements Category, Serializable {
+
+    private static final long serialVersionUID = 4141821829912175584L;
 
     @JsonProperty ("Keywords")
     @JsonDeserialize (contentAs = KeywordImpl.class)

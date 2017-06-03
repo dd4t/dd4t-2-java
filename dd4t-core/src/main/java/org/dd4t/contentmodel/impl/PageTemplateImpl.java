@@ -20,7 +20,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.HasMetadata;
 import org.dd4t.contentmodel.PageTemplate;
 
-public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTemplate, HasMetadata {
+import java.io.Serializable;
+
+public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTemplate, HasMetadata, Serializable {
+
+    private static final long serialVersionUID = -5960304953992709902L;
 
     @JsonProperty ("FileExtension")
     private String fileExtension;

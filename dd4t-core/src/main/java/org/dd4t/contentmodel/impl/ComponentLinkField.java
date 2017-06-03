@@ -20,10 +20,14 @@ import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldType;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ComponentLinkField extends BaseField implements Field {
+public class ComponentLinkField extends BaseField implements Field, Serializable {
+
+
+    private static final long serialVersionUID = 8425734531699002178L;
 
     public ComponentLinkField () {
         setFieldType(FieldType.COMPONENTLINK);

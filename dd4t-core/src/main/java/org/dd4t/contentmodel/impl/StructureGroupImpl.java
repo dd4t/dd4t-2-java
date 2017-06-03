@@ -19,7 +19,11 @@ package org.dd4t.contentmodel.impl;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.StructureGroup;
 
-public class StructureGroupImpl extends BaseItem implements StructureGroup {
+import java.io.Serializable;
+
+public class StructureGroupImpl extends BaseItem implements StructureGroup, Serializable {
+
+    private static final long serialVersionUID = -7707818877330687914L;
 
     @JsonProperty ("PublicationId")
     private String publicationId;

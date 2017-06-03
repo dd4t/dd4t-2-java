@@ -21,10 +21,13 @@ import org.dd4t.contentmodel.BinaryData;
 import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.Multimedia;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultimediaImpl extends BaseField implements Multimedia {
+public class MultimediaImpl extends BaseField implements Multimedia, Serializable {
+
+    private static final long serialVersionUID = 9123738616565718821L;
 
     private BinaryData binaryData;
 

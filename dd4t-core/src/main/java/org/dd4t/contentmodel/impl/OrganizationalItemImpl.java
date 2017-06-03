@@ -19,7 +19,11 @@ package org.dd4t.contentmodel.impl;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.OrganizationalItem;
 
-public class OrganizationalItemImpl extends BaseItem implements OrganizationalItem {
+import java.io.Serializable;
+
+public class OrganizationalItemImpl extends BaseItem implements OrganizationalItem, Serializable {
+
+    private static final long serialVersionUID = -5021754937358512544L;
 
     @JsonProperty ("PublicationId")
     private String publicationId;

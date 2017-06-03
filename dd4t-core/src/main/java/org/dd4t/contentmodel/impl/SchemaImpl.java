@@ -19,7 +19,11 @@ package org.dd4t.contentmodel.impl;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.Schema;
 
-public class SchemaImpl extends BaseRepositoryLocalItem implements Schema {
+import java.io.Serializable;
+
+public class SchemaImpl extends BaseRepositoryLocalItem implements Schema, Serializable {
+
+    private static final long serialVersionUID = 6906233835226254898L;
 
     @JsonProperty ("RootElementName")
     private String rootElement;

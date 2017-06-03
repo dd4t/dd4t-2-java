@@ -47,6 +47,7 @@
         <commons-dbcp-version>1.4</commons-dbcp-version>
         <commons-pool-version>1.6</commons-pool-version>
         <dom4j.version>1.6.1</dom4j.version>
+        <ehcache3.version>3.3.1</ehcache3.version>
         <ehcache.jcache.version>1.0.1</ehcache.jcache.version>
         <gson.version>2.3.1</gson.version>
         <guava.version>18.0</guava.version>
@@ -348,9 +349,16 @@
 
             <dependency>
                 <groupId>org.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache3.version}</version>
+            </dependency>
+            <!--
+            TODO: collides with ehcache3
+            <dependency>
+                <groupId>org.ehcache</groupId>
                 <artifactId>jcache</artifactId>
                 <version>${ehcache.jcache.version}</version>
-            </dependency>
+            </dependency>-->
 
             <dependency>
                 <groupId>com.vs.ezlicrun</groupId>

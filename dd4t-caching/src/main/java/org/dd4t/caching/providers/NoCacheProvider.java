@@ -74,20 +74,18 @@ public class NoCacheProvider implements PayloadCacheProvider, CacheProvider {
     @Override
     public <T> void storeInItemCache(String key, CacheElement<T> cacheElement,
                                      List<CacheDependency> dependencies) {
-        // TODO Auto-generated method stub
-
+        // Nothing to do.
     }
 
     @Override
     public void addDependency(String cacheKey, String dependencyKey) {
-        // TODO Auto-generated method stub
+        // Nothing to do.
 
     }
 
     @Override
     public void storeInItemCache(String key, Object ob,
                                  List<CacheDependency> dependencies) {
-        // TODO Auto-generated method stub
-
+        // Nothing to do.
     }
 }

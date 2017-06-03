@@ -29,7 +29,6 @@ import org.dd4t.providers.PayloadCacheProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -42,35 +41,16 @@ import java.util.concurrent.ConcurrentSkipListSet;
  *
  * @author R. Kempees, Mihai Cadariu, Rogier Oudshoorn
  */
-public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
-
-    /**
-     * The name of the EHCache that contains the cached items for this
-     * application
-     */
-    public static final String CACHE_NAME = "DD4T-Objects";
-    public static final String CACHE_NAME_DEPENDENCY = "DD4T-Dependencies";
-    public static final String DEPENDENT_KEY_FORMAT = "%s:%s";
+public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
 
     private final Cache cache = CacheManager.getInstance().getCache(CACHE_NAME);
     private final Cache dependencyCache = CacheManager.create().getCache(CACHE_NAME_DEPENDENCY);
 
     private static final Logger LOG = LoggerFactory.getLogger(EHCacheProvider.class);
 
-    public static final int ADJUST_TTL = 2;
-
     private int expiredTTL = 299;
     private int cacheDependencyTTL = 299;
     private int cacheTTL = 3599;
-    private boolean checkForPreview = false;
-
-    public boolean doCheckForPreview () {
-        return checkForPreview;
-    }
-
-    public void setCheckForPreview (boolean breakOnPreview) {
-        this.checkForPreview = breakOnPreview;
-    }
 
     /*
      * Getters and setters for cache TTL's
@@ -189,7 +169,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     public <T> void storeInItemCache (String key, CacheElement<T> cacheElement, int dependingPublicationId, int dependingItemId) {
 
         CacheDependency dependency = new CacheDependencyImpl(dependingPublicationId, dependingItemId);
-        List<CacheDependency> dependencies = new ArrayList<CacheDependency>();
+        List<CacheDependency> dependencies = new ArrayList<>();
         dependencies.add(dependency);
         storeInItemCache(key, cacheElement, dependencies);
 
@@ -354,19 +334,4 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         dependentElement.setTimeToLive(timeToLive);
     }
 
-    private static String getKey (Serializable key) {
-        String[] parts = ((String) key).split(":");
-        switch (parts.length) {
-            case 0:
-                return "";
-            case 1:
-                return String.format(DEPENDENT_KEY_FORMAT, parts[0], "");
-            default:
-                return String.format(DEPENDENT_KEY_FORMAT, parts[0], parts[1]);
-        }
-    }
-
-    private static String getKey (int publicationId, int itemId) {
-        return String.format(DEPENDENT_KEY_FORMAT, publicationId, itemId);
-    }
 }

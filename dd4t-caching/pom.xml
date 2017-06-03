@@ -77,10 +77,16 @@
         Cache Provider. Default: EHCache.
         Switch to something else if you like
         -->
-        <dependency>
+        <!--<dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>${ehcache.version}</version>
+            <scope>provided</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache3.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

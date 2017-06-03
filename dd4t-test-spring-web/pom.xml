@@ -103,8 +103,6 @@
             <artifactId>joda-time</artifactId>
         </dependency>
     </dependencies>
-
-
     <profiles>
         <profile>
             <id>cd-7.1.0</id>
@@ -664,11 +662,15 @@
                     <groupId>com.fasterxml.jackson.core</groupId>
                     <artifactId>jackson-databind</artifactId>
                 </dependency>
-                <!--jcache-1.0.1.jar-->
+                <!--jcache-1.0.1.jar
+
+                TODO: collides with ehcache 3!
                 <dependency>
                     <groupId>org.ehcache</groupId>
                     <artifactId>jcache</artifactId>
                 </dependency>
+
+                -->
 
                 <dependency>
                     <groupId>org.slf4j</groupId>

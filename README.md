@@ -137,7 +137,7 @@ To create a complete, but minimal Spring MVC web application to develop with, cr
 1. Create an empty directory where you want to develop the web application in
 2. Execute the following command after replacing the parameters in between the brackets ([com.example] and [mywebapp]):
 
-		mvn archetype:generate -DgroupId=[com.example] -DartifactId=[mywebapp] -DarchetypeGroupId=org.dd4t -DarchetypeArtifactId=dd4t-spring-mvc-archetype -DarchetypeVersion=1.5  -DarchetypeCatalog=remote -DarchetypeCatalog=http://repo1.maven.org/maven2
+		mvn archetype:generate -DgroupId=[com.example] -DartifactId=[mywebapp] -DarchetypeGroupId=org.dd4t -DarchetypeArtifactId=dd4t-spring-mvc-archetype -DarchetypeVersion=1.5  -DarchetypeCatalog=remote
 
 3. Enter the requested information. Maven will ask you to specify a version (defaults to 1.0-SNAPSHOT) and will then ask you to confirm the settings.
 

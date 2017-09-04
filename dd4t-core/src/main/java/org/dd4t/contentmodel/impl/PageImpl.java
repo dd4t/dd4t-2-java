@@ -48,6 +48,17 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata, Seri
         return pageTemplate;
     }
 
+    @JsonProperty("Url")
+    protected String url;
+
+    public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
     @Override
     public void setPageTemplate (PageTemplate pageTemplate) {
         this.pageTemplate = pageTemplate;

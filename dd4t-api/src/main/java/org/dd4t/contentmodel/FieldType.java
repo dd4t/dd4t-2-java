@@ -56,7 +56,6 @@ public enum FieldType {
             }
         }
     }
-
     public int getValue () {
         return value;
     }

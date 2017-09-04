@@ -16,9 +16,15 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.dd4t.contentmodel.*;
+import org.dd4t.contentmodel.Category;
+import org.dd4t.contentmodel.Field;
+import org.dd4t.contentmodel.OrganizationalItem;
+import org.dd4t.contentmodel.Publication;
+import org.dd4t.contentmodel.RepositoryLocalItem;
+import org.dd4t.contentmodel.Schema;
 import org.dd4t.core.util.DateUtils;
 import org.joda.time.DateTime;
 
@@ -31,6 +37,7 @@ import java.util.Map;
  *
  * @author bjornl
  */
+@JsonAutoDetect(getterVisibility= JsonAutoDetect.Visibility.NONE)
 public abstract class BaseRepositoryLocalItem extends BaseItem implements RepositoryLocalItem {
 
     @JsonProperty ("RevisionDate")

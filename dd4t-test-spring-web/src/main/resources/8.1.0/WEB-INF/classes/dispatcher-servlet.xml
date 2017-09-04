@@ -23,6 +23,8 @@
     <!-- Configure me: change this to the base-package where your overridden controllers are -->
     <context:component-scan base-package="org.dd4t.test.web.controller" annotation-config="true"/>
 
+    <bean id="springApplicationContext" class="org.dd4t.mvc.utils.ApplicationContextProvider"/>
+
     <!--
         DD4T Controllers
         If you use yor own controllers, change the class names here

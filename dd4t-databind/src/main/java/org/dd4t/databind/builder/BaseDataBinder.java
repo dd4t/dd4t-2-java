@@ -56,6 +56,7 @@ public abstract class BaseDataBinder {
     protected static final ConcurrentMap<String, List<Class<? extends BaseViewModel>>> VIEW_MODELS = new ConcurrentHashMap<>();
     protected static final ConcurrentMap<String, List<Class<? extends BaseViewModel>>> ABSTRACT_OR_INTERFACE_MODELS = new ConcurrentHashMap<>();
 
+
     protected ModelConverter converter;
     protected String viewModelMetaKeyName;
     protected String viewModelPackageRoot;
@@ -301,7 +302,11 @@ public abstract class BaseDataBinder {
     }
 
     private boolean isDatabindStandardClass (ClassInfo classInfo) {
-        return classInfo.getClassName().equals(DataBindConstants.VIEW_MODEL_BASE_CLASS_NAME) || classInfo.getClassName().equals(DataBindConstants.TRIDION_VIEW_MODEL_BASE_CLASS_NAME) || classInfo.getClassName().equals(DataBindConstants.TRIDION_VIEW_MODEL_INTERFACE) || classInfo.getClassName().equals(DataBindConstants.BASE_VIEW_MODEL_INTERFACE);
+        return classInfo.getClassName().equals(DataBindConstants.VIEW_MODEL_ANNOTATION)
+                || classInfo.getClassName().equals(DataBindConstants.VIEW_MODEL_BASE_CLASS_NAME)
+                || classInfo.getClassName().equals(DataBindConstants.TRIDION_VIEW_MODEL_BASE_CLASS_NAME)
+                || classInfo.getClassName().equals(DataBindConstants.TRIDION_VIEW_MODEL_INTERFACE)
+                || classInfo.getClassName().equals(DataBindConstants.BASE_VIEW_MODEL_INTERFACE);
     }
 
     private boolean hasNonStandardParent (ClassInfo classInfo) {

@@ -16,11 +16,11 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.ComponentPresentation;
 import org.dd4t.contentmodel.ComponentTemplate;
@@ -40,6 +40,7 @@ import java.util.Map;
  *
  * @author bjornl, rai, sdl
  */
+@JsonAutoDetect(getterVisibility= JsonAutoDetect.Visibility.NONE)
 public class ComponentPresentationImpl implements ComponentPresentation, Serializable {
 
     private static final long serialVersionUID = -7971393961257030293L;
@@ -130,6 +131,7 @@ public class ComponentPresentationImpl implements ComponentPresentation, Seriali
     }
 
     @Override
+    @JsonIgnore
     public boolean isDynamic () {
         return isDynamic;
     }

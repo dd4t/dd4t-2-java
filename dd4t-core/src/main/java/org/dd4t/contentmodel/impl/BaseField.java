@@ -16,26 +16,26 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.contentmodel.FieldType;
 import org.dd4t.contentmodel.Keyword;
-import org.dd4t.core.serializers.impl.json.FieldTypeConverter;
+import org.dd4t.databind.serializers.json.FieldTypeSerializer;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
-import org.simpleframework.xml.convert.Convert;
 
 import java.util.LinkedList;
 import java.util.List;
 
-
+@JsonAutoDetect(getterVisibility= JsonAutoDetect.Visibility.NONE)
 @JsonIgnoreProperties (value = {"Value"}, ignoreUnknown = true)
 public abstract class BaseField implements Field {
 	@Element(name = "name", required = false)
@@ -70,6 +70,7 @@ public abstract class BaseField implements Field {
 
 	@Attribute(required = false)
     @JsonProperty ("FieldType")
+    @JsonSerialize (using = FieldTypeSerializer.class)
     private FieldType fieldType;
 
 	@Attribute(required = false)

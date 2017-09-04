@@ -16,10 +16,9 @@
 
 package org.dd4t.contentmodel.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.Category;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.OrganizationalItem;
@@ -31,14 +30,16 @@ import org.joda.time.DateTime;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base class for all tridion items except for publications and organizational items
  *
  * @author bjornl
  */
+@JsonAutoDetect(getterVisibility= JsonAutoDetect.Visibility.NONE)
 public abstract class BaseRepositoryLocalItem extends BaseItem implements RepositoryLocalItem {
 	@Element(name = "revisionDate", required = false)
     @JsonProperty ("RevisionDate")
@@ -60,7 +61,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
     @JsonDeserialize (as = OrganizationalItemImpl.class)
     protected OrganizationalItem organizationalItem;
 
-	@Element(name = "lastPublishedDate", required = false)	
+	@Element(name = "lastPublishedDate", required = false)
     @JsonProperty ("LastPublishedDate")
     protected String lastPublishedDateAsString;
 

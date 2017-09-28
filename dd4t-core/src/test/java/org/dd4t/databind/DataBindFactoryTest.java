@@ -56,7 +56,8 @@ public class DataBindFactoryTest {
 
         assertNotNull(serialized);
 
-        Files.write(Paths.get("/Users/rai/Sources/dd4t-2-java/dd4t-core/src/test/resources/testserialized.json"), serialized.getBytes());
+        String rootFolder = new File(ClassLoader.getSystemResource(".").getPath()).getParentFile().getParentFile().getPath();
+        FileUtils.write(new File(rootFolder + "/src/test/resources/testserialized.json"), serialized, "UTF-8");
     }
 
     @Test

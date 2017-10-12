@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 
 import java.io.File;
@@ -55,9 +56,9 @@ public class DataBindFactoryTest {
         String serialized = JsonDataBinder.getGenericMapper().writeValueAsString(deserializedPage);
 
         assertNotNull(serialized);
-
-        String rootFolder = new File(ClassLoader.getSystemResource(".").getPath()).getParentFile().getParentFile().getPath();
-        FileUtils.write(new File(rootFolder + "/src/test/resources/testserialized.json"), serialized, "UTF-8");
+        
+        String rootFolder = new ClassPathResource(".").getFile().getAbsolutePath();
+        FileUtils.write(new File(rootFolder + "/testserialized.json"), serialized, "UTF-8");
     }
 
     @Test

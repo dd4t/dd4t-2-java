@@ -53,22 +53,22 @@ import java.util.Locale;
 
 /**
  * @author edwin
- *         <p/>
- *         The BinaryController is responsible for serving binary files (images,
- *         pdf documents etc) that are managed by Tridion. These binaries are
- *         stored in the broker database. On first request the binary is read
- *         from the broker database and is stored on file system in a location
- *         specified by <code>binaryRootFolder</code>.
- *         <p/>
- *         The first request will be time consuming as the cached version of the
- *         file needs to be written to filesystem. For every subsequent request
- *         the cached version will be served.
- *         <p/>
- *         The request mapping supports an array of strings, but we need a way
- *         to configure this without modifying source code.
- *         <p/>
- *         Important Note: concrete implementing classes will need to add the
- *         {@literal @RequestMapping} annotations!
+ * <p/>
+ * The BinaryController is responsible for serving binary files (images,
+ * pdf documents etc) that are managed by Tridion. These binaries are
+ * stored in the broker database. On first request the binary is read
+ * from the broker database and is stored on file system in a location
+ * specified by <code>binaryRootFolder</code>.
+ * <p/>
+ * The first request will be time consuming as the cached version of the
+ * file needs to be written to filesystem. For every subsequent request
+ * the cached version will be served.
+ * <p/>
+ * The request mapping supports an array of strings, but we need a way
+ * to configure this without modifying source code.
+ * <p/>
+ * Important Note: concrete implementing classes will need to add the
+ * {@literal @RequestMapping} annotations!
  */
 @Controller
 public class AbstractBinaryController {
@@ -93,7 +93,8 @@ public class AbstractBinaryController {
      */
     private boolean removeContextPath = false;
 
-    public void getBinary (final HttpServletRequest request, final HttpServletResponse response) throws ItemNotFoundException {
+    public void getBinary(final HttpServletRequest request, final HttpServletResponse response) throws
+            ItemNotFoundException {
         String binaryPath = getBinaryPath(request);
         LOG.debug(">> {} binary {}", request.getMethod(), binaryPath);
 
@@ -125,7 +126,8 @@ public class AbstractBinaryController {
 
             // Check if anything changed, if nothing changed return a 304
             String modifiedHeader = request.getHeader(Constants.HEADER_IF_MODIFIED_SINCE);
-            if (StringUtils.isNotEmpty(modifiedHeader) && createDateFormat().format(binary.getLastPublishedDate().toDate()).equals(modifiedHeader)) {
+            if (StringUtils.isNotEmpty(modifiedHeader) && createDateFormat().format(binary.getLastPublishedDate()
+                    .toDate()).equals(modifiedHeader)) {
                 response.setStatus(HttpStatus.NOT_MODIFIED.value());
                 return;
             }
@@ -146,7 +148,7 @@ public class AbstractBinaryController {
         }
     }
 
-    private String insertIntoPath (String path, String toInsert) {
+    private String insertIntoPath(String path, String toInsert) {
         int i = path.lastIndexOf('.');
         if (i == 0) {
             LOG.warn("path to binary has no extension: " + path);
@@ -155,7 +157,7 @@ public class AbstractBinaryController {
         return path.substring(0, i + 1) + toInsert + path.substring(i);
     }
 
-    private static String getImageType (String path) {
+    private static String getImageType(String path) {
         int i = path.lastIndexOf('.');
         if (i == 0) {
             LOG.warn("path to binary has no extension: " + path + "; assuming the type is png");
@@ -164,7 +166,8 @@ public class AbstractBinaryController {
         return path.substring(i + 1);
     }
 
-    private void fillResponse (final HttpServletRequest request, final HttpServletResponse response, final Binary binary, final String path, int resizeToWidth) throws IOException {
+    private void fillResponse(final HttpServletRequest request, final HttpServletResponse response, final Binary
+            binary, final String path, int resizeToWidth) throws IOException {
         InputStream content = null;
         try {
             final long contentLength;
@@ -187,7 +190,8 @@ public class AbstractBinaryController {
 
             response.setContentType(getContentType(binary, path, request));
             response.setHeader(Constants.HEADER_CONTENT_LENGTH, Long.toString(contentLength));
-            response.setHeader(Constants.HEADER_LAST_MODIFIED, createDateFormat().format(binary.getLastPublishedDate().toDate()));
+            response.setHeader(Constants.HEADER_LAST_MODIFIED, createDateFormat().format(binary.getLastPublishedDate
+                    ().toDate()));
             response.setStatus(HttpStatus.OK.value());
 
             // Write binary data to output stream
@@ -201,7 +205,8 @@ public class AbstractBinaryController {
         }
     }
 
-    private static void writeResizedImage (final Binary binary, final String path, final int resizeToWidth, final File binaryFile) throws IOException {
+    private static void writeResizedImage(final Binary binary, final String path, final int resizeToWidth, final File
+            binaryFile) throws IOException {
         final File tempBinary = new File(path + ".tmp");
         saveBinary(binary, tempBinary);
 
@@ -220,18 +225,19 @@ public class AbstractBinaryController {
             float factor = (float) resizeToWidth / w;
             int newH = Math.round(factor * h);
 
-            final BufferedImage after = getScaledInstance(before, resizeToWidth, newH, BufferedImage.TYPE_INT_ARGB,true);
+            final BufferedImage after = getScaledInstance(before, resizeToWidth, newH, BufferedImage.TYPE_INT_ARGB,
+                    true);
 
             ImageIO.write(after, getImageType(path), binaryFile);
         } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage(),e);
-        }
-        finally {
+            LOG.error(e.getLocalizedMessage(), e);
+        } finally {
             Files.deleteIfExists(tempBinary.toPath());
         }
     }
 
-    private static BufferedImage getScaledInstance(BufferedImage image, int targetWidth, int targetHeight, int type, boolean higherQuality) {
+    private static BufferedImage getScaledInstance(BufferedImage image, int targetWidth, int targetHeight, int type,
+                                                   boolean higherQuality) {
         BufferedImage ret = image;
         int w, h;
         if (higherQuality) {
@@ -262,12 +268,9 @@ public class AbstractBinaryController {
 
             BufferedImage tmp = new BufferedImage(w, h, type);
             Graphics2D g2 = tmp.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                    RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-            g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-                    RenderingHints.VALUE_RENDER_QUALITY);
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+            g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2.drawImage(ret, 0, 0, w, h, null);
             g2.dispose();
 
@@ -277,7 +280,7 @@ public class AbstractBinaryController {
         return ret;
     }
 
-    private String getContentType (final Binary binary, final String path, final HttpServletRequest request) {
+    private String getContentType(final Binary binary, final String path, final HttpServletRequest request) {
         String mimeType = null;
         ServletContext servletContext = request.getSession().getServletContext();
 
@@ -298,7 +301,7 @@ public class AbstractBinaryController {
         return mimeType;
     }
 
-    protected String getBinaryPath (final HttpServletRequest request) {
+    protected String getBinaryPath(final HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         if (this.removeContextPath) {
             String contextPath = request.getContextPath();
@@ -310,7 +313,7 @@ public class AbstractBinaryController {
         return requestURI;
     }
 
-    private static void saveBinary (final Binary binary, final File binaryFile) throws IOException {
+    private static void saveBinary(final Binary binary, final File binaryFile) throws IOException {
         BufferedOutputStream bufferedOutput = null;
 
         try {
@@ -350,36 +353,36 @@ public class AbstractBinaryController {
         LOG.info("Binary is stored in '{}'", binaryFile.getPath());
     }
 
-    public void setBinaryRootFolder (final String binaryRootFolder) {
+    public void setBinaryRootFolder(final String binaryRootFolder) {
         this.binaryRootFolder = binaryRootFolder;
     }
 
-    public boolean isUseBinaryStorage () {
+    public boolean isUseBinaryStorage() {
         return useBinaryStorage;
     }
 
-    public void setUseBinaryStorage (final boolean useBinaryStorage) {
+    public void setUseBinaryStorage(final boolean useBinaryStorage) {
         this.useBinaryStorage = useBinaryStorage;
     }
 
     /**
      * @return the removeContextPath
      */
-    public boolean isRemoveContextPath () {
+    public boolean isRemoveContextPath() {
         return removeContextPath;
     }
 
     /**
      * @param removeContextPath the removeContextPath to set
      */
-    public void setRemoveContextPath (final boolean removeContextPath) {
+    public void setRemoveContextPath(final boolean removeContextPath) {
         this.removeContextPath = removeContextPath;
     }
 
     /**
      * For test purposes: clear the temp binary storage.
      */
-    void clearBinaryStorage () throws IOException {
+    void clearBinaryStorage() throws IOException {
         File tempDir = new File(binaryRootFolder);
 
         if (tempDir.exists()) {
@@ -391,7 +394,7 @@ public class AbstractBinaryController {
      * Create Date format for last-modified headers. Note that a constant
      * SimpleDateFormat is not allowed, it's access should be sync-ed.
      */
-    private DateFormat createDateFormat () {
+    private DateFormat createDateFormat() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.HEADER_DATE_FORMAT, Locale.US);
         dateFormat.setTimeZone(Constants.TIMEZONE_GMT);
 

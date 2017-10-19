@@ -1,11 +1,18 @@
 package org.dd4t.databind;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.io.FileUtils;
 import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.ComponentPresentation;
+import org.dd4t.contentmodel.Field;
+import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.contentmodel.Page;
+import org.dd4t.contentmodel.impl.ComponentImpl;
+import org.dd4t.contentmodel.impl.ComponentPresentationImpl;
 import org.dd4t.contentmodel.impl.EmbeddedField;
+import org.dd4t.contentmodel.impl.FieldSetImpl;
 import org.dd4t.contentmodel.impl.PageImpl;
+import org.dd4t.contentmodel.impl.TextField;
 import org.dd4t.core.databind.DataBinder;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.core.util.CompressionUtils;
@@ -20,10 +27,11 @@ import org.springframework.util.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class DataBindFactoryTest {
 
@@ -118,5 +126,51 @@ public class DataBindFactoryTest {
         ComponentPresentation componentPresentation = dataBinder.buildComponentPresentation(dcp, ComponentPresentation.class);
 
         assertNotNull(componentPresentation);
+    }
+
+
+    @Test
+    public void testManualPageCreationSerialization() throws JsonProcessingException {
+        //given
+        PageImpl page = new PageImpl();
+
+        TextField textField = new TextField();
+        textField.setTextValues(Collections.singletonList("Subheading 1"));
+
+        FieldSetImpl fieldSet = new FieldSetImpl();
+        fieldSet.setContent(getMap("subheading", textField));
+
+        EmbeddedField field = new EmbeddedField();
+        field.setEmbeddedValues(Collections.<FieldSet>singletonList(fieldSet));
+
+        ComponentImpl component = new ComponentImpl();
+        component.setContent(getMap("articleBody", field));
+
+        ComponentPresentationImpl presentation = new ComponentPresentationImpl();
+        presentation.setComponent(component);
+        page.setComponentPresentations(Collections.<ComponentPresentation>singletonList(presentation));
+
+        //when
+        String asString = serialize(page);
+
+        //then
+        assertInnerFields(asString);
+    }
+
+    private HashMap<String, Field> getMap(String key, org.dd4t.contentmodel.Field value) {
+        HashMap<String, org.dd4t.contentmodel.Field> map = new HashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+    private String serialize(PageImpl page) throws JsonProcessingException {
+        return JsonDataBinder.getGenericMapper().writeValueAsString(page);
+    }
+
+    private void assertInnerFields(String asString) {
+        assertTrue("Should contain articleBody in: " + asString, asString.contains("articleBody"));
+        assertTrue("Should contain subheading in : " + asString, asString.contains("subheading"));
+        assertTrue("Should contain embedded text value Subheading 1 in: " + asString, asString.contains("Subheading " +
+                "1"));
     }
 }

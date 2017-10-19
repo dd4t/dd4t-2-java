@@ -18,6 +18,7 @@ package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -91,6 +92,7 @@ public class FieldSetImpl implements FieldSet, Serializable {
      * @return a map of field objects representing the content
      */
     @Override
+    @JsonGetter
     public Map<String, Field> getContent () {
         return content;
     }

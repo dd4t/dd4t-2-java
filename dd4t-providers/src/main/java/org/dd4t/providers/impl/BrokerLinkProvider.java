@@ -96,10 +96,13 @@ public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvid
 
     private static String getLinkAsString (final String sourcePageUri, final String targetComponentUri, final String componentTemplateUri) {
         try {
-            TCMURI componentURI = new TCMURI(targetComponentUri);
+            TCMURI componentTcmUri = new TCMURI(targetComponentUri);
+            TCMURI sourcePageTcmUri = new TCMURI(sourcePageUri);
+            TCMURI excludeTemplateTcmUri = new TCMURI(componentTemplateUri);
 
-            ComponentLink componentLink = new ComponentLink(componentURI.getPublicationId());
-            Link link = componentLink.getLink(sourcePageUri, targetComponentUri, componentTemplateUri, "", "", true, false);
+            ComponentLink componentLink = new ComponentLink(componentTcmUri.getPublicationId());
+            Link link = componentLink.getLink(sourcePageTcmUri.getItemId()
+                    , componentTcmUri.getItemId(), excludeTemplateTcmUri.getItemId(), "", "", true, false);
 
             if (link.isResolved()) {
                 return link.getURL();

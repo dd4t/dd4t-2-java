@@ -19,6 +19,7 @@ package org.dd4t.contentmodel.impl;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.dd4t.contentmodel.Field;
@@ -37,6 +38,7 @@ import java.util.Map;
  * Embedded fields basically are an array of
  * ambiguous and unknown keynames, with multiple Fields in them
  */
+@JsonIgnoreProperties (value = {"content"}, allowGetters = true)
 public class FieldSetImpl implements FieldSet, Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(FieldSetImpl.class);
@@ -51,22 +53,22 @@ public class FieldSetImpl implements FieldSet, Serializable {
     private Schema schema;
 
     @Override
-    public Schema getSchema () {
+    public Schema getSchema() {
         return schema;
     }
 
     @Override
-    public void setSchema (Schema schema) {
+    public void setSchema(Schema schema) {
         this.schema = schema;
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getRawContent () {
+    public Map<String, Object> getRawContent() {
         return rawContent;
     }
 
     @JsonAnySetter
-    public void set (String fieldKey, JsonNode embeddedField) {
+    public void set(String fieldKey, JsonNode embeddedField) {
 
         try {
             // The basefield annotations will map the fields to concrete types
@@ -85,7 +87,7 @@ public class FieldSetImpl implements FieldSet, Serializable {
      * @return a map of field objects representing the content
      */
     @Override
-    public Map<String, Field> getContent () {
+    public Map<String, Field> getContent() {
         return content;
     }
 
@@ -93,7 +95,7 @@ public class FieldSetImpl implements FieldSet, Serializable {
      * Set the content
      */
     @Override
-    public void setContent (Map<String, Field> content) {
+    public void setContent(Map<String, Field> content) {
         this.content = content;
     }
 }

@@ -49,7 +49,7 @@ public class FieldSetImpl implements FieldSet, Serializable {
     private final Map<String, Object> rawContent = new HashMap<>();
     
     @ElementMap(name = "fields", keyType = String.class, valueType = Field.class, entry = "item", required = false)    
-    @JsonIgnore
+    @JsonProperty("Fields")
     private Map<String, Field> content = new HashMap<>();
 
     @Element(name = "schema", required = true)

@@ -18,7 +18,6 @@ package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -46,8 +45,6 @@ public class FieldSetImpl implements FieldSet, Serializable {
 
     private static final long serialVersionUID = -2184588044467613932L;
 
-    private final Map<String, Object> rawContent = new HashMap<>();
-    
     @ElementMap(name = "fields", keyType = String.class, valueType = Field.class, entry = "item", required = false)
     @JsonIgnore
     private Map<String, Field> fieldSet = new HashMap<>();
@@ -67,8 +64,8 @@ public class FieldSetImpl implements FieldSet, Serializable {
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getRawContent () {
-        return rawContent;
+    public Map<String, Field> getRawContent () {
+        return fieldSet;
     }
 
     @JsonAnySetter
@@ -81,8 +78,6 @@ public class FieldSetImpl implements FieldSet, Serializable {
         } catch (IOException e) {
             LOG.error("Error deserializing FieldSet.", e);
         }
-
-        rawContent.put(fieldKey, embeddedField);
     }
 
     /**
@@ -91,7 +86,6 @@ public class FieldSetImpl implements FieldSet, Serializable {
      * @return a map of field objects representing the content
      */
     @Override
-    @JsonGetter
     public Map<String, Field> getFieldSet () {
         return this.fieldSet;
     }
@@ -111,6 +105,7 @@ public class FieldSetImpl implements FieldSet, Serializable {
     }
 
     @Override
+    @JsonIgnore
     public Map<String, Field> getContent() {
         return this.fieldSet;
     }

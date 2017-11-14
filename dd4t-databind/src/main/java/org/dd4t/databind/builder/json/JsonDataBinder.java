@@ -74,7 +74,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
      * Note: this class needs to be initialized by Spring!
      */
     public JsonDataBinder () {
-        LOG.info("Creating a JsonDataBinder instance.");
+        LOG.debug("Creating a JsonDataBinder instance.");
     }
 
     @Override
@@ -172,7 +172,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
                     models.put(modelName, buildModel(source, modelClass, templateUri));
                 }
             } else {
-                LOG.warn("Could not load Model Class for key: {}", modelName);
+                LOG.debug("Could not load Model Class for key: {}", modelName);
             }
         }
         return models;

@@ -15,22 +15,22 @@ public class JMSTransportListener implements TransportListener {
     private JMSCacheMonitor monitor;
 
     @Override
-    public void onCommand (Object o) {
+    public void onCommand(Object o) {
         monitor.setMQServerStatusUp();
     }
 
     @Override
-    public void onException (IOException e) {
+    public void onException(IOException e) {
         monitor.setMQServerStatusDown();
     }
 
     @Override
-    public void transportInterupted () {
+    public void transportInterupted() {
         monitor.setMQServerStatusDown();
     }
 
     @Override
-    public void transportResumed () {
+    public void transportResumed() {
         monitor.setMQServerStatusUp();
     }
 }

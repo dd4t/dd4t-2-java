@@ -1,9 +1,8 @@
 package org.dd4t.providers;
 
-public interface ComponentPresentationResultItem<T> extends
-		ProviderResultItem<T> {
+public interface ComponentPresentationResultItem<T> extends ProviderResultItem<T> {
 
-	int getTemplateId();
-	
-	void setTemplateId(int id);
+    int getTemplateId();
+
+    void setTemplateId(int id);
 }

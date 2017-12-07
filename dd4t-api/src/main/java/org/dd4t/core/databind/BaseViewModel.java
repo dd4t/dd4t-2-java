@@ -29,13 +29,13 @@ public interface BaseViewModel {
      *
      * @return a List of all associated view names
      */
-    List<String> getViewNames ();
+    List<String> getViewNames();
 
-    boolean setRawDataOnModel ();
+    boolean setRawDataOnModel();
 
-    void setRawData (Object data);
+    void setRawData(Object data);
 
-    String getRawDataAsString ();
+    String getRawDataAsString();
 
-    Map<String, Object> getModelProperties ();
+    Map<String, Object> getModelProperties();
 }

@@ -105,8 +105,6 @@
             </dependency>
 
 
-
-
             <!-- Web 8 CIL dependencies -->
             <!--content-ambient-client-8.1.0-1218.jar-->
             <dependency>

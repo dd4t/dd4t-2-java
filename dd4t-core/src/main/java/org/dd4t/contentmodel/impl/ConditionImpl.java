@@ -16,56 +16,56 @@ public class ConditionImpl implements Condition, Serializable {
 
     private static final long serialVersionUID = 7601871582992096158L;
 
-    @JsonProperty("Name")
+    @JsonProperty ("Name")
     private String name;
 
-    @JsonProperty("Negate")
+    @JsonProperty ("Negate")
     private boolean negate;
 
-    @JsonProperty("Operator")
+    @JsonProperty ("Operator")
     private ConditionOperator operator;
 
-    @JsonProperty("Value")
+    @JsonProperty ("Value")
     private String value;
 
     @Override
-    public String getName () {
+    public String getName() {
         return name;
     }
 
     @Override
-    public void setName (final String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     @Override
-    public boolean isNegate () {
+    public boolean isNegate() {
         return negate;
     }
 
     @Override
-    public void setNegate (final boolean negate) {
+    public void setNegate(final boolean negate) {
         this.negate = negate;
     }
 
     @Override
-    public ConditionOperator getOperator () {
+    public ConditionOperator getOperator() {
         return operator;
     }
 
     @Override
-    @JsonSetter("Operator")
-    public void setOperator (final int operator) {
+    @JsonSetter ("Operator")
+    public void setOperator(final int operator) {
         this.operator = ConditionOperator.findByValue(operator);
     }
 
     @Override
-    public String getValue () {
+    public String getValue() {
         return value;
     }
 
     @Override
-    public void setValue (final String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 }

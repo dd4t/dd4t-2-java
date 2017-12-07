@@ -73,7 +73,7 @@ public class RichTextUtils {
     }
 
     protected static String doReplacement(final Element xhtmlBodyRoot) {
-        return xhtmlBodyRoot.html().replaceAll("(?ims)xlink:|xmlns(=\"http://www\\.w3\\" +
+        return xhtmlBodyRoot.html().replaceAll("(?ims)xlink:|xmlns(=\"http://www\\.w3\\" + "" +
                 ".org/1999/xhtml\"\\s*|:xlink=\"http://www\\.w3\\.org/1999/xlink\"\\s*)", "");
     }
 

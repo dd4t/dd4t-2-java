@@ -37,7 +37,7 @@ public class XmlSerializer implements Serializer {
      * @throws SerializationException
      */
     @Override
-    public <T> T deserialize (final String content, final Class<T> aClass) throws SerializationException {
+    public <T> T deserialize(final String content, final Class<T> aClass) throws SerializationException {
         return null;
     }
 
@@ -49,7 +49,7 @@ public class XmlSerializer implements Serializer {
      * @throws SerializationException
      */
     @Override
-    public String serialize (final Object item) throws SerializationException {
+    public String serialize(final Object item) throws SerializationException {
         return null;
     }
 }

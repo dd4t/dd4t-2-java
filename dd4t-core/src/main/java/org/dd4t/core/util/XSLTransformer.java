@@ -18,7 +18,11 @@ package org.dd4t.core.util;
 
 import org.apache.commons.io.IOUtils;
 
-import javax.xml.transform.*;
+import javax.xml.transform.Templates;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.CharArrayWriter;
@@ -36,7 +40,7 @@ public class XSLTransformer {
     private static final XSLTransformer INSTANCE = new XSLTransformer();
     private static final Map<String, Templates> CACHE = new ConcurrentHashMap<>();
 
-    private XSLTransformer () {
+    private XSLTransformer() {
         // point the transformerfactory towards Xalan XSLTC
         // smartFactory. This factory will generate XSLTC
         // COMPILED templates, and INTERPRETED transformers
@@ -47,11 +51,12 @@ public class XSLTransformer {
         System.setProperties(props);
     }
 
-    public static XSLTransformer getInstance () {
+    public static XSLTransformer getInstance() {
         return INSTANCE;
     }
 
-    public String transformSourceFromFilesource (String source, String resource, Map<String, Object> params) throws TransformerException {
+    public String transformSourceFromFilesource(String source, String resource, Map<String, Object> params) throws
+            TransformerException {
         // attain writer to place result in
         CharArrayWriter caw = new CharArrayWriter();
         StreamResult result = new StreamResult(caw);
@@ -73,7 +78,7 @@ public class XSLTransformer {
         return caw.toString();
     }
 
-    public String transformSourceFromFilesource (String source, String resource) throws TransformerException {
+    public String transformSourceFromFilesource(String source, String resource) throws TransformerException {
         return transformSourceFromFilesource(source, resource, new HashMap<String, Object>());
     }
 
@@ -82,7 +87,7 @@ public class XSLTransformer {
      * Function retrieves a Transformer based on given inputstream.
      * If possible, it uses a CACHE.
      */
-    private Transformer getTransformer (String resource) throws TransformerConfigurationException {
+    private Transformer getTransformer(String resource) throws TransformerConfigurationException {
         Transformer trans = null;
         Templates temp = null;
 

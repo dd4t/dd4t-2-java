@@ -16,14 +16,9 @@
 
 package org.dd4t.core.factories.impl;
 
-import java.io.IOException;
-import java.text.ParseException;
-
-import javax.annotation.Resource;
-
+import org.dd4t.caching.CacheElement;
 import org.dd4t.contentmodel.Keyword;
 import org.dd4t.contentmodel.impl.KeywordImpl;
-import org.dd4t.caching.CacheElement;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.core.factories.TaxonomyFactory;
@@ -33,6 +28,10 @@ import org.dd4t.providers.PayloadCacheProvider;
 import org.dd4t.providers.TaxonomyProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+import java.text.ParseException;
 
 /**
  * Service class that wraps around a Taxonomy provider and provides cache functionality. It also offers utility methods
@@ -49,7 +48,7 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
     @Resource
     protected TaxonomyProvider taxonomyProvider;
 
-	@Resource
+    @Resource
     protected Serializer serializer;
 
     /**
@@ -61,7 +60,7 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
      * @throws IOException if said taxonomy cannot be found or an error occurred while fetching it
      */
     @Override
-    public Keyword getTaxonomy (String taxonomyURI) throws IOException {
+    public Keyword getTaxonomy(String taxonomyURI) throws IOException {
         LOG.debug("Enter getTaxonomy with uri: {}", taxonomyURI);
 
         CacheElement<Keyword> cacheElement = cacheProvider.loadPayloadFromLocalCache(taxonomyURI);
@@ -77,14 +76,16 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
                             cacheElement.setPayload(null);
                             cacheProvider.storeInItemCache(taxonomyURI, cacheElement);
                             cacheElement.setExpired(true);
-                            throw new ItemNotFoundException(String.format("Taxonomy with uri: %s not found.", taxonomyURI));
+                            throw new ItemNotFoundException(String.format("Taxonomy with uri: %s not found.",
+                                    taxonomyURI));
                         }
 
                         taxonomy = deserialize(taxonomySource, KeywordImpl.class);
                         cacheElement.setPayload(taxonomy);
 
                         TCMURI tcmUri = new TCMURI(taxonomyURI);
-                        cacheProvider.storeInItemCache(taxonomyURI, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
+                        cacheProvider.storeInItemCache(taxonomyURI, cacheElement, tcmUri.getPublicationId(), tcmUri
+                                .getItemId());
                         cacheElement.setExpired(false);
                         LOG.debug("Added taxonomy with uri: {} to cache", taxonomyURI);
                     } catch (ItemNotFoundException | ParseException | SerializationException e) {
@@ -108,7 +109,8 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
         return taxonomy;
     }
 
-    private Keyword deserialize (final String taxonomySource, final Class<KeywordImpl> keywordClass) throws SerializationException {
+    private Keyword deserialize(final String taxonomySource, final Class<KeywordImpl> keywordClass) throws
+            SerializationException {
         return serializer.deserialize(taxonomySource, keywordClass);
     }
 
@@ -124,7 +126,7 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
      * @throws IOException if said taxonomy cannot be found or an error occurred while fetching it
      */
     @Override
-    public Keyword getTaxonomyFilterBySchema (String taxonomyURI, String schemaURI) throws IOException {
+    public Keyword getTaxonomyFilterBySchema(String taxonomyURI, String schemaURI) throws IOException {
         LOG.debug("Enter getTaxonomyFilterBySchema with uri: {} and schema: {}", taxonomyURI, schemaURI);
 
         String key = taxonomyURI + schemaURI;
@@ -148,7 +150,8 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
                         cacheElement.setPayload(taxonomy);
 
                         TCMURI tcmUri = new TCMURI(taxonomyURI);
-                        cacheProvider.storeInItemCache(key, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
+                        cacheProvider.storeInItemCache(key, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId
+                                ());
                         cacheElement.setExpired(false);
                         LOG.debug("Added taxonomy with uri: {} and schema: {} to cache", taxonomyURI, schemaURI);
                     } catch (ItemNotFoundException e) {
@@ -179,20 +182,20 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
     }
 
     @Override
-    public void setCacheProvider (PayloadCacheProvider cacheProvider) {
+    public void setCacheProvider(PayloadCacheProvider cacheProvider) {
         this.cacheProvider = cacheProvider;
     }
 
-    public void setTaxonomyProvider (TaxonomyProvider taxonomyProvider) {
+    public void setTaxonomyProvider(TaxonomyProvider taxonomyProvider) {
         this.taxonomyProvider = taxonomyProvider;
     }
-    
-    public Serializer getSerializer() {
-		return serializer;
-	}
 
-	public void setSerializer(Serializer serializer) {
-		this.serializer = serializer;
-	}
-    
+    public Serializer getSerializer() {
+        return serializer;
+    }
+
+    public void setSerializer(Serializer serializer) {
+        this.serializer = serializer;
+    }
+
 }

@@ -18,7 +18,6 @@ package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.contentmodel.Item;
 import org.simpleframework.xml.Element;
@@ -35,11 +34,11 @@ import java.util.Map;
  * @author Quirijn Slings, Raimond Kempees
  */
 public abstract class BaseItem implements Item, Serializable {
-	@Element(name = "id")
+    @Element (name = "id")
     @JsonProperty ("Id")
     private String id;
 
-	@Element(name = "title")
+    @Element (name = "title")
     @JsonProperty ("Title")
     private String title;
 
@@ -51,52 +50,52 @@ public abstract class BaseItem implements Item, Serializable {
     private Map<String, FieldSet> extensionData;
 
     @Override
-    public String getId () {
+    public String getId() {
         return id;
     }
 
     @Override
-    public void setId (String id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
-    public String getTitle () {
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public void setTitle (String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
     @Override
-    public Map<String, Object> getCustomProperties () {
+    public Map<String, Object> getCustomProperties() {
         return customProperties;
     }
 
     @Override
-    public void setCustomProperties (Map<String, Object> customProperties) {
+    public void setCustomProperties(Map<String, Object> customProperties) {
         this.customProperties = customProperties;
     }
 
     @Override
-    public void addCustomProperty (String key, Object value) {
+    public void addCustomProperty(String key, Object value) {
         customProperties.put(key, value);
     }
 
     @Override
-    public Object getCustomProperty (String key) {
+    public Object getCustomProperty(String key) {
         return customProperties.get(key);
     }
 
     @Override
-    public Map<String, FieldSet> getExtensionData () {
+    public Map<String, FieldSet> getExtensionData() {
         return this.extensionData;
     }
 
     @Override
-    public void setExtensionData (Map<String, FieldSet> extensionData) {
+    public void setExtensionData(Map<String, FieldSet> extensionData) {
         this.extensionData = extensionData;
     }
 }

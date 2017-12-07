@@ -36,12 +36,12 @@ public class EmbeddedField extends BaseField implements Field, Embedded, Seriali
     @JsonDeserialize (as = SchemaImpl.class)
     private Schema embeddedSchema;
 
-    public EmbeddedField () {
+    public EmbeddedField() {
         setFieldType(FieldType.EMBEDDED);
     }
 
     @Override
-    public List<Object> getValues () {
+    public List<Object> getValues() {
         List<Object> list = new LinkedList<>();
 
         for (FieldSet fs : getEmbeddedValues()) {
@@ -52,12 +52,12 @@ public class EmbeddedField extends BaseField implements Field, Embedded, Seriali
     }
 
     @Override
-    public Schema getEmbeddedSchema () {
+    public Schema getEmbeddedSchema() {
         return embeddedSchema;
     }
 
     @Override
-    public void setEmbeddedSchema (final Schema embeddedSchema) {
+    public void setEmbeddedSchema(final Schema embeddedSchema) {
         this.embeddedSchema = embeddedSchema;
     }
 }

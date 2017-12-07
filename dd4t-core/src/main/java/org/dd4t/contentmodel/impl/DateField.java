@@ -28,12 +28,12 @@ public class DateField extends BaseField implements Field, Serializable {
 
     private static final long serialVersionUID = -2126891073926927474L;
 
-    public DateField () {
+    public DateField() {
         setFieldType(FieldType.DATE);
     }
 
     @Override
-    public List<Object> getValues () {
+    public List<Object> getValues() {
         List<String> dateValues = getDateTimeValues();
         List<Object> l = new LinkedList<Object>();
 

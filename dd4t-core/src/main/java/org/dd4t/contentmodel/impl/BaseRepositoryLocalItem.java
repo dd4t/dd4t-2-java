@@ -39,37 +39,37 @@ import java.util.Map;
  *
  * @author bjornl
  */
-@JsonAutoDetect(getterVisibility= JsonAutoDetect.Visibility.NONE)
+@JsonAutoDetect (getterVisibility = JsonAutoDetect.Visibility.NONE)
 public abstract class BaseRepositoryLocalItem extends BaseItem implements RepositoryLocalItem {
-	@Element(name = "revisionDate", required = false)
+    @Element (name = "revisionDate", required = false)
     @JsonProperty ("RevisionDate")
     protected String revisionDateAsString;
 
-	@Element(name = "publication", required = false)
+    @Element (name = "publication", required = false)
     @JsonProperty ("Publication")
     @JsonDeserialize (as = PublicationImpl.class)
     protected Publication publication;
 
-	@Element(name = "owningPublication", required = false)
+    @Element (name = "owningPublication", required = false)
     @JsonProperty ("OwningPublication")
     @JsonDeserialize (as = PublicationImpl.class)
     protected Publication owningPublication;
 
     // TODO: move lower in the chain
-	@Element(name = "folder", required = false)	
+    @Element (name = "folder", required = false)
     @JsonProperty ("Folder")
     @JsonDeserialize (as = OrganizationalItemImpl.class)
     protected OrganizationalItem organizationalItem;
 
-	@Element(name = "lastPublishedDate", required = false)
+    @Element (name = "lastPublishedDate", required = false)
     @JsonProperty ("LastPublishedDate")
     protected String lastPublishedDateAsString;
 
-	@Element(name = "version", required = false)
+    @Element (name = "version", required = false)
     @JsonProperty ("Version")
     protected int version;
 
-	@ElementMap(name = "metadata", keyType = String.class, valueType = Field.class, entry = "item", required = false)
+    @ElementMap (name = "metadata", keyType = String.class, valueType = Field.class, entry = "item", required = false)
     @JsonProperty ("MetadataFields")
     // TODO: for XML add a separate MixIn
     @JsonDeserialize (contentAs = BaseField.class)
@@ -78,8 +78,8 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
     @JsonProperty ("Categories")
     @JsonDeserialize (contentAs = CategoryImpl.class)
     protected List<Category> categories;
-    
-	@Element(name = "schema", required = false)
+
+    @Element (name = "schema", required = false)
     @JsonProperty ("Schema")
     @JsonDeserialize (as = SchemaImpl.class)
     private Schema schema;
@@ -89,7 +89,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
      * Get the organizational item
      */
     @Override
-    public OrganizationalItem getOrganizationalItem () {
+    public OrganizationalItem getOrganizationalItem() {
         return organizationalItem;
     }
 
@@ -97,7 +97,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
      * Set the organizational item
      */
     @Override
-    public void setOrganizationalItem (OrganizationalItem organizationalItem) {
+    public void setOrganizationalItem(OrganizationalItem organizationalItem) {
         this.organizationalItem = organizationalItem;
     }
 
@@ -105,7 +105,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
      * Get the publication
      */
     @Override
-    public Publication getOwningPublication () {
+    public Publication getOwningPublication() {
         return owningPublication;
     }
 
@@ -115,7 +115,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
      * @param publication
      */
     @Override
-    public void setOwningPublication (Publication publication) {
+    public void setOwningPublication(Publication publication) {
         this.owningPublication = publication;
     }
 
@@ -123,7 +123,7 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
      * Get the publication
      */
     @Override
-    public Publication getPublication () {
+    public Publication getPublication() {
         return publication;
     }
 
@@ -133,24 +133,24 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
      * @param publication
      */
     @Override
-    public void setPublication (Publication publication) {
+    public void setPublication(Publication publication) {
         this.publication = publication;
     }
 
 
-    public DateTime getRevisionDate () {
+    public DateTime getRevisionDate() {
         if (revisionDateAsString == null || revisionDateAsString.isEmpty()) {
             return new DateTime();
         }
         return DateUtils.convertStringWithOffsetToDate(revisionDateAsString);
     }
 
-    public void setRevisionDate (DateTime date) {
+    public void setRevisionDate(DateTime date) {
         this.revisionDateAsString = DateUtils.convertDateToString(date);
     }
 
     @Override
-    public DateTime getLastPublishedDate () {
+    public DateTime getLastPublishedDate() {
         if (lastPublishedDateAsString == null || lastPublishedDateAsString.isEmpty()) {
             return new DateTime();
         }
@@ -158,46 +158,46 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
     }
 
     @Override
-    public void setLastPublishedDate (DateTime date) {
+    public void setLastPublishedDate(DateTime date) {
         this.lastPublishedDateAsString = DateUtils.convertDateToString(date);
     }
 
-    public int getVersion () {
+    public int getVersion() {
 
         return version;
     }
 
-    public void setVersion (int version) {
+    public void setVersion(int version) {
 
         this.version = version;
     }
 
-    public Map<String, Field> getMetadata () {
+    public Map<String, Field> getMetadata() {
         if (metadata == null) {
             metadata = new HashMap<>();
         }
         return metadata;
     }
 
-    public void setMetadata (Map<String, Field> metadata) {
+    public void setMetadata(Map<String, Field> metadata) {
         this.metadata = metadata;
     }
 
-    public List<Category> getCategories () {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories (List<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
     @Override
-    public Schema getSchema () {
+    public Schema getSchema() {
         return schema;
     }
 
     @Override
-    public void setSchema (Schema schema) {
+    public void setSchema(Schema schema) {
         this.schema = schema;
     }
 }

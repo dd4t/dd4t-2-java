@@ -17,8 +17,8 @@ package org.dd4t.core.factories.impl;
 
 /**
  * Backwards compatibility class
- * @author Rogier Oudshoorn
  *
+ * @author Rogier Oudshoorn
  */
 @Deprecated
 public class GenericPageFactory extends PageFactoryImpl {

@@ -74,7 +74,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
         JsonNode rawJsonData = (JsonNode) data;
 
-        LOG.info("Conversion start.");
+        LOG.debug("Conversion start.");
         this.concreteFieldImpl = databinder.getConcreteFieldImpl();
         if (model instanceof TridionViewModel) {
             LOG.debug("We have a Tridion view model. Setting additional properties");

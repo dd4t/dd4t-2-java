@@ -39,7 +39,7 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
     private PayloadCacheProvider cacheProvider;
     private BinaryProvider binaryProvider;
 
-    protected BinaryFactoryImpl() {
+    public BinaryFactoryImpl() {
         LOG.debug("Create new instance");
     }
 

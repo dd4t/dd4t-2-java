@@ -30,10 +30,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Provides access to Dynamic Component Presentations stored in the Content Delivery database. It uses CD API to retrieve
+ * Provides access to Dynamic Component Presentations stored in the Content Delivery database. It uses CD API to
+ * retrieve
  * raw DCP content from the database. Access to these objects is not cached, and as such must be cached externally.
  */
-public class BrokerComponentPresentationProvider extends AbstractComponentPresentationProvider implements ComponentPresentationProvider {
+public class BrokerComponentPresentationProvider extends AbstractComponentPresentationProvider implements
+        ComponentPresentationProvider {
 
     private static final Map<Integer, ComponentPresentationFactory> FACTORY_CACHE = new ConcurrentHashMap<>();
 
@@ -50,12 +52,14 @@ public class BrokerComponentPresentationProvider extends AbstractComponentPresen
      * @throws ItemNotFoundException if the requested DCP cannot be found
      */
     @Override
-    public String getDynamicComponentPresentation (int componentId, int publicationId) throws ItemNotFoundException, SerializationException {
+    public String getDynamicComponentPresentation(int componentId, int publicationId) throws ItemNotFoundException,
+            SerializationException {
         return getDynamicComponentPresentation(componentId, 0, publicationId);
     }
 
     /**
-     * Retrieves content of a Dynamic Component Presentation by looking up its componentId, templateId and publicationId.
+     * Retrieves content of a Dynamic Component Presentation by looking up its componentId, templateId and
+     * publicationId.
      *
      * @param componentId   int representing the Component item id
      * @param templateId    int representing the Component Template item id
@@ -64,17 +68,20 @@ public class BrokerComponentPresentationProvider extends AbstractComponentPresen
      * @throws ItemNotFoundException if the requested DCP cannot be found
      */
     @Override
-    public String getDynamicComponentPresentation (int componentId, int templateId, int publicationId) throws ItemNotFoundException, SerializationException {
+    public String getDynamicComponentPresentation(int componentId, int templateId, int publicationId) throws
+            ItemNotFoundException, SerializationException {
         return getDynamicComponentPresentationItem(componentId, templateId, publicationId).getSourceContent();
     }
-    
+
     @Override
-    public ComponentPresentationResultItem<String> getDynamicComponentPresentationItem (int componentId, int publicationId) throws ItemNotFoundException, SerializationException{
-    	return getDynamicComponentPresentationItem(componentId, 0, publicationId);    
+    public ComponentPresentationResultItem<String> getDynamicComponentPresentationItem(int componentId, int
+            publicationId) throws ItemNotFoundException, SerializationException {
+        return getDynamicComponentPresentationItem(componentId, 0, publicationId);
     }
-    
+
     @Override
-    public ComponentPresentationResultItem<String> getDynamicComponentPresentationItem (int componentId, int templateId, int publicationId) throws ItemNotFoundException, SerializationException{
+    public ComponentPresentationResultItem<String> getDynamicComponentPresentationItem(int componentId, int
+            templateId, int publicationId) throws ItemNotFoundException, SerializationException {
         ComponentPresentationFactory factory = FACTORY_CACHE.get(publicationId);
 
         if (factory == null) {
@@ -85,31 +92,30 @@ public class BrokerComponentPresentationProvider extends AbstractComponentPresen
         ComponentPresentation result;
         String resultString;
         ComponentPresentationResultItemImpl resultmodel;
-        
+
         if (templateId != 0) {
             result = factory.getComponentPresentation(componentId, templateId);
         } else {
             result = factory.getComponentPresentationWithHighestPriority(componentId);
         }
-        
-        if(result != null){        
-        	resultmodel = new ComponentPresentationResultItemImpl(result.getPublicationId(), result.getComponentId(), result.getComponentTemplateId());
-	
-	        assertQueryResultNotNull(result,componentId,templateId,publicationId);
-	        resultString = result.getContent();
-	
-	        if (!StringUtils.isEmpty(resultString)) {
-	        	resultmodel.setContentSource(decodeAndDecompressContent(resultString));
-	        }
-	        else{
-	        	resultmodel.setContentSource(resultString);
-	        }
-	    }
-        else{
-	        resultmodel = new ComponentPresentationResultItemImpl(0, 0, 0);
+
+        if (result != null) {
+            resultmodel = new ComponentPresentationResultItemImpl(result.getPublicationId(), result.getComponentId(),
+                    result.getComponentTemplateId());
+
+            assertQueryResultNotNull(result, componentId, templateId, publicationId);
+            resultString = result.getContent();
+
+            if (!StringUtils.isEmpty(resultString)) {
+                resultmodel.setContentSource(decodeAndDecompressContent(resultString));
+            } else {
+                resultmodel.setContentSource(resultString);
+            }
+        } else {
+            resultmodel = new ComponentPresentationResultItemImpl(0, 0, 0);
         }
-        
-        return resultmodel;    	
-    
+
+        return resultmodel;
+
     }
 }

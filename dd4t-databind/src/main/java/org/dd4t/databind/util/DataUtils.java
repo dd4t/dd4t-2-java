@@ -27,11 +27,11 @@ import java.util.List;
  * @author R. Kempees
  */
 public class DataUtils {
-    private DataUtils () {
+    private DataUtils() {
 
     }
 
-    public static List<String> convertToNonEmptyList (String[] items) {
+    public static List<String> convertToNonEmptyList(String[] items) {
         final List<String> list = new ArrayList<>();
 
         for (final String s : items) {

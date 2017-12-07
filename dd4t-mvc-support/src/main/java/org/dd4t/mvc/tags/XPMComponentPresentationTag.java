@@ -20,22 +20,25 @@ public class XPMComponentPresentationTag extends SimpleTagSupport {
     protected TridionViewModel model;
 
     @Override
-    public void doTag () throws JspException, IOException {
+    public void doTag() throws JspException, IOException {
         final PageContext pageContext = (PageContext) getJspContext();
-        final String templateId = (String) pageContext.getAttribute(Constants.COMPONENT_TEMPLATE_ID, PageContext.REQUEST_SCOPE);
-        final boolean isDynamic = (boolean) pageContext.getAttribute(Constants.DYNAMIC_COMPONENT_PRESENTATION, PageContext.REQUEST_SCOPE);
+        final String templateId = (String) pageContext.getAttribute(Constants.COMPONENT_TEMPLATE_ID, PageContext
+                .REQUEST_SCOPE);
+        final boolean isDynamic = (boolean) pageContext.getAttribute(Constants.DYNAMIC_COMPONENT_PRESENTATION,
+                PageContext.REQUEST_SCOPE);
 
         XPMRenderer renderer = XPMRenderer.getInstance();
 
-        final String out = renderer.componentPresentation(model.getTcmUri().toString(), model.getLastModified(), templateId, isDynamic);
+        final String out = renderer.componentPresentation(model.getTcmUri().toString(), model.getLastModified(),
+                templateId, isDynamic);
         pageContext.getOut().write(out);
     }
 
-    public TridionViewModel getModel () {
+    public TridionViewModel getModel() {
         return model;
     }
 
-    public void setModel (TridionViewModel model) {
+    public void setModel(TridionViewModel model) {
         this.model = model;
     }
 }

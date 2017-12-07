@@ -93,17 +93,17 @@
             <artifactId>dd4t-mvc-support</artifactId>
             <version>${project.version}</version>
         </dependency>
-		<dependency>
-			<groupId>org.thymeleaf</groupId>
-			<artifactId>thymeleaf-spring4</artifactId>
-			<version>3.0.2.RELEASE</version>
-		</dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring4</artifactId>
+            <version>3.0.2.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <scope>provided</scope>
         </dependency>
-		<!--
+        <!--
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -159,9 +159,9 @@
             <artifactId>joda-time</artifactId>
             <scope>provided</scope>
         </dependency>
-		-->
+        -->
         <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
 
-        
+
     </dependencies>
 </project>

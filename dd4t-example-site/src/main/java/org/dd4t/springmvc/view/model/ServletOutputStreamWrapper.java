@@ -25,52 +25,51 @@ import java.nio.charset.Charset;
 /**
  * Little wrapper class wraps around a servletOutputStream to catch what's written to it to place it
  * in the correct final content.
- * 
- * @author Rogier Oudshoorn
  *
+ * @author Rogier Oudshoorn
  */
 public class ServletOutputStreamWrapper extends ServletOutputStream {
     private static Logger logger = LoggerFactory.getLogger(ServletOutputStreamWrapper.class);
 
-	private ByteArrayOutputStream fBuffer;
+    private ByteArrayOutputStream fBuffer;
     private boolean writtenTo;
 
-    public ServletOutputStreamWrapper(){
+    public ServletOutputStreamWrapper() {
         fBuffer = new ByteArrayOutputStream();
-        writtenTo = false; 	    	
-    }	
-	
+        writtenTo = false;
+    }
+
     /**
      * Override func, catching the data written to it.
-     * 
      */
-	@Override
-	public void write(int aByte) {		
-		
-		if(aByte > 127){
-			logger.warn("Writing suspicious byte "+aByte);
-		}		
-		 
-		 fBuffer.write(aByte);
-	     
-	     if(!writtenTo) writtenTo = true;
-	}
-	
-	/**
-	 * toString() method returns whatever is written to this stream as a string.
-	 * 
-	 */
-	@Override
-	public String toString(){
-		return new String(fBuffer.toByteArray(), Charset.defaultCharset());
-	}
-	
-	/**
-	 * Function indicates if this outputstream has been written to.
-	 * 
-	 * @return
-	 */
-	public boolean isWrittenTo(){
-		return writtenTo;
-	}
+    @Override
+    public void write(int aByte) {
+
+        if (aByte > 127) {
+            logger.warn("Writing suspicious byte " + aByte);
+        }
+
+        fBuffer.write(aByte);
+
+        if (!writtenTo) {
+            writtenTo = true;
+        }
+    }
+
+    /**
+     * toString() method returns whatever is written to this stream as a string.
+     */
+    @Override
+    public String toString() {
+        return new String(fBuffer.toByteArray(), Charset.defaultCharset());
+    }
+
+    /**
+     * Function indicates if this outputstream has been written to.
+     *
+     * @return
+     */
+    public boolean isWrittenTo() {
+        return writtenTo;
+    }
 }

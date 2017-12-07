@@ -38,11 +38,11 @@ import java.text.ParseException;
 public class JsonUtils {
     private static final Logger LOG = LoggerFactory.getLogger(JsonUtils.class);
 
-    private JsonUtils () {
+    private JsonUtils() {
 
     }
 
-    public static <T extends Field> T renderComponentField (JsonNode node, Class<T> concreteClass) throws IOException {
+    public static <T extends Field> T renderComponentField(JsonNode node, Class<T> concreteClass) throws IOException {
         JsonParser parser = null;
 
         try {
@@ -55,7 +55,7 @@ public class JsonUtils {
         }
     }
 
-    public static TCMURI getTcmUriFromField (String fieldName, JsonNode node) {
+    public static TCMURI getTcmUriFromField(String fieldName, JsonNode node) {
         if (!node.has(fieldName)) {
             return null;
         }
@@ -69,20 +69,20 @@ public class JsonUtils {
         return uri;
     }
 
-    public static boolean isValidJsonNode (Object data) {
+    public static boolean isValidJsonNode(Object data) {
 
         return isNotNull(data) && isJsonNode(data);
     }
 
-    public static boolean isJsonNode (Object data) {
+    public static boolean isJsonNode(Object data) {
         return data instanceof JsonNode;
     }
 
-    public static boolean isNotNull (Object data) {
+    public static boolean isNotNull(Object data) {
         return data != null;
     }
 
-    public static DateTime getDateFromField (String fieldName, JsonNode node) {
+    public static DateTime getDateFromField(String fieldName, JsonNode node) {
         if (!node.has(fieldName)) {
             return null;
         }

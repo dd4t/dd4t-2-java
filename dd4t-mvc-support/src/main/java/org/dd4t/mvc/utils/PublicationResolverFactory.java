@@ -36,19 +36,19 @@ public class PublicationResolverFactory {
 
     private PublicationResolver publicationResolver;
 
-    private PublicationResolverFactory () {
+    private PublicationResolverFactory() {
 
     }
 
-    public static PublicationResolverFactory getInstance () {
+    public static PublicationResolverFactory getInstance() {
         return INSTANCE;
     }
 
-    public static PublicationResolver getPublicationResolver () {
+    public static PublicationResolver getPublicationResolver() {
         return INSTANCE.publicationResolver;
     }
 
-    public void setPublicationResolver (PublicationResolver publicationResolver) {
+    public void setPublicationResolver(PublicationResolver publicationResolver) {
         LOG.debug("Set PublicationResolver " + publicationResolver);
         this.publicationResolver = publicationResolver;
     }

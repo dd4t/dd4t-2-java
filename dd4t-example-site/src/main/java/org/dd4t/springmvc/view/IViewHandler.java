@@ -25,15 +25,15 @@ import java.util.Collection;
  * ViewHandler interface; any implementing class will be able to: - Provide a
  * list of views it can handle - Actually process the views into a return string
  * which should contain the HTML
- * 
- * @author rooudsho
- * 
+ *
  * @param <T>
+ * @author rooudsho
  */
 public interface IViewHandler<T> {
-    Collection<String> provideViews ();
+    Collection<String> provideViews();
 
-    String handleView (Page pagemodel, T itemmodel, String ViewID, HttpServletRequest req, HttpServletResponse res) throws Exception;
-    
-    boolean canHandleView (String view, HttpServletRequest req, HttpServletResponse res);
+    String handleView(Page pagemodel, T itemmodel, String ViewID, HttpServletRequest req, HttpServletResponse res)
+            throws Exception;
+
+    boolean canHandleView(String view, HttpServletRequest req, HttpServletResponse res);
 }

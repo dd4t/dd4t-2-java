@@ -3,9 +3,9 @@ package org.dd4t.providers.impl;
 import com.tridion.meta.BinaryMeta;
 import com.tridion.meta.PageMeta;
 import com.tridion.meta.PublicationMeta;
-import org.dd4t.contentmodel.PublicationDescriptor;
 import org.dd4t.caching.CacheElement;
 import org.dd4t.caching.CacheType;
+import org.dd4t.contentmodel.PublicationDescriptor;
 import org.dd4t.providers.BaseBrokerProvider;
 import org.dd4t.providers.PublicationProvider;
 import org.slf4j.Logger;
@@ -13,9 +13,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * AbstractPublicationProvider
- *
+ * <p>
  * This class duplicates quite a bit of code, but there's no way around it
  * in terms of dependency differences between 2013 SP 1 and Web 8
+ *
  * @author R. Kempees
  */
 public abstract class AbstractPublicationProvider extends BaseBrokerProvider implements PublicationProvider {
@@ -24,7 +25,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     protected Class publicationDescriptor;
 
     @Override
-    public String discoverPublicationUrl (int publicationId) {
+    public String discoverPublicationUrl(int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
@@ -33,7 +34,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     }
 
     @Override
-    public String discoverPublicationPath (int publicationId) {
+    public String discoverPublicationPath(int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
@@ -42,7 +43,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     }
 
     @Override
-    public String discoverImagesUrl (int publicationId) {
+    public String discoverImagesUrl(int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
@@ -51,7 +52,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     }
 
     @Override
-    public String discoverImagesPath (int publicationId) {
+    public String discoverImagesPath(int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
@@ -60,7 +61,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     }
 
     @Override
-    public String discoverPublicationTitle (int publicationId) {
+    public String discoverPublicationTitle(int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
@@ -69,7 +70,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     }
 
     @Override
-    public String discoverPublicationKey (int publicationId) {
+    public String discoverPublicationKey(int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
@@ -77,7 +78,7 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
         return publicationMeta.getKey();
     }
 
-    protected PublicationMeta getPublicationMeta (final int publicationId) {
+    protected PublicationMeta getPublicationMeta(final int publicationId) {
 
         final String key = getKey(CacheType.PUBLICATION_META, Integer.toString(publicationId));
         final CacheElement<PublicationMeta> cacheElement = cacheProvider.loadPayloadFromLocalCache(key);
@@ -123,14 +124,15 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
      * @return a Publication descriptor
      */
     @Override
-    public PublicationDescriptor getPublicationDescriptor (final int publicationId) {
+    public PublicationDescriptor getPublicationDescriptor(final int publicationId) {
         final PublicationMeta publicationMeta = getPublicationMeta(publicationId);
         if (publicationMeta == null) {
             return null;
         }
 
         try {
-            final PublicationDescriptor concretePublicationDescriptor = (PublicationDescriptor) publicationDescriptor.newInstance();
+            final PublicationDescriptor concretePublicationDescriptor = (PublicationDescriptor) publicationDescriptor
+                    .newInstance();
             concretePublicationDescriptor.setId(publicationMeta.getId());
             concretePublicationDescriptor.setKey(publicationMeta.getKey());
             concretePublicationDescriptor.setPublicationUrl(publicationMeta.getPublicationUrl());
@@ -147,17 +149,17 @@ public abstract class AbstractPublicationProvider extends BaseBrokerProvider imp
     }
 
 
-    public void setPublicationDescriptor (final Class publicationDescriptor) {
+    public void setPublicationDescriptor(final Class publicationDescriptor) {
         this.publicationDescriptor = publicationDescriptor;
     }
 
-    public Class getPublicationDescriptor () {
+    public Class getPublicationDescriptor() {
         return publicationDescriptor;
     }
 
-    protected abstract PageMeta loadPageMetaByConcreteFactory (final String url);
+    protected abstract PageMeta loadPageMetaByConcreteFactory(final String url);
 
-    protected abstract PublicationMeta loadPublicationMetaByConcreteFactory (final int publicationId);
+    protected abstract PublicationMeta loadPublicationMetaByConcreteFactory(final int publicationId);
 
     protected abstract BinaryMeta loadBinaryMetaByConcreteFactory(final String url);
 }

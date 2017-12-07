@@ -25,21 +25,22 @@ public abstract class BaseDD4TController extends AbstractController {
     private static Logger logger = LoggerFactory.getLogger(BaseDD4TController.class);
     protected String defaultRegion = "default";
     protected boolean defaultIsStatic = false;
-    
+
     public String getViewFromTemplate(HasMetadata item) {
-    	if(logger.isDebugEnabled()){
-    		logger.debug("Found metadata: " + item.getMetadata());
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("Found metadata: " + item.getMetadata());
+        }
         return (String) item.getMetadata().get("view").getValues().get(0);
     }
 
     public String getRegionFromTemplate(HasMetadata item) {
-    	if(logger.isDebugEnabled()){
-    		logger.debug("Found metadata: " + item.getMetadata());
-    	}
+        if (logger.isDebugEnabled()) {
+            logger.debug("Found metadata: " + item.getMetadata());
+        }
         Field regionField = item.getMetadata().get("region");
-        if (regionField == null || regionField.getValues().size()==0)
-        		return this.defaultRegion;
+        if (regionField == null || regionField.getValues().size() == 0) {
+            return this.defaultRegion;
+        }
         return (String) regionField.getValues().get(0);
     }
 }

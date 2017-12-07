@@ -31,10 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class DynamicPageContentController extends BaseDD4TController implements
-        ContentController {
-    private static Logger logger = LoggerFactory
-            .getLogger(DynamicPageContentController.class);
+public class DynamicPageContentController extends BaseDD4TController implements ContentController {
+    private static Logger logger = LoggerFactory.getLogger(DynamicPageContentController.class);
 
     @Resource
     private IViewHandler<ComponentPresentation> componentViewManager;
@@ -44,8 +42,7 @@ public class DynamicPageContentController extends BaseDD4TController implements
         return componentViewManager;
     }
 
-    public void setComponentViewManager(
-            IViewHandler<ComponentPresentation> componentViewManager) {
+    public void setComponentViewManager(IViewHandler<ComponentPresentation> componentViewManager) {
 
         this.componentViewManager = componentViewManager;
     }
@@ -54,71 +51,69 @@ public class DynamicPageContentController extends BaseDD4TController implements
      * Function builds a ComponentViews model based on given pagemodel
      */
     @Override
-    public ComponentViews buildComponentViews(Page model,
-                                              HttpServletRequest req, HttpServletResponse res) throws Exception {
+    public ComponentViews buildComponentViews(Page model, HttpServletRequest req, HttpServletResponse res) throws
+            Exception {
 
         ComponentViews viewmodel = new ComponentViews();
 
         int order = 1;
         for (ComponentPresentation cp : model.getComponentPresentations()) {
-            if (logger.isDebugEnabled()){
+            if (logger.isDebugEnabled()) {
                 logger.debug("found cp with ct " + cp.getComponentTemplate().getId());
             }
-            logger.debug("DynamicPageContentController: componentPresentation " +cp.toString());      //CPL
+            logger.debug("DynamicPageContentController: componentPresentation " + cp.toString());      //CPL
             String region = getRegionFromTemplate(cp.getComponentTemplate());
             if (!viewmodel.getRegions().containsKey(region)) {
                 viewmodel.getRegions().put(region, new ViewRegion());
             }
-            
-            if (logger.isDebugEnabled()){
+
+            if (logger.isDebugEnabled()) {
                 logger.debug("using region " + region);
             }
-            
+
             // attempt to load the view result from the rendered content
             String viewresult = cp.getRenderedContent();
 
             // if successfull, no need to dispatch
-            if (viewresult != null && viewresult.length()>0) {
-            	if (logger.isDebugEnabled()){
-            	    logger.debug("found cp with (pre)rendered content");
-            	}
-            } 
+            if (viewresult != null && viewresult.length() > 0) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("found cp with (pre)rendered content");
+                }
+            }
             // otherwise, we'll need to call the viewManager
             else {
-                String view = getViewFromTemplate(cp.getComponentTemplate());	
-                if (logger.isDebugEnabled()){
+                String view = getViewFromTemplate(cp.getComponentTemplate());
+                if (logger.isDebugEnabled()) {
                     logger.debug("using view " + view);
                 }
-                
-                viewresult = buildComponentView(model, req, res, order, cp, region, view);
-            }            
 
-            // TODO - Would really like to build the regions from the rendered components, but is this in conflict with the origin source?
+                viewresult = buildComponentView(model, req, res, order, cp, region, view);
+            }
+
+            // TODO - Would really like to build the regions from the rendered components, but is this in conflict
+            // with the origin source?
             viewmodel.addRenderedComponent(region, new RenderedComponent(viewresult, region, cp, order));
-            viewmodel.getRegions().get(region).getComponentViews()
-                    .add(viewresult);
-            
+            viewmodel.getRegions().get(region).getComponentViews().add(viewresult);
+
             order++;
         }
 
         return viewmodel;
     }
 
-	protected String buildComponentView(Page model, HttpServletRequest req, HttpServletResponse res, int order, ComponentPresentation cp, String region, String view) throws Exception {
-		// add the site edit String to the generated HTML
-		String se = SiteEditService.generateSiteEditComponentTag(cp, order, region, req);
-          
-		return "<div>" + se
-				+ componentViewManager.handleView(model, cp, view, req, res)
-				+ "</div>";
-	}
+    protected String buildComponentView(Page model, HttpServletRequest req, HttpServletResponse res, int order,
+                                        ComponentPresentation cp, String region, String view) throws Exception {
+        // add the site edit String to the generated HTML
+        String se = SiteEditService.generateSiteEditComponentTag(cp, order, region, req);
+
+        return "<div>" + se + componentViewManager.handleView(model, cp, view, req, res) + "</div>";
+    }
 
 
-    
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws
+            Exception {
 
-    	return null;
+        return null;
     }
 }

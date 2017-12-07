@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
  * Provider implementation to wrap around the ComponentLinker.
  * TODO: Dynamic Component Links! Nice!
  * TODO: Build link caching
+ *
  * @author rooudsho, Mihai Cadariu, rai
  */
 public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvider {
@@ -47,7 +48,7 @@ public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvid
      * @return String representing the URL of the link; or null, if the Component is not linked to
      */
     @Override
-    public String resolveComponent (String targetComponentURI) {
+    public String resolveComponent(String targetComponentURI) {
         try {
             TCMURI componentURI = new TCMURI(targetComponentURI);
             ComponentLink componentLink = new ComponentLinkImpl(componentURI.getPublicationId());
@@ -71,7 +72,7 @@ public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvid
      * @return String representing the URL of the link; or null, if the Component is not linked to
      */
     @Override
-    public String resolveComponentFromPage (String targetComponentURI, String sourcePageURI) {
+    public String resolveComponentFromPage(String targetComponentURI, String sourcePageURI) {
         String link = getLinkAsString(sourcePageURI, targetComponentURI, Constants.TCM_ZERO_URI);
         if (StringUtils.isNotEmpty(link)) {
             return link;
@@ -87,7 +88,8 @@ public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvid
      * @throws SerializationException
      */
     @Override
-    public String resolveComponent (final String targetComponentUri, final String excludeComponentTemplateUri) throws ItemNotFoundException, SerializationException {
+    public String resolveComponent(final String targetComponentUri, final String excludeComponentTemplateUri) throws
+            ItemNotFoundException, SerializationException {
         String link = getLinkAsString(Constants.TCM_ZERO_URI, targetComponentUri, excludeComponentTemplateUri);
         if (StringUtils.isNotEmpty(link)) {
             return link;
@@ -95,15 +97,16 @@ public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvid
         return null;
     }
 
-    private static String getLinkAsString (final String sourcePageUri, final String targetComponentUri, final String componentTemplateUri) {
+    private static String getLinkAsString(final String sourcePageUri, final String targetComponentUri, final String
+            componentTemplateUri) {
         try {
             TCMURI componentTcmUri = new TCMURI(targetComponentUri);
             TCMURI sourcePageTcmUri = new TCMURI(sourcePageUri);
             TCMURI excludeTemplateTcmUri = new TCMURI(componentTemplateUri);
-            
+
             ComponentLink componentLink = new ComponentLinkImpl(componentTcmUri.getPublicationId());
-            Link link = componentLink.getLink(sourcePageTcmUri.getItemId()
-                    , componentTcmUri.getItemId(), excludeTemplateTcmUri.getItemId(), "", "", true, false);
+            Link link = componentLink.getLink(sourcePageTcmUri.getItemId(), componentTcmUri.getItemId(),
+                    excludeTemplateTcmUri.getItemId(), "", "", true, false);
 
             if (link.isResolved()) {
                 return link.getURL();

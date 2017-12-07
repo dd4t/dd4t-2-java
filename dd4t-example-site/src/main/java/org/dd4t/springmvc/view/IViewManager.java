@@ -19,10 +19,9 @@ package org.dd4t.springmvc.view;
 /**
  * Viewmanager interface is basically the same as a IViewHandler; interface is
  * added for future extensibility only.
- * 
- * @author rooudsho
- * 
+ *
  * @param <T>
+ * @author rooudsho
  */
 public interface IViewManager<T> extends IViewHandler<T> {
 

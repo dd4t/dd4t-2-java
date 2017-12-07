@@ -34,11 +34,11 @@ public class PropertiesServiceImpl extends PropertiesServiceBase {
 
     private static final Logger LOG = LoggerFactory.getLogger(PropertiesServiceImpl.class);
 
-    public PropertiesServiceImpl () {
+    public PropertiesServiceImpl() {
     }
 
     @Override
-    public void load (String propertiesFile) {
+    public void load(String propertiesFile) {
         LOG.debug("Loading file " + propertiesFile);
         InputStream input = null;
         try {
@@ -57,7 +57,7 @@ public class PropertiesServiceImpl extends PropertiesServiceBase {
     }
 
     @Required
-    public void setLocation (String location) {
+    public void setLocation(String location) {
         LOG.debug("Load Properties from: {}", location);
         load(location);
     }

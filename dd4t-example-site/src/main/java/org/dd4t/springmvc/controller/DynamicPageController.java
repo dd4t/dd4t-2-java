@@ -30,44 +30,44 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DynamicPageController extends BaseDD4TController {
     private static Logger logger = LoggerFactory.getLogger(DynamicPageController.class);
-    
+
     private PageFactory genericPageFactory;
 
     //private SimplePageFactory simplePageFactory;
-    
+
     private ContentController contentController;
-    
+
     private IViewHandler<Page> pageViewHandler;
-    
+
     public IViewHandler<Page> getPageViewHandler() {
-		return pageViewHandler;
-	}
+        return pageViewHandler;
+    }
 
-	public void setPageViewHandler(IViewHandler<Page> pageViewHandler) {
-		this.pageViewHandler = pageViewHandler;
-	}
+    public void setPageViewHandler(IViewHandler<Page> pageViewHandler) {
+        this.pageViewHandler = pageViewHandler;
+    }
 
-	private int publication;
-    
+    private int publication;
+
     private String subcontext;
 
     public String getSubcontext() {
-    
+
         return subcontext;
     }
 
     public void setSubcontext(String subcontext) {
-    
+
         this.subcontext = subcontext;
     }
 
     public int getPublication() {
-    
+
         return publication;
     }
 
     public void setPublication(int publication) {
-    
+
         this.publication = publication;
     }
 
@@ -91,7 +91,7 @@ public class DynamicPageController extends BaseDD4TController {
     
         this.simplePageFactory = simplePageFactory;
     }*/
-    
+
     public PageFactory getGenericPageFactory() {
 
         return genericPageFactory;
@@ -103,41 +103,45 @@ public class DynamicPageController extends BaseDD4TController {
     }
 
     @Override
-    protected ModelAndView handleRequestInternal(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+    protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws
+            Exception {
 
-        long start = System.currentTimeMillis();     
-        
+        long start = System.currentTimeMillis();
+
         String URL = request.getRequestURI();
-        
-        if(logger.isDebugEnabled())
+
+        if (logger.isDebugEnabled()) {
             logger.debug("Received request in MAV " + URL);
+        }
 
         URL = URL.replaceFirst(request.getContextPath(), "");
 
-        if(logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("Request shortened to " + URL);
+        }
 
         Page pageModel = genericPageFactory.findPageByUrl(URL, publication);
-      //          new BasicRequestContext(request));
-      
-        request.setAttribute(Constants.PAGE_MODEL_KEY, pageModel);      
+        //          new BasicRequestContext(request));
+
+        request.setAttribute(Constants.PAGE_MODEL_KEY, pageModel);
 
         long pagemodeldone = System.currentTimeMillis();
-        
-        if(logger.isDebugEnabled())
-            logger.debug("Built pageModel for page: " + pageModel.getTitle() +" in "+(pagemodeldone-start)+" milliseconds.");
 
-        ComponentViews contentModel =
-                contentController.buildComponentViews(pageModel, request,
-                        response);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Built pageModel for page: " + pageModel.getTitle() + " in " + (pagemodeldone - start) + " "
+                    + "milliseconds.");
+        }
+
+        ComponentViews contentModel = contentController.buildComponentViews(pageModel, request, response);
 
         long contentmodeldone = System.currentTimeMillis();
-        
-        request.setAttribute(Constants.CONTENT_MODEL_KEY, contentModel);        
-        
-        if(logger.isDebugEnabled())
-            logger.debug("Built contentModel: " + contentModel+" in "+(contentmodeldone-pagemodeldone)+" milliseconds.");
+
+        request.setAttribute(Constants.CONTENT_MODEL_KEY, contentModel);
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("Built contentModel: " + contentModel + " in " + (contentmodeldone - pagemodeldone) + " " +
+                    "milliseconds.");
+        }
 
         /*
         Page navigationModel = getNavigationModel(pageModel);
@@ -145,26 +149,27 @@ public class DynamicPageController extends BaseDD4TController {
         long navmodeldone = System.currentTimeMillis();
         
         if(LOGGER.isDebugEnabled()){
-            LOGGER.debug("Built navigationmodel: " + navigationModel+" in "+(navmodeldone-contentmodeldone)+" milliseconds.");
+            LOGGER.debug("Built navigationmodel: " + navigationModel+" in "+(navmodeldone-contentmodeldone)+"
+            milliseconds.");
         }  
         request.setAttribute(Constants.NAVIGATION_MODEL_KEY, navigationModel);  
           */
-          
+
         // attain view
         String view = getViewFromTemplate(pageModel.getPageTemplate());
-        
+
         // render page through the viewhandler
         String rendered_page = pageViewHandler.handleView(pageModel, pageModel, view, request, response);
-        
+
         // and write to the response (!)
         response.getWriter().write(rendered_page);
-        
-        if(logger.isInfoEnabled()){
-            long end = System.currentTimeMillis();        
+
+        if (logger.isInfoEnabled()) {
+            long end = System.currentTimeMillis();
             logger.info("Built pageresponse in " + (end - start) + " milliseconds.");
         }
-        
-        return null;        
+
+        return null;
     }    
     
     /*

@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<xpm:init page="${pageModel}" />
+<xpm:init page="${pageModel}"/>
 <h1>Hello world!</h1>
 <h2>The Title of the page is: ${pageModel.title}</h2>
 

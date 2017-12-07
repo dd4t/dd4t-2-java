@@ -133,18 +133,12 @@ public class AbstractBinaryController {
             }
 
             fillResponse(request, response, binary, path, resizeToWidth);
+            // Close when used only.
+            IOUtils.closeQuietly(response.getOutputStream());
         } catch (IOException | FactoryException e) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             LOG.error(e.getMessage(), e);
             throw new ItemNotFoundException(e);
-        } finally {
-            try {
-                if (response != null && response.getOutputStream() != null) {
-                    response.getOutputStream().close();
-                }
-            } catch (IOException ioe) {
-                LOG.error("Failed to close servlet output stream", ioe);
-            }
         }
     }
 

@@ -43,8 +43,10 @@ public class SpringComponentPresentationController extends AbstractComponentPres
      * @return the view name to render
      */
     @Override
-    @RequestMapping (value = {"/{componentViewName}/{componentId}.dcp"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-    public String showComponentPresentation (@PathVariable final String componentViewName, @PathVariable final int componentId, final HttpServletRequest request) {
+    @RequestMapping (value = {"/{componentViewName}/{componentId}.dcp"}, method = {RequestMethod.GET, RequestMethod
+            .HEAD})
+    public String showComponentPresentation(@PathVariable final String componentViewName, @PathVariable final int
+            componentId, final HttpServletRequest request) {
         return super.showComponentPresentation(componentViewName, componentId, request);
     }
 
@@ -59,8 +61,10 @@ public class SpringComponentPresentationController extends AbstractComponentPres
      * @return the view name to render
      */
     @Override
-    @RequestMapping (value = {"/{componentViewPrefix}/{componentViewName}/{componentId}.dcp"}, method = {RequestMethod.GET, RequestMethod.HEAD})
-    public String showComponentPresentation (@PathVariable final String componentViewPrefix, @PathVariable final String componentViewName, @PathVariable final int componentId, final HttpServletRequest request) {
+    @RequestMapping (value = {"/{componentViewPrefix}/{componentViewName}/{componentId}.dcp"}, method =
+            {RequestMethod.GET, RequestMethod.HEAD})
+    public String showComponentPresentation(@PathVariable final String componentViewPrefix, @PathVariable final
+    String componentViewName, @PathVariable final int componentId, final HttpServletRequest request) {
         return super.showComponentPresentation(componentViewPrefix, componentViewName, componentId, request);
     }
 
@@ -68,7 +72,7 @@ public class SpringComponentPresentationController extends AbstractComponentPres
      * @return the component view path
      */
     @Override
-    public String getComponentViewPath () {
+    public String getComponentViewPath() {
         return super.getComponentViewPath();
     }
 
@@ -76,7 +80,7 @@ public class SpringComponentPresentationController extends AbstractComponentPres
      * @param componentViewPath , sets the component view path relative to the view resolver path
      */
     @Override
-    public void setComponentViewPath (final String componentViewPath) {
+    public void setComponentViewPath(final String componentViewPath) {
         super.setComponentViewPath(componentViewPath);
     }
 }

@@ -22,9 +22,8 @@ import org.dd4t.springmvc.view.BaseViewManager;
 /**
  * Class wires different Page ViewHandlers together with a simple polling
  * implementation
- * 
+ *
  * @author rooudsho
- * 
  */
 public class SimpleComponentViewManager extends BaseViewManager<Component> {
 

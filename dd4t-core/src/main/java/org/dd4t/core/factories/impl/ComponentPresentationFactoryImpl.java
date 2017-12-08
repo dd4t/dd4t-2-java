@@ -47,28 +47,28 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
 
     /**
      * Method finds the relevant databinder for given source by calling canDeserialize() on them.
-     * 
+     *
      * @param source
      * @return
      */
-    protected DataBinder selectDataBinder(final String source) throws FactoryException{
-    	if(dataBinders == null || dataBinders.size() == 0 ){
-    		return null;
-    	}
-    	
-    	if(dataBinders.size() == 1){
-    		return dataBinders.get(0);
-    	}
-    	
-    	for(DataBinder binder : dataBinders){
-    		if(binder.canDeserialize(source)){
-    			return binder;
-    		}
-    	}
-    	
-    	return null;
+    protected DataBinder selectDataBinder(final String source) throws FactoryException {
+        if (dataBinders == null || dataBinders.size() == 0) {
+            return null;
+        }
+
+        if (dataBinders.size() == 1) {
+            return dataBinders.get(0);
+        }
+
+        for (DataBinder binder : dataBinders) {
+            if (binder.canDeserialize(source)) {
+                return binder;
+            }
+        }
+
+        return null;
     }
-    
+
     /**
      * Get the component by the component uri and template uri.
      * but NO CT rendering (so from the Dynamic Template Tab) should take place,
@@ -76,7 +76,8 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
      * <p/>
      * Null values should be handled in the controller
      * <p/>
-     * The Content Service should use ComponentPresentationFactory.getComponentPresentation(int publicationId, int componentId, int templateId)
+     * The Content Service should use ComponentPresentationFactory.getComponentPresentation(int publicationId, int
+     * componentId, int templateId)
      * OR
      * ComponentPresentationAssembler.getContent(int componentId, int componentTemplateId)
      * if we want to use REL linking. :)
@@ -84,11 +85,14 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
      * Rendered output is cached in output cache
      *
      * @return the component
-     * @throws org.dd4t.core.exceptions.FactoryException if no item found NotAuthorizedException if the user is not authorized to get the component
+     * @throws org.dd4t.core.exceptions.FactoryException if no item found NotAuthorizedException if the user is not
+     * authorized to get the component
      */
     @Override
-    public ComponentPresentation getComponentPresentation (String componentURI, String templateURI, RequestContext context) throws FactoryException {
-        LOG.debug("Enter getComponentPresentation with componentURI: {} and templateURI: {}", componentURI, templateURI);
+    public ComponentPresentation getComponentPresentation(String componentURI, String templateURI, RequestContext
+            context) throws FactoryException {
+        LOG.debug("Enter getComponentPresentation with componentURI: {} and templateURI: {}", componentURI,
+                templateURI);
 
         int templateId = 0;
         final TCMURI componentTcmUri;
@@ -98,13 +102,13 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
             componentTcmUri = new TCMURI(componentURI);
         } catch (ParseException e) {
             throw new ItemNotFoundException(e);
-        }        
-        
+        }
+
         // if we have a valid uri use it, otherwise the 0 default will be handled by provider
         if (!StringUtils.isEmpty(templateURI)) {
             try {
                 templateTcmUri = new TCMURI(templateURI);
-                
+
                 templateId = templateTcmUri.getItemId();
 
             } catch (ParseException e) {
@@ -126,22 +130,27 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
             synchronized (cacheElement) {
                 if (cacheElement.isExpired()) {
 
-                	ComponentPresentationResultItem<String> result = componentPresentationProvider.getDynamicComponentPresentationItem(componentId, templateId, publicationId);
+                    ComponentPresentationResultItem<String> result = componentPresentationProvider
+                            .getDynamicComponentPresentationItem(componentId, templateId, publicationId);
                     String rawComponentPresentation = result.getSourceContent();
-                    //rawComponentPresentation = componentPresentationProvider.getDynamicComponentPresentation(componentId, templateId, publicationId);
+                    //rawComponentPresentation = componentPresentationProvider.getDynamicComponentPresentation
+                    // (componentId, templateId, publicationId);
 
                     if (rawComponentPresentation == null) {
                         cacheElement.setPayload(null);
                         cacheElement.setNull(true);
-                        cacheProvider.storeInItemCache(key, cacheElement);                        
-                        throw new ItemNotFoundException(String.format("Could not find DCP with componentURI: %s and templateURI: %s", componentURI, templateURI));
+                        cacheProvider.storeInItemCache(key, cacheElement);
+                        throw new ItemNotFoundException(String.format("Could not find DCP with componentURI: %s and " +
+                                "templateURI: %s", componentURI, templateURI));
                     }
 
                     // Building STMs here.
-                    componentPresentation = selectDataBinder(rawComponentPresentation).buildComponentPresentation(rawComponentPresentation, ComponentPresentation.class);
-                    
+                    componentPresentation = selectDataBinder(rawComponentPresentation).buildComponentPresentation
+                            (rawComponentPresentation, ComponentPresentation.class);
+
                     // necessary for backwards compatibility to dd4t-1 (no way to get template URI otherwise)
-                    componentPresentation.getComponentTemplate().setId(new TCMURI(result.getPublicationId(), result.getTemplateId(), 32).toString());                    
+                    componentPresentation.getComponentTemplate().setId(new TCMURI(result.getPublicationId(), result
+                            .getTemplateId(), 32).toString());
 
                     LOG.debug("Running pre caching processors");
                     // TODO: support full CPs?
@@ -152,12 +161,14 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
                     LOG.debug("Added component with uri: {} and template: {} to cache", componentURI, templateURI);
 
                 } else {
-                    LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", componentURI, templateURI);
+                    LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", componentURI,
+                            templateURI);
                     componentPresentation = cacheElement.getPayload();
                 }
             }
         } else {
-            LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", componentURI, templateURI);
+            LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", componentURI,
+                    templateURI);
             componentPresentation = cacheElement.getPayload();
         }
 
@@ -168,50 +179,48 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
             } catch (ProcessorException e) {
                 LOG.error(e.getLocalizedMessage(), e);
             }
-        }
-        else{
-        	throw new ItemNotFoundException("Found nullreference in DCP cache. Try again later.");
+        } else {
+            throw new ItemNotFoundException("Found nullreference in DCP cache. Try again later.");
         }
 
         LOG.debug("Exit getComponentPresentation");
         return componentPresentation;
     }
 
-    private String getKey (int publicationId, int componentId, int templateId) {
+    private String getKey(int publicationId, int componentId, int templateId) {
         return String.format("Component-%d-%d-%d", publicationId, componentId, templateId);
     }
 
-    public ComponentPresentationProvider getComponentPresentationProvider () {
+    public ComponentPresentationProvider getComponentPresentationProvider() {
         return componentPresentationProvider;
     }
 
-    public void setComponentPresentationProvider (ComponentPresentationProvider componentPresentationProvider) {
+    public void setComponentPresentationProvider(ComponentPresentationProvider componentPresentationProvider) {
         this.componentPresentationProvider = componentPresentationProvider;
-    }    
+    }
 
     public List<DataBinder> getDataBinders() {
-		return dataBinders;
-	}
+        return dataBinders;
+    }
 
-	public void setDataBinders(List<DataBinder> dataBinder) {
-		this.dataBinders = dataBinder;
-	}
+    public void setDataBinders(List<DataBinder> dataBinder) {
+        this.dataBinders = dataBinder;
+    }
 
-	@Override
-	public ComponentPresentation getComponentPresentation(String componentURI)
-			throws FactoryException {
-		return getComponentPresentation(componentURI, null, null);
-	}
+    @Override
+    public ComponentPresentation getComponentPresentation(String componentURI) throws FactoryException {
+        return getComponentPresentation(componentURI, null, null);
+    }
 
-	@Override
-	public ComponentPresentation getComponentPresentation(String componentURI,
-			String viewOrTemplateURI) throws FactoryException {
-		return getComponentPresentation(componentURI, viewOrTemplateURI, null);
-	}
+    @Override
+    public ComponentPresentation getComponentPresentation(String componentURI, String viewOrTemplateURI) throws
+            FactoryException {
+        return getComponentPresentation(componentURI, viewOrTemplateURI, null);
+    }
 
-	@Override
-	public ComponentPresentation getComponentPresentation(String componentURI,
-			RequestContext context) throws FactoryException {
-		return getComponentPresentation(componentURI, null, context);
-	}	
+    @Override
+    public ComponentPresentation getComponentPresentation(String componentURI, RequestContext context) throws
+            FactoryException {
+        return getComponentPresentation(componentURI, null, context);
+    }
 }

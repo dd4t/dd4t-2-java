@@ -19,33 +19,33 @@ public class Event extends ViewModelBase {
     private String title;
 
 
-    @ViewModelProperty(entityFieldName = "EventStart",isMetadata = true)
+    @ViewModelProperty (entityFieldName = "EventStart", isMetadata = true)
     private DateTime eventStart;
 
-    @ViewModelProperty(entityFieldName = "Color",isMetadata = true)
+    @ViewModelProperty (entityFieldName = "Color", isMetadata = true)
     private List<Keyword> color;
 
-    public String getTitle () {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle (final String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
-    public DateTime getEventStart () {
+    public DateTime getEventStart() {
         return eventStart;
     }
 
-    public void setEventStart (final DateTime eventStart) {
+    public void setEventStart(final DateTime eventStart) {
         this.eventStart = eventStart;
     }
 
-    public List<Keyword> getColor () {
+    public List<Keyword> getColor() {
         return color;
     }
 
-    public void setColor (final List<Keyword> color) {
+    public void setColor(final List<Keyword> color) {
         this.color = color;
     }
 }

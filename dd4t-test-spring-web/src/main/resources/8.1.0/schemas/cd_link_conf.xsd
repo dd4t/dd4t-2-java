@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
     <xsd:element name="Configuration" id="cd_link_confN10006">
         <xsd:annotation>
             <xsd:documentation>
@@ -31,7 +32,8 @@
                 <xsd:element name="Publications" id="cd_link_confN10041">
                     <xsd:annotation>
                         <xsd:documentation>
-                            <p>Specifies default and publication-specific locations for metadata, binaries and Pages.</p>
+                            <p>Specifies default and publication-specific locations for metadata, binaries and Pages.
+                            </p>
                         </xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
@@ -41,7 +43,9 @@
                         <xsd:attribute name="OverrideDiscoveryService" type="xsd:boolean" use="optional" default="true">
                             <xsd:annotation>
                                 <xsd:documentation>
-                                    <p>Specifies whether OData discovery endpoint configuration should be overridden by cd_link_conf.xml configuration.</p>
+                                    <p>Specifies whether OData discovery endpoint configuration should be overridden by
+                                        cd_link_conf.xml configuration.
+                                    </p>
                                 </xsd:documentation>
                             </xsd:annotation>
                         </xsd:attribute>
@@ -50,7 +54,9 @@
                 <xsd:element name="License" minOccurs="0" id="cd_link_confN10059">
                     <xsd:annotation>
                         <xsd:documentation>
-                            <p>Specifies the location of the Content Broker license file. Without a license file, Content Broker stores content on the local file system only.</p>
+                            <p>Specifies the location of the Content Broker license file. Without a license file,
+                                Content Broker stores content on the local file system only.
+                            </p>
                         </xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
@@ -67,7 +73,9 @@
             <xsd:attribute name="Version" type="xsd:decimal" use="required">
                 <xsd:annotation>
                     <xsd:documentation>
-                        <p>The version of this Linking configuration file. This must be set to your Content Delivery version (without specifying a service pack), e.g. "5.4", "7.0".</p>
+                        <p>The version of this Linking configuration file. This must be set to your Content Delivery
+                            version (without specifying a service pack), e.g. "5.4", "7.0".
+                        </p>
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
@@ -119,7 +127,9 @@
                         <xsd:attribute name="Path" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>
-                                    <p>The path of the virtual directory of your Web site on the host you are specifying.</p>
+                                    <p>The path of the virtual directory of your Web site on the host you are
+                                        specifying.
+                                    </p>
                                 </xsd:documentation>
                             </xsd:annotation>
                         </xsd:attribute>
@@ -135,21 +145,29 @@
                         <xsd:attribute name="ComponentAnchors" type="xsd:boolean" use="optional" default="true">
                             <xsd:annotation>
                                 <xsd:documentation>
-                                    <p>Indicates if anchors should be added to Component links so that the browser jumps to the position of the targeted Component Presentation. The value can be either 'true' or 'false'.</p>
+                                    <p>Indicates if anchors should be added to Component links so that the browser jumps
+                                        to the position of the targeted Component Presentation. The value can be either
+                                        'true' or 'false'.
+                                    </p>
                                 </xsd:documentation>
                             </xsd:annotation>
                         </xsd:attribute>
                         <xsd:attribute name="AddComponentLinkInfo" type="xsd:boolean" use="optional" default="false">
                             <xsd:annotation>
                                 <xsd:documentation>
-                                    <p>Indicates if additional information should be added to the QueryString of a Component Link URL. The value can be either 'true' or 'false'. If this value is 'true', then a string that contains the Component ID and the Page ID is added as CGI key/value pairs in the following form:</p>
+                                    <p>Indicates if additional information should be added to the QueryString of a
+                                        Component Link URL. The value can be either 'true' or 'false'. If this value is
+                                        'true', then a string that contains the Component ID and the Page ID is added as
+                                        CGI key/value pairs in the following form:
+                                    </p>
                                     <p>
                                         <code>ComponentId=x&amp;SourcePageId=y</code>
                                     </p>
                                     <p>
                                         <strong>Note:</strong>
                                         If you are using Profiling &amp; Personalization, set this value to
-                                        <code>true</code>, because Profiling &amp; Personalization uses this information for Component Link Tracking.
+                                        <code>true</code>, because Profiling &amp; Personalization uses this information
+                                        for Component Link Tracking.
                                     </p>
                                 </xsd:documentation>
                             </xsd:annotation>

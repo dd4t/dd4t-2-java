@@ -108,8 +108,8 @@
         <appender-ref ref="stdout"/>
     </logger>
     <logger name="org.apache.activemq" level="TRACE" additivity="false">
-        <appender-ref ref="stdout" />
-        <appender-ref ref="rollingJMSLog" />
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="rollingJMSLog"/>
     </logger>
     <root level="${log.level}">
         <appender-ref ref="rollingCoreLog"/>

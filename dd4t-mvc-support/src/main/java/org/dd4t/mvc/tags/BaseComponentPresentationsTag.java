@@ -48,7 +48,7 @@ public abstract class BaseComponentPresentationsTag extends SimpleTagSupport {
     private Integer end;
     private String region;
 
-    public int getAnchorCount (HttpServletRequest request) {
+    public int getAnchorCount(HttpServletRequest request) {
         int counter = 0;
 
         if (null != request.getAttribute("anchorCounter")) {
@@ -58,15 +58,16 @@ public abstract class BaseComponentPresentationsTag extends SimpleTagSupport {
         return counter;
     }
 
-    protected abstract List<ComponentPresentation> getComponentPresentations (Page page);
+    protected abstract List<ComponentPresentation> getComponentPresentations(Page page);
 
     @Override
-    public void doTag () throws JspException, IOException {
+    public void doTag() throws JspException, IOException {
         final Page page = (Page) getJspContext().getAttribute(Constants.PAGE_MODEL_KEY, PageContext.REQUEST_SCOPE);
 
         if (page != null) {
             final PageContext pageContext = (PageContext) getJspContext();
-            List<ComponentPresentation> filteredComponentPresentations = RenderUtils.filterComponentPresentations(getComponentPresentations(page), getSchema(), getRootElement(), getView(), this.getRegion());
+            List<ComponentPresentation> filteredComponentPresentations = RenderUtils.filterComponentPresentations
+                    (getComponentPresentations(page), getSchema(), getRootElement(), getView(), this.getRegion());
             String out = "";
 
             if (start != null || end != null) {
@@ -77,7 +78,8 @@ public abstract class BaseComponentPresentationsTag extends SimpleTagSupport {
                 if (startPos <= endPos && startPos <= size && endPos <= size) {
                     filteredComponentPresentations = filteredComponentPresentations.subList(startPos, endPos);
                 } else {
-                    LOG.error("start {} and end {} filtering incorrect for number of component presentations ({}) on page {}", size, page.getId());
+                    LOG.error("start {} and end {} filtering incorrect for number of component presentations ({}) on " +
+                            "page {}", size, page.getId());
                 }
             }
 
@@ -100,51 +102,51 @@ public abstract class BaseComponentPresentationsTag extends SimpleTagSupport {
         }
     }
 
-    public String getSchema () {
+    public String getSchema() {
         return schema;
     }
 
-    public void setSchema (final String schema) {
+    public void setSchema(final String schema) {
         this.schema = schema;
     }
 
-    public String getRootElement () {
+    public String getRootElement() {
         return rootElement;
     }
 
-    public void setRootElement (final String rootElement) {
+    public void setRootElement(final String rootElement) {
         this.rootElement = rootElement;
     }
 
-    public String getView () {
+    public String getView() {
         return view;
     }
 
-    public void setView (final String view) {
+    public void setView(final String view) {
         this.view = view;
     }
 
-    public Boolean isAddAnchor () {
+    public Boolean isAddAnchor() {
         return addAnchor;
     }
 
-    public void setAddAnchor (final Boolean addAnchor) {
+    public void setAddAnchor(final Boolean addAnchor) {
         this.addAnchor = addAnchor;
     }
 
-    public void setStart (final Integer start) {
+    public void setStart(final Integer start) {
         this.start = start;
     }
 
-    public void setEnd (final Integer end) {
+    public void setEnd(final Integer end) {
         this.end = end;
     }
 
-    public String getRegion () {
+    public String getRegion() {
         return region;
     }
 
-    public void setRegion (final String region) {
+    public void setRegion(final String region) {
         this.region = region;
     }
 }

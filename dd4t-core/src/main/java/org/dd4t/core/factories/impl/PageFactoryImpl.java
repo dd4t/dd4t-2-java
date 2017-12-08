@@ -43,10 +43,10 @@ import java.util.List;
 public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageFactoryImpl.class);
-    
+
     @Resource
     protected PageProvider pageProvider;
-    
+
     @Resource
     protected List<DataBinder> dataBinders;
 
@@ -57,8 +57,8 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws org.dd4t.core.exceptions.FactoryException
      */
     @Override
-    public Page getPage (String uri) throws FactoryException {
-    	return getPage(uri, null, PageImpl.class);
+    public Page getPage(String uri) throws FactoryException {
+        return getPage(uri, null, PageImpl.class);
     }
 
     /**
@@ -68,11 +68,11 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws org.dd4t.core.exceptions.FactoryException
      */
     @Override
-    public Page findPageByUrl (String url, int publicationId) throws FactoryException {
-    	return findPageByUrl(url, publicationId, null, PageImpl.class);
+    public Page findPageByUrl(String url, int publicationId) throws FactoryException {
+        return findPageByUrl(url, publicationId, null, PageImpl.class);
     }
 
-    private void executePostCacheProcessors (final Page page, RequestContext context) {
+    private void executePostCacheProcessors(final Page page, RequestContext context) {
         if (page != null) {
             LOG.debug("Running Post caching Processors");
             try {
@@ -96,7 +96,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @return XML as string
      */
     @Override
-    public String findSourcePageByUrl (String url, int publicationId) throws FactoryException {
+    public String findSourcePageByUrl(String url, int publicationId) throws FactoryException {
         LOG.debug("Enter findXMLPageByUrl with url: {} and publicationId: {}", url, publicationId);
 
         String cacheKey = "PSE" + "-" + publicationId + "-" + url.toLowerCase();
@@ -146,7 +146,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws FactoryException
      */
     @Override
-    public String findSourcePageByTcmId (final String tcmId) throws FactoryException {
+    public String findSourcePageByTcmId(final String tcmId) throws FactoryException {
 
         LOG.debug("Enter findSourcePageByTcmId with uri: {}", tcmId);
 
@@ -199,7 +199,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @throws FactoryException
      */
     @Override
-    public TCMURI findPageIdByUrl (final String url, final int publicationId) throws FactoryException {
+    public TCMURI findPageIdByUrl(final String url, final int publicationId) throws FactoryException {
         return pageProvider.getPageIdForUrl(url, publicationId);
     }
 
@@ -209,22 +209,22 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @param source
      * @return
      */
-    protected DataBinder selectDataBinder(final String source) throws FactoryException{
-    	if(dataBinders == null || dataBinders.size() == 0 ){
-    		return null;
-    	}
+    protected DataBinder selectDataBinder(final String source) throws FactoryException {
+        if (dataBinders == null || dataBinders.size() == 0) {
+            return null;
+        }
 
-    	if(dataBinders.size() == 1){
-    		return dataBinders.get(0);
-    	}
+        if (dataBinders.size() == 1) {
+            return dataBinders.get(0);
+        }
 
-    	for(DataBinder binder : dataBinders){
-    		if(binder.canDeserialize(source)){
-    			return binder;
-    		}
-    	}
+        for (DataBinder binder : dataBinders) {
+            if (binder.canDeserialize(source)) {
+                return binder;
+            }
+        }
 
-    	return null;
+        return null;
     }
 
     /**
@@ -235,7 +235,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @return boolean indicating the page is present
      */
     @Override
-    public Boolean isPagePublished (String url, int publicationId) {
+    public Boolean isPagePublished(String url, int publicationId) {
         LOG.debug("Enter isPagePublished with url: {} and publicationId: {}", url, publicationId);
         try {
             return pageProvider.checkPageExists(url, publicationId);
@@ -255,14 +255,12 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
     }
 
     @Override
-    public Page getPage(String uri, RequestContext context)
-            throws FactoryException {
+    public Page getPage(String uri, RequestContext context) throws FactoryException {
         return getPage(uri, context, PageImpl.class);
     }
 
     @Override
-	public <T extends Page> T getPage(String uri, RequestContext context, Class<T> pageModel)
-			throws FactoryException {
+    public <T extends Page> T getPage(String uri, RequestContext context, Class<T> pageModel) throws FactoryException {
 
         if (!pageModel.getClass().isInstance(Page.class)) {
             throw new SerializationException("Given model class does not implement the Page interface");
@@ -315,27 +313,29 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
             page = cacheElement.getPayload();
         }
 
-        if(page == null){
+        if (page == null) {
             throw new ItemNotFoundException("Found nullreference for page in cache. Please try again later.");
         }
 
         executePostCacheProcessors(page, context);
         return (T) page;
-	}
+    }
 
     @Override
-    public Page findPageByUrl(final String url, final int publicationId, final RequestContext context) throws FactoryException {
+    public Page findPageByUrl(final String url, final int publicationId, final RequestContext context) throws
+            FactoryException {
         return findPageByUrl(url, publicationId, context, PageImpl.class);
     }
 
     @Override
-    public <T extends Page> T findPageByUrl(final String url, final int publicationId, final Class<T> pageModel) throws FactoryException {
+    public <T extends Page> T findPageByUrl(final String url, final int publicationId, final Class<T> pageModel)
+            throws FactoryException {
         return findPageByUrl(url, publicationId, null, pageModel);
     }
 
-	@Override
-	public <T extends Page> T findPageByUrl(String url, int publicationId,
-			RequestContext context, final Class<T> pageModel) throws FactoryException {
+    @Override
+    public <T extends Page> T findPageByUrl(String url, int publicationId, RequestContext context, final Class<T>
+            pageModel) throws FactoryException {
         LOG.debug("Enter findPageByUrl with url: {} and publicationId: {}", url, publicationId);
 
         String cacheKey = publicationId + "-" + url.toLowerCase();
@@ -360,7 +360,8 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
                     page = producePage(resultItem, context, PageImpl.class);
 
                     cacheElement.setPayload(page);
-                    cacheProvider.storeInItemCache(cacheKey, cacheElement, resultItem.getPublicationId(), resultItem.getItemId());
+                    cacheProvider.storeInItemCache(cacheKey, cacheElement, resultItem.getPublicationId(), resultItem
+                            .getItemId());
                     cacheElement.setExpired(false);
 
 
@@ -378,7 +379,8 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
         return (T) page;
     }
 
-    private <T extends Page> T producePage(PageProviderResultItem<String> resultItem, RequestContext context, Class<T> pageClass) throws FactoryException{
+    private <T extends Page> T producePage(PageProviderResultItem<String> resultItem, RequestContext context,
+                                           Class<T> pageClass) throws FactoryException {
 
         String pageSource = resultItem.getSourceContent();
         Page page = deserialize(pageSource, pageClass);
@@ -389,7 +391,7 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
         LOG.debug("Running pre caching processors");
         this.executeProcessors(page, RunPhase.BEFORE_CACHING, context);
 
-        return (T)page;
+        return (T) page;
     }
 
     /**
@@ -401,17 +403,17 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
      * @return the deserialized object
      */
     @Override
-    public <T extends Page> T deserialize (final String source, final Class<? extends T> clazz) throws FactoryException {
+    public <T extends Page> T deserialize(final String source, final Class<? extends T> clazz) throws FactoryException {
         DataBinder binder = selectDataBinder(source);
 
-        if(binder == null){
-            throw new SerializationException("Unable to select databinder.") ;
+        if (binder == null) {
+            throw new SerializationException("Unable to select databinder.");
         }
 
         return binder.buildPage(source, clazz);
     }
 
-    public void setPageProvider (PageProvider provider) {
+    public void setPageProvider(PageProvider provider) {
         this.pageProvider = provider;
     }
 

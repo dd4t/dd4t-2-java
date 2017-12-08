@@ -62,7 +62,7 @@ public class DataBindConstants {
     public static final String EMBEDDED_SCHEMA_FIELD_NAME = "EmbeddedSchema";
     public static final String VIEW_MODEL_ANNOTATION = "org.dd4t.databind.annotations.ViewModel";
 
-    private DataBindConstants () {
+    private DataBindConstants() {
 
     }
 }

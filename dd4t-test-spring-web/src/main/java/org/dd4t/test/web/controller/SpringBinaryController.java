@@ -29,31 +29,33 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author R. Kempees
  */
-@RequestMapping (value = {"**/*.gif", "**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.pdf", "**/*.vcf", "**/*.swf", "**/*.zip", "**/*.xls", "**/*.xlsx"})
+@RequestMapping (value = {"**/*.gif", "**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.pdf", "**/*.vcf", "**/*.swf", "**/*" +
+        ".zip", "**/*.xls", "**/*.xlsx"})
 public class SpringBinaryController extends AbstractBinaryController {
     @Override
     @RequestMapping (method = {RequestMethod.GET, RequestMethod.HEAD})
-    public void getBinary (final HttpServletRequest request, final HttpServletResponse response) throws ItemNotFoundException {
+    public void getBinary(final HttpServletRequest request, final HttpServletResponse response) throws
+            ItemNotFoundException {
         super.getBinary(request, response);
     }
 
     @Override
-    protected String getBinaryPath (final HttpServletRequest request) {
+    protected String getBinaryPath(final HttpServletRequest request) {
         return super.getBinaryPath(request);
     }
 
     @Override
-    public void setBinaryRootFolder (final String binaryRootFolder) {
+    public void setBinaryRootFolder(final String binaryRootFolder) {
         super.setBinaryRootFolder(binaryRootFolder);
     }
 
     @Override
-    public boolean isUseBinaryStorage () {
+    public boolean isUseBinaryStorage() {
         return super.isUseBinaryStorage();
     }
 
     @Override
-    public void setUseBinaryStorage (final boolean useBinaryStorage) {
+    public void setUseBinaryStorage(final boolean useBinaryStorage) {
         super.setUseBinaryStorage(useBinaryStorage);
     }
 
@@ -61,7 +63,7 @@ public class SpringBinaryController extends AbstractBinaryController {
      * @return the removeContextPath
      */
     @Override
-    public boolean isRemoveContextPath () {
+    public boolean isRemoveContextPath() {
         return super.isRemoveContextPath();
     }
 
@@ -69,7 +71,7 @@ public class SpringBinaryController extends AbstractBinaryController {
      * @param removeContextPath the removeContextPath to set
      */
     @Override
-    public void setRemoveContextPath (final boolean removeContextPath) {
+    public void setRemoveContextPath(final boolean removeContextPath) {
         super.setRemoveContextPath(removeContextPath);
     }
 }

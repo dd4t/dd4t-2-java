@@ -26,7 +26,7 @@ public class XhtmlField extends TextField implements Field, Serializable {
 
     private static final long serialVersionUID = 7923330087589129664L;
 
-    public XhtmlField () {
+    public XhtmlField() {
         setFieldType(FieldType.XHTML);
     }
 }

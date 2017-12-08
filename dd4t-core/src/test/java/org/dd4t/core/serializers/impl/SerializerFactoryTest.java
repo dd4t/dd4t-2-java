@@ -18,18 +18,19 @@ import static org.junit.Assert.assertEquals;
 
 public class SerializerFactoryTest {
 
-	protected ApplicationContext context;
+    protected ApplicationContext context;
 
     @Before
-    public void setUp () throws Exception {
+    public void setUp() throws Exception {
         // Load Spring
         context = new ClassPathXmlApplicationContext("application-context.xml");
     }
 
     @Test
-    public void testDeserializePage () throws Exception {
+    public void testDeserializePage() throws Exception {
 
-        String testPage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json").toURI()));
+        String testPage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json")
+                .toURI()));
 
         String pageSource = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(testPage));
 

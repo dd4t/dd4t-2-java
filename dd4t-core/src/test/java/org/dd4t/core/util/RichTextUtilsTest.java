@@ -14,10 +14,11 @@ import org.junit.Test;
 public class RichTextUtilsTest {
 
     private static final String XHTMLBODYROOT = "xhtmlbodyroot";
+
     @Test
     public void resolveXhtmlBody() throws Exception {
 
-       String html="<div><p>dsdsds<b><em>test</em></b></p></div>";
+        String html = "<div><p>dsdsds<b><em>test</em></b></p></div>";
 
         Document document = Jsoup.parseBodyFragment("<" + XHTMLBODYROOT + ">" + html + "</" + XHTMLBODYROOT + ">");
 

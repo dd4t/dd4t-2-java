@@ -32,7 +32,7 @@ import java.util.Set;
 
 /**
  * Singleton entry point for all DD4T classes.
- *
+ * <p>
  * This Factory Class will be removed in future versions. Use Spring configuration instead.
  *
  * @author R. Kempees

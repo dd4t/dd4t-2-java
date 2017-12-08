@@ -35,12 +35,12 @@ public class KeywordField extends BaseField implements Field, Serializable {
     @JsonProperty ("CategoryId")
     private String categoryId;
 
-    public KeywordField () {
+    public KeywordField() {
         setFieldType(FieldType.KEYWORD);
     }
 
     @Override
-    public List<Object> getValues () {
+    public List<Object> getValues() {
         List<Keyword> keywordValues = getKeywordValues();
         List<Object> l = new LinkedList<>();
 
@@ -51,19 +51,19 @@ public class KeywordField extends BaseField implements Field, Serializable {
         return l;
     }
 
-    public String getCategoryName () {
+    public String getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName (String categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 
-    public String getCategoryId () {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId (String categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 }

@@ -1,6 +1,6 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
+#set($symbol_pound='#')
+        #set($symbol_dollar='$')
+        #set($symbol_escape='\' )
 /*
  * Copyright (c) 2015 SDL, Radagio & R. Oudshoorn
  *
@@ -17,11 +17,11 @@
  * limitations under the License.
  */
 
-package ${package}.models;
+        package ${package}.models;
 
-import org.dd4t.databind.annotations.ViewModel;
-import org.dd4t.databind.annotations.ViewModelProperty;
-import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
+        import org.dd4t.databind.annotations.ViewModel;
+        import org.dd4t.databind.annotations.ViewModelProperty;
+        import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
 
 @ViewModel (rootElementNames = {"embeddableTestTwo"})
 public class EmbeddedTwo extends TridionViewModelBase {
@@ -29,11 +29,11 @@ public class EmbeddedTwo extends TridionViewModelBase {
     @ViewModelProperty
     private String testfieldTwo;
 
-    public String getTestfieldTwo () {
+    public String getTestfieldTwo() {
         return testfieldTwo;
     }
 
-    public void setTestfieldTwo (final String testfieldTwo) {
+    public void setTestfieldTwo(final String testfieldTwo) {
         this.testfieldTwo = testfieldTwo;
     }
 }

@@ -17,23 +17,24 @@
 package org.dd4t.core.exceptions;
 
 public class NotImplementedException extends RuntimeException {
-    public NotImplementedException () {
+    public NotImplementedException() {
         super();
     }
 
-    public NotImplementedException (final String message) {
+    public NotImplementedException(final String message) {
         super(message);
     }
 
-    public NotImplementedException (final String message, final Throwable cause) {
+    public NotImplementedException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public NotImplementedException (final Throwable cause) {
+    public NotImplementedException(final Throwable cause) {
         super(cause);
     }
 
-    protected NotImplementedException (final String message, final Throwable cause, final boolean enableSuppression, final boolean writableStackTrace) {
+    protected NotImplementedException(final String message, final Throwable cause, final boolean enableSuppression,
+                                      final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

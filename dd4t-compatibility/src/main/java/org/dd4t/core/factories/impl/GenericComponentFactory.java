@@ -32,22 +32,23 @@ import javax.annotation.Resource;
 
 /**
  * Backwards compatibility class
- * @author Rogier Oudshoorn
  *
+ * @author Rogier Oudshoorn
  */
 public class GenericComponentFactory extends BaseFactory implements ComponentFactory {
-	@Resource
-	protected ComponentPresentationFactory componentPresentationFactory;
+    @Resource
+    protected ComponentPresentationFactory componentPresentationFactory;
 
-	private static final Logger LOG = LoggerFactory.getLogger(GenericComponentFactory.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GenericComponentFactory.class);
 
     @Override
-    public void setCacheProvider (PayloadCacheProvider cacheAgent) {
+    public void setCacheProvider(PayloadCacheProvider cacheAgent) {
         // necessary setter, but don't bother
     }
 
     @Override
-    public Component getComponent (String uri) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException {
+    public Component getComponent(String uri) throws ItemNotFoundException, NotAuthorizedException,
+            NotAuthenticatedException {
         ComponentPresentation cp;
         try {
             cp = componentPresentationFactory.getComponentPresentation(uri);
@@ -60,12 +61,14 @@ public class GenericComponentFactory extends BaseFactory implements ComponentFac
     }
 
     @Override
-    public Component getComponent (String uri, RequestContext context) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException {
+    public Component getComponent(String uri, RequestContext context) throws ItemNotFoundException,
+            NotAuthorizedException, NotAuthenticatedException {
         return getComponent(uri);
     }
 
     @Override
-    public Component getComponent (String componentUri, String componentTemplateUri) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException {
+    public Component getComponent(String componentUri, String componentTemplateUri) throws ItemNotFoundException,
+            NotAuthorizedException, NotAuthenticatedException {
         ComponentPresentation cp;
         try {
             cp = componentPresentationFactory.getComponentPresentation(componentUri, componentTemplateUri);
@@ -78,23 +81,23 @@ public class GenericComponentFactory extends BaseFactory implements ComponentFac
     }
 
     @Override
-    public Component getComponent (String componentUri, String componentTemplateUri, RequestContext context) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException {
+    public Component getComponent(String componentUri, String componentTemplateUri, RequestContext context) throws
+            ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException {
         return getComponent(componentUri, componentTemplateUri);
     }
 
     @Override
-    public Component getEmbeddedComponent (String uri) throws ItemNotFoundException {
+    public Component getEmbeddedComponent(String uri) throws ItemNotFoundException {
         // Discuss if this is somehting we still should support, we probably do ...
 
         return null;
     }
 
     public ComponentPresentationFactory getComponentPresentationFactory() {
-		return componentPresentationFactory;
-	}
+        return componentPresentationFactory;
+    }
 
-	public void setComponentPresentationFactory(
-			ComponentPresentationFactory componentPresentationFactory) {
-		this.componentPresentationFactory = componentPresentationFactory;
-	}
+    public void setComponentPresentationFactory(ComponentPresentationFactory componentPresentationFactory) {
+        this.componentPresentationFactory = componentPresentationFactory;
+    }
 }

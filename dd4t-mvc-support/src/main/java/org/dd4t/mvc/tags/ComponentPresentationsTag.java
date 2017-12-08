@@ -38,7 +38,7 @@ import java.util.List;
  */
 public class ComponentPresentationsTag extends BaseComponentPresentationsTag {
     @Override
-    protected List<ComponentPresentation> getComponentPresentations (Page page) {
+    protected List<ComponentPresentation> getComponentPresentations(Page page) {
         return page.getComponentPresentations();
     }
 

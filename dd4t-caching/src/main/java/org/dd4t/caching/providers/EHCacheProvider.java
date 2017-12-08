@@ -64,42 +64,42 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     private int cacheTTL = 3599;
     private boolean checkForPreview = false;
 
-    public boolean doCheckForPreview () {
+    public boolean doCheckForPreview() {
         return checkForPreview;
     }
 
-    public void setCheckForPreview (boolean breakOnPreview) {
+    public void setCheckForPreview(boolean breakOnPreview) {
         this.checkForPreview = breakOnPreview;
     }
 
     /*
      * Getters and setters for cache TTL's
      */
-    public int getCacheDependencyTTL () {
+    public int getCacheDependencyTTL() {
         return cacheDependencyTTL;
     }
 
-    public void setCacheDependencyTTL (int cacheDependencyTTL) {
+    public void setCacheDependencyTTL(int cacheDependencyTTL) {
         this.cacheDependencyTTL = cacheDependencyTTL;
     }
 
-    public int getCacheTTL () {
+    public int getCacheTTL() {
         return cacheTTL;
     }
 
-    public void setCacheTTL (int cacheTTL) {
+    public void setCacheTTL(int cacheTTL) {
         this.cacheTTL = cacheTTL;
     }
 
-    public Cache getDependencyCache () {
+    public Cache getDependencyCache() {
         return dependencyCache;
     }
 
-    public int getExpiredTTL () {
+    public int getExpiredTTL() {
         return expiredTTL;
     }
 
-    public void setExpiredTTL (int expiredTTL) {
+    public void setExpiredTTL(int expiredTTL) {
         this.expiredTTL = expiredTTL;
     }
 
@@ -113,7 +113,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
      * expired (stale) payload, which must be updated.
      */
     @Override
-    public <T> CacheElement<T> loadPayloadFromLocalCache (String key) {
+    public <T> CacheElement<T> loadPayloadFromLocalCache(String key) {
         if (!doCheckForPreview() || (TridionUtils.getSessionPreviewToken() == null && cache != null)) {
             Element currentElement = cache.get(key);
             if (currentElement == null) {
@@ -125,7 +125,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
                 }
             }
 
-            CacheElement<T> cacheElement = (CacheElement<T>) currentElement.getObjectValue();           
+            CacheElement<T> cacheElement = (CacheElement<T>) currentElement.getObjectValue();
 
             String dependencyKey = cacheElement.getDependentKey();
             if (dependencyKey != null) {
@@ -152,17 +152,18 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
      *                     cache
      */
     @Override
-    public <T> void storeInItemCache (String key, CacheElement<T> cacheElement) {
+    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement) {
         if (cache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
         }
-        
+
         // detect undeclared nulls, complain, and set to null
-        if(!cacheElement.isNull() && cacheElement.getPayload() == null){
-         	Exception exToLogToHaveStacktraceWhoCausedIt = new Exception();
-        	LOG.error("Detected undeclared null payload on element with key "+key+" at insert time!", exToLogToHaveStacktraceWhoCausedIt);        	
-        	cacheElement.setNull(true);
+        if (!cacheElement.isNull() && cacheElement.getPayload() == null) {
+            Exception exToLogToHaveStacktraceWhoCausedIt = new Exception();
+            LOG.error("Detected undeclared null payload on element with key " + key + " at insert time!",
+                    exToLogToHaveStacktraceWhoCausedIt);
+            cacheElement.setNull(true);
         }
 
         cacheElement.setExpired(false);
@@ -186,7 +187,8 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
      *                               depends on
      */
     @Override
-    public <T> void storeInItemCache (String key, CacheElement<T> cacheElement, int dependingPublicationId, int dependingItemId) {
+    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, int dependingPublicationId, int
+            dependingItemId) {
 
         CacheDependency dependency = new CacheDependencyImpl(dependingPublicationId, dependingItemId);
         List<CacheDependency> dependencies = new ArrayList<>();
@@ -196,7 +198,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     }
 
     @Override
-    public <T> void storeInItemCache (String key, CacheElement<T> cacheElement, List<CacheDependency> dependencies) {
+    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, List<CacheDependency> dependencies) {
 
         if (cache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
@@ -204,12 +206,13 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         }
 
         // detect undeclared nulls, complain, and set to null
-        if(!cacheElement.isNull() && cacheElement.getPayload() == null){
-         	Exception exToLogToHaveStacktraceWhoCausedIt = new Exception();
-        	LOG.error("Detected undeclared null payload on element with key "+key+" at insert time!", exToLogToHaveStacktraceWhoCausedIt);        	
-        	cacheElement.setNull(true);
+        if (!cacheElement.isNull() && cacheElement.getPayload() == null) {
+            Exception exToLogToHaveStacktraceWhoCausedIt = new Exception();
+            LOG.error("Detected undeclared null payload on element with key " + key + " at insert time!",
+                    exToLogToHaveStacktraceWhoCausedIt);
+            cacheElement.setNull(true);
         }
-        
+
         cacheElement.setExpired(false);
         Element element = cache.get(key);
         if (element == null) {
@@ -229,7 +232,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     }
 
     @Override
-    public void flush () {
+    public void flush() {
         if (cache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
@@ -244,7 +247,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     }
 
     @Override
-    public void invalidate (final String key) {
+    public void invalidate(final String key) {
         if (dependencyCache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
@@ -254,7 +257,8 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         if (dependencyElement != null) {
             LOG.info("Expire key: {} from dependency cache", dependencyKey);
             setExpired(dependencyElement, ADJUST_TTL);
-            ConcurrentSkipListSet<String> cacheSet = ((CacheElement<ConcurrentSkipListSet<String>>) dependencyElement.getObjectValue()).getPayload();
+            ConcurrentSkipListSet<String> cacheSet = ((CacheElement<ConcurrentSkipListSet<String>>) dependencyElement
+                    .getObjectValue()).getPayload();
             if (cacheSet != null) {
                 for (Iterator<String> iterator = cacheSet.iterator(); iterator.hasNext(); ) {
                     String cacheKey = iterator.next();
@@ -272,7 +276,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
      * Makes the _fromKey_ dependent on _toKey_ It adds the _fromKey_ to the
      * list of values that depend on the _toKey_
      */
-    public void addDependency (String cacheKey, String dependencyKey) {
+    public void addDependency(String cacheKey, String dependencyKey) {
         if (dependencyCache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
@@ -286,12 +290,14 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         if (cacheSet == null) {
             LOG.debug("Add empty dependencies for key: {} to cache", dependencyKey);
             cacheSet = new ConcurrentSkipListSet<>();
-            CacheElementImpl<ConcurrentSkipListSet<String>> cacheElement = new CacheElementImpl<ConcurrentSkipListSet<String>>(cacheSet);
+            CacheElementImpl<ConcurrentSkipListSet<String>> cacheElement = new
+                    CacheElementImpl<ConcurrentSkipListSet<String>>(cacheSet);
             Element newElement = new Element(dependencyKey, cacheElement);
             newElement.setTimeToLive(cacheDependencyTTL);
             Element oldElement = dependencyCache.putIfAbsent(newElement);
             if (oldElement != null) {
-                ConcurrentSkipListSet<String> oldCacheSet = ((CacheElement<ConcurrentSkipListSet<String>>) oldElement.getObjectValue()).getPayload();
+                ConcurrentSkipListSet<String> oldCacheSet = ((CacheElement<ConcurrentSkipListSet<String>>) oldElement
+                        .getObjectValue()).getPayload();
                 if (oldCacheSet != null) {
                     cacheSet.addAll(oldCacheSet);
                 }
@@ -301,7 +307,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         cacheSet.add(cacheKey);
     }
 
-    public void setExpired (Element element, int adjustTTL) {
+    public void setExpired(Element element, int adjustTTL) {
         if (element == null) {
             return;
         }
@@ -316,7 +322,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         }
     }
 
-    private void expireElement (Element element, int adjustTTL) {
+    private void expireElement(Element element, int adjustTTL) {
         long lastAccessTime = element.getLastAccessTime();
         long creationTime = element.getCreationTime();
         // set element eviction to ('now' + expiredTTL) seconds in the future
@@ -328,7 +334,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
     /*
      * Sets an element from DependencyCache to not expired. Updates its TTL.
      */
-    private void setNotExpired (Element dependentElement) {
+    private void setNotExpired(Element dependentElement) {
         if (dependentElement == null) {
             return;
         }
@@ -343,18 +349,19 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
      * Update TTL of element from DependencyCache to 'now' + cacheDependencyTTL
      * + adjustTTL
      */
-    private void updateTTL (Element dependentElement) {
+    private void updateTTL(Element dependentElement) {
         if (dependentElement == null) {
             return;
         }
         long lastAccessTime = dependentElement.getLastAccessTime();
         long creationTime = dependentElement.getCreationTime();
-        int timeToLive = lastAccessTime == 0 ? cacheDependencyTTL : (int) (lastAccessTime - creationTime) / 1000 + cacheDependencyTTL;
+        int timeToLive = lastAccessTime == 0 ? cacheDependencyTTL : (int) (lastAccessTime - creationTime) / 1000 +
+                cacheDependencyTTL;
         timeToLive += ADJUST_TTL;
         dependentElement.setTimeToLive(timeToLive);
     }
 
-    private static String getKey (Serializable key) {
+    private static String getKey(Serializable key) {
         String[] parts = ((String) key).split(":");
         switch (parts.length) {
             case 0:
@@ -366,7 +373,7 @@ public class EHCacheProvider implements PayloadCacheProvider, CacheInvalidator {
         }
     }
 
-    private static String getKey (int publicationId, int itemId) {
+    private static String getKey(int publicationId, int itemId) {
         return String.format(DEPENDENT_KEY_FORMAT, publicationId, itemId);
     }
 }

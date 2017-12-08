@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * dd4t-parent
  * TODO: merge with org.dd4t.providers.NoCacheProvider
+ *
  * @author R. Kempees
  */
 @Deprecated
@@ -21,43 +22,46 @@ public class NoCacheProvider implements PayloadCacheProvider, CacheInvalidator, 
 
     private static final Logger LOG = LoggerFactory.getLogger(NoCacheProvider.class);
 
-    public NoCacheProvider () {
+    public NoCacheProvider() {
         LOG.info("NoCacheProvider loaded. This means the DD4T Object Cache will not cache anything.");
     }
 
     @Override
-    public void flush () {
+    public void flush() {
         LOG.debug("Not flushing as this is nothing is cached.");
     }
 
     @Override
-    public void invalidate (final String key) {
+    public void invalidate(final String key) {
         LOG.debug("Nothing to invalidate by design.");
     }
 
     @Override
-    public Object loadFromLocalCache (final String key) {
+    public Object loadFromLocalCache(final String key) {
         LOG.debug("Nothing to load by design.");
         return null;
     }
 
     @Override
-    public void storeInCache (final String key, final Cachable ob, final Collection<Cachable> deps) {
+    public void storeInCache(final String key, final Cachable ob, final Collection<Cachable> deps) {
         LOG.debug("Nothing to store by design.");
     }
 
     @Override
-    public void storeInItemCache (final String key, final Object ob, final int dependingPublicationId, final int dependingItemId) {
+    public void storeInItemCache(final String key, final Object ob, final int dependingPublicationId, final int
+            dependingItemId) {
         LOG.debug("Nothing to store by design.");
     }
 
     @Override
-    public void storeInComponentPresentationCache (final String key, final Object ob, final int dependingPublicationId, final int dependingCompId, final int dependingTemplateId) {
+    public void storeInComponentPresentationCache(final String key, final Object ob, final int
+            dependingPublicationId, final int dependingCompId, final int dependingTemplateId) {
         LOG.debug("Nothing to store by design.");
     }
 
     @Override
-    public void storeInKeywordCache (final String key, final Object ob, final int dependingPublicationId, final int dependingItemId) {
+    public void storeInKeywordCache(final String key, final Object ob, final int dependingPublicationId, final int
+            dependingItemId) {
         LOG.debug("Nothing to store by design.");
     }
 
@@ -67,28 +71,30 @@ public class NoCacheProvider implements PayloadCacheProvider, CacheInvalidator, 
     }
 
     @Override
-    public <T> CacheElement<T> loadPayloadFromLocalCache (final String key) {
+    public <T> CacheElement<T> loadPayloadFromLocalCache(final String key) {
         LOG.debug("Nothing to load by design.");
         return new CacheElementImpl<T>(null, true);
     }
 
     @Override
-    public <T> void storeInItemCache (final String key, final CacheElement<T> cacheElement) {
+    public <T> void storeInItemCache(final String key, final CacheElement<T> cacheElement) {
         LOG.debug("Nothing to store by design.");
     }
 
     @Override
-    public <T> void storeInItemCache (final String key, final CacheElement<T> cacheElement, final int dependingPublicationId, final int dependingItemId) {
+    public <T> void storeInItemCache(final String key, final CacheElement<T> cacheElement, final int
+            dependingPublicationId, final int dependingItemId) {
         LOG.debug("Nothing to store by design.");
     }
 
     @Override
-    public <T> void storeInItemCache (final String key, final CacheElement<T> cacheElement, final List<CacheDependency> dependencies) {
+    public <T> void storeInItemCache(final String key, final CacheElement<T> cacheElement, final
+    List<CacheDependency> dependencies) {
         LOG.debug("Nothing to store by design.");
     }
 
     @Override
-    public void addDependency (final String cacheKey, final String dependencyKey) {
+    public void addDependency(final String cacheKey, final String dependencyKey) {
         LOG.debug("Nothing to add by design.");
     }
 }

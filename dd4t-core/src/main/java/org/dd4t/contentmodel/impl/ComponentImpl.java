@@ -19,8 +19,12 @@ package org.dd4t.contentmodel.impl;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.dd4t.contentmodel.*;
+import org.dd4t.contentmodel.Field;
+import org.dd4t.contentmodel.GenericComponent;
+import org.dd4t.contentmodel.HasContent;
+import org.dd4t.contentmodel.HasMetadata;
+import org.dd4t.contentmodel.HasMultimedia;
+import org.dd4t.contentmodel.Multimedia;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementMap;
 
@@ -28,21 +32,22 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentImpl extends BaseComponent implements GenericComponent, HasContent, HasMetadata, HasMultimedia, Serializable {
+public class ComponentImpl extends BaseComponent implements GenericComponent, HasContent, HasMetadata, HasMultimedia,
+        Serializable {
 
     private static final long serialVersionUID = -6643617039360444651L;
 
-	@Element(name = "componentType", required = false)
+    @Element (name = "componentType", required = false)
     @JsonProperty ("ComponentType")
     @JsonDeserialize (as = ComponentImpl.ComponentType.class)
     protected ComponentType componentType;
 
-	@ElementMap(name = "fields", keyType = String.class, valueType = Field.class, entry = "item", required = false)
+    @ElementMap (name = "fields", keyType = String.class, valueType = Field.class, entry = "item", required = false)
     @JsonProperty ("Fields")
     @JsonDeserialize (contentAs = BaseField.class)
     private Map<String, Field> content;
 
-	@Element(name = "multimedia", required = false)
+    @Element (name = "multimedia", required = false)
     @JsonProperty ("Multimedia")
     @JsonDeserialize (as = MultimediaImpl.class)
     private Multimedia multimedia;
@@ -60,7 +65,7 @@ public class ComponentImpl extends BaseComponent implements GenericComponent, Ha
      * @return a map of field objects representing the content
      */
     @Override
-    public Map<String, Field> getContent () {
+    public Map<String, Field> getContent() {
         if (content == null) {
             content = new HashMap<String, Field>();
         }
@@ -71,7 +76,7 @@ public class ComponentImpl extends BaseComponent implements GenericComponent, Ha
      * Set the content
      */
     @Override
-    public void setContent (Map<String, Field> content) {
+    public void setContent(Map<String, Field> content) {
         this.content = content;
     }
 
@@ -81,7 +86,7 @@ public class ComponentImpl extends BaseComponent implements GenericComponent, Ha
      * @return the component type
      */
     @Override
-    public ComponentType getComponentType () {
+    public ComponentType getComponentType() {
         return componentType;
     }
 
@@ -91,7 +96,7 @@ public class ComponentImpl extends BaseComponent implements GenericComponent, Ha
      * @param componentType
      */
     @Override
-    public void setComponentType (ComponentType componentType) {
+    public void setComponentType(ComponentType componentType) {
         this.componentType = componentType;
     }
 
@@ -101,7 +106,7 @@ public class ComponentImpl extends BaseComponent implements GenericComponent, Ha
      * @return the multimedia object
      */
     @Override
-    public Multimedia getMultimedia () {
+    public Multimedia getMultimedia() {
         return multimedia;
     }
 
@@ -109,26 +114,26 @@ public class ComponentImpl extends BaseComponent implements GenericComponent, Ha
      * Set the multimedia object
      */
     @Override
-    public void setMultimedia (Multimedia multimedia) {
+    public void setMultimedia(Multimedia multimedia) {
         this.multimedia = multimedia;
     }
 
     @Override
-    public String getEclId () {
+    public String getEclId() {
         return this.eclId;
     }
 
-    public void setEclId (String eclId) {
+    public void setEclId(String eclId) {
         this.eclId = eclId;
     }
 
     @Override
-    public String getResolvedUrl () {
+    public String getResolvedUrl() {
         return resolvedUrl;
     }
 
     @Override
-    public void setResolvedUrl (final String resolvedUrl) {
+    public void setResolvedUrl(final String resolvedUrl) {
         this.resolvedUrl = resolvedUrl;
     }
 }

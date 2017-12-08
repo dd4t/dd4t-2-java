@@ -27,7 +27,7 @@ import org.dd4t.contentmodel.FieldType;
 public class FieldTypeConverter extends StdConverter<Object, FieldType> {
 
     @Override
-    public FieldType convert (Object value) {
+    public FieldType convert(Object value) {
         if (value == null) {
             return null;
         }

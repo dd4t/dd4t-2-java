@@ -17,7 +17,6 @@
 package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.dd4t.contentmodel.ComponentTemplate;
 import org.simpleframework.xml.Element;
 
@@ -27,7 +26,7 @@ public class ComponentTemplateImpl extends BaseRepositoryLocalItem implements Co
 
     private static final long serialVersionUID = -5298380361943500591L;
 
-	@Element(name = "outputFormat", required = false)
+    @Element (name = "outputFormat", required = false)
     @JsonProperty ("OutputFormat")
     private String outputFormat;
 
@@ -36,7 +35,7 @@ public class ComponentTemplateImpl extends BaseRepositoryLocalItem implements Co
      *
      * @return
      */
-    public String getOutputFormat () {
+    public String getOutputFormat() {
         return outputFormat;
     }
 
@@ -45,7 +44,7 @@ public class ComponentTemplateImpl extends BaseRepositoryLocalItem implements Co
      *
      * @param outputFormat
      */
-    public void setOutputFormat (String outputFormat) {
+    public void setOutputFormat(String outputFormat) {
         this.outputFormat = outputFormat;
     }
 }

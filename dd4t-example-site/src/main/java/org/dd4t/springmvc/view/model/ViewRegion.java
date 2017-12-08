@@ -20,9 +20,8 @@ import java.util.List;
 
 /**
  * Simple container class for all rendered views for a given region.
- * 
- * @author Rogier Oudshoorn
  *
+ * @author Rogier Oudshoorn
  */
 public class ViewRegion {
     private List<String> componentViews;

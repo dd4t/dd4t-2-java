@@ -51,7 +51,7 @@
     <!-- Loggers -->
     <logger name="com.tridion" level="${log.level}"/>
     <logger name="org.dd4t" level="DEBUG"/>
-    
+
     <logger name="com.tridion.transport">
         <appender-ref ref="rollingTransportLog"/>
     </logger>

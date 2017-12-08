@@ -33,11 +33,11 @@ import java.util.List;
 public class TypeUtils {
     private static final Logger LOG = LoggerFactory.getLogger(TypeUtils.class);
 
-    private TypeUtils () {
+    private TypeUtils() {
 
     }
 
-    public static Type getRuntimeTypeOfTypeParameter (Type type) {
+    public static Type getRuntimeTypeOfTypeParameter(Type type) {
         if (type instanceof ParameterizedType) {
             Type[] genericTypes = ((ParameterizedType) type).getActualTypeArguments();
             if (genericTypes != null && genericTypes.length > 0) {
@@ -49,8 +49,7 @@ public class TypeUtils {
     }
 
 
-
-    public static boolean classIsViewModel (Class<?> clazz) {
+    public static boolean classIsViewModel(Class<?> clazz) {
         if (BaseViewModel.class.isAssignableFrom(clazz)) {
             LOG.debug("Current class is a View Model.");
             return true;
@@ -58,7 +57,7 @@ public class TypeUtils {
         return false;
     }
 
-    public static Class<?> determineTypeOfField (Field field) {
+    public static Class<?> determineTypeOfField(Field field) {
         if (field.getType().equals(List.class)) {
             return (Class<?>) TypeUtils.getRuntimeTypeOfTypeParameter(field.getGenericType());
         }

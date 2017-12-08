@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class LinkResolverTest {
 
-    private static final String TEST_TEXT="<a href=\"http://dnsdsd%COMPONENTURI%/\">%COMPONENTTITLE%</a>";
+    private static final String TEST_TEXT = "<a href=\"http://dnsdsd%COMPONENTURI%/\">%COMPONENTTITLE%</a>";
     private static final String COMPONENT_URI = "%COMPONENTURI%";
     private static final String COMPONENT_TITLE = "%COMPONENTTITLE%";
     private static final String TCM_URI = "tcm:2-2-16";
@@ -29,7 +29,8 @@ public class LinkResolverTest {
         outputFromBufferTest = replacePlaceholders(outputFromBufferTest, COMPONENT_TITLE, COMPONENT_TEST);
 
         String outputFromBuilderTest = replacePlaceholdersStringBuilder(TEST_TEXT, COMPONENT_URI, TCM_URI);
-        outputFromBuilderTest = replacePlaceholdersStringBuilder(outputFromBuilderTest, COMPONENT_TITLE, COMPONENT_TEST);
+        outputFromBuilderTest = replacePlaceholdersStringBuilder(outputFromBuilderTest, COMPONENT_TITLE,
+                COMPONENT_TEST);
 
         assertEquals(outputFromBufferTest, outputFromBuilderTest);
     }
@@ -50,8 +51,8 @@ public class LinkResolverTest {
         return sb.toString();
     }
 
-    private String replacePlaceholdersStringBuilder(String resolvedUrl, String placeholder, String replacementText) throws
-            UnsupportedEncodingException {
+    private String replacePlaceholdersStringBuilder(String resolvedUrl, String placeholder, String replacementText)
+            throws UnsupportedEncodingException {
 
         StringBuilder sb = new StringBuilder();
 
@@ -61,7 +62,7 @@ public class LinkResolverTest {
 
 
             int pos = 0;
-            while(m.find()) {
+            while (m.find()) {
                 sb.append(resolvedUrl, pos, m.start());
                 pos = m.end();
                 sb.append(replacementText);

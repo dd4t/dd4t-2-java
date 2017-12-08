@@ -59,7 +59,9 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
 
     protected JsonDataBinder dataBinder;
 
-	public ComponentPresentationDeserializer (Class<? extends ComponentPresentation> componentPresentation, Class<? extends ComponentTemplate> componentTemplateClass, Class<? extends Component> concreteComponentClass, JsonDataBinder databinder) {
+    public ComponentPresentationDeserializer(Class<? extends ComponentPresentation> componentPresentation, Class<?
+            extends ComponentTemplate> componentTemplateClass, Class<? extends Component> concreteComponentClass,
+                                             JsonDataBinder databinder) {
         super(componentPresentation);
         this.concreteComponentTemplateClass = componentTemplateClass;
         this.concreteComponentClass = concreteComponentClass;
@@ -67,7 +69,8 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
     }
 
     @Override
-    public ComponentPresentation deserialize (final JsonParser jsonParser, final DeserializationContext deserializationContext) throws IOException {
+    public ComponentPresentation deserialize(final JsonParser jsonParser, final DeserializationContext
+            deserializationContext) throws IOException {
         final ObjectMapper mapper = (ObjectMapper) jsonParser.getCodec();
         final ObjectNode root = mapper.readTree(jsonParser);
         final ComponentPresentation componentPresentation = getConcreteComponentPresentation();
@@ -96,7 +99,8 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
                 JsonParser parser = null;
                 try {
                     parser = element.getValue().traverse();
-                    final ComponentTemplate componentTemplate = JsonDataBinder.getGenericMapper().readValue(parser, this.concreteComponentTemplateClass);
+                    final ComponentTemplate componentTemplate = JsonDataBinder.getGenericMapper().readValue(parser,
+                            this.concreteComponentTemplateClass);
 
                     if (componentPresentation != null) {
                         componentPresentation.setComponentTemplate(componentTemplate);
@@ -121,7 +125,8 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
                 if (componentPresentation != null) {
                     TypeFactory typeFactory = mapper.getTypeFactory();
                     MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, getFieldSetImplClass());
-                    Map<String,FieldSet> extensionData = JsonDataBinder.getGenericMapper().readValue(element.getValue().traverse(), mapType);
+                    Map<String, FieldSet> extensionData = JsonDataBinder.getGenericMapper().readValue(element
+                            .getValue().traverse(), mapType);
 
                     componentPresentation.setExtensionData(extensionData);
                 }
@@ -134,7 +139,8 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         }
 
         try {
-            renderComponentData(componentPresentation, rawComponentData, viewModelName, dataBinder.getRootElementName(rawComponentData));
+            renderComponentData(componentPresentation, rawComponentData, viewModelName, dataBinder.getRootElementName
+                    (rawComponentData));
         } catch (SerializationException e) {
             LOG.error(e.getLocalizedMessage(), e);
             throw new IOException(e);
@@ -142,13 +148,18 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         return componentPresentation;
     }
 
-    private void renderComponentData (final ComponentPresentation componentPresentation, final JsonNode rawComponentData, final String viewModelName, final String rootElementName) throws IOException, SerializationException {
-//		if ((StringUtils.isEmpty(viewModelName) && StringUtils.isEmpty(rootElementName)) || DataBindFactory.renderGenericComponentsOnly()) {
-//			LOG.debug("No view name set on Component Template and no rootElementName found or only rendering to Generic Component");
+    private void renderComponentData(final ComponentPresentation componentPresentation, final JsonNode
+            rawComponentData, final String viewModelName, final String rootElementName) throws IOException,
+            SerializationException {
+//		if ((StringUtils.isEmpty(viewModelName) && StringUtils.isEmpty(rootElementName)) || DataBindFactory
+// .renderGenericComponentsOnly()) {
+//			LOG.debug("No view name set on Component Template and no rootElementName found or only rendering to
+// Generic Component");
         try {
             // Note: Components actually always have to be set
             // TODO: figure out a way to not have to do it.
-            componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this.concreteComponentClass));
+            componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this
+                    .concreteComponentClass));
         } catch (SerializationException e) {
             throw new IOException(e.getLocalizedMessage(), e);
         }
@@ -163,29 +174,34 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
             modelNames.add(rootElementName);
         }
 
-        final Map<String, BaseViewModel> models = dataBinder.buildModels(rawComponentData, modelNames, componentPresentation.getComponentTemplate().getId());
+        final Map<String, BaseViewModel> models = dataBinder.buildModels(rawComponentData, modelNames,
+                componentPresentation.getComponentTemplate().getId());
 
 
         // TODO: error in here
         if (models == null || models.isEmpty()) {
             if (dataBinder.renderDefaultComponentsIfNoModelFound()) {
-                componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this.concreteComponentClass));
+                componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this
+                        .concreteComponentClass));
             } else {
-                LOG.warn("No model found for CT {}, with component: {}. Fall back deserialization is also turned off.", componentPresentation.getComponentTemplate().getId(), componentPresentation.getComponent().getId());
+                LOG.warn("No model found for CT {}, with component: {}. Fall back deserialization is also turned off" +
+                        ".", componentPresentation.getComponentTemplate().getId(), componentPresentation.getComponent
+                        ().getId());
             }
 
         } else {
             for (BaseViewModel model : models.values()) {
                 if (model instanceof TridionViewModel) {
 
-                    if (((TridionViewModel)model).setGenericComponentOnComponentPresentation()) {
+                    if (((TridionViewModel) model).setGenericComponentOnComponentPresentation()) {
                         LOG.debug("Also setting a Component object on the CP.");
 
                         // TODO: error in here..
-                        componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this.concreteComponentClass));
+                        componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this
+                                .concreteComponentClass));
                     }
                     if (componentPresentation.isDynamic()) {
-                        ((TridionViewModel)model).setIsDynamicCP(true);
+                        ((TridionViewModel) model).setIsDynamicCP(true);
                     }
                 }
                 if (model.setRawDataOnModel()) {
@@ -198,7 +214,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
 //		}
     }
 
-    private boolean isConcreteClass (final ComponentPresentation componentPresentation) {
+    private boolean isConcreteClass(final ComponentPresentation componentPresentation) {
         // This check should be good enough
         if (componentPresentation == null || componentPresentation.getClass().isInterface()) {
             LOG.error("No concrete ComponentPresentation class found! not proceeding.");
@@ -216,7 +232,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         }
     }
 
-    private ComponentPresentation getConcreteComponentPresentation () {
+    private ComponentPresentation getConcreteComponentPresentation() {
 
         final String handledType = this.handledType().toString();
         LOG.debug("Type for ComponentPresentation injection: {}", handledType);
@@ -233,8 +249,9 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         return null;
     }
 
-    private static void setIsDynamic (final ComponentPresentation componentPresentation, final String isDynamic) {
-        if (isDynamic.equalsIgnoreCase(DataBindConstants.TRUE_STRING) || isDynamic.equalsIgnoreCase(DataBindConstants.FALSE_STRING)) {
+    private static void setIsDynamic(final ComponentPresentation componentPresentation, final String isDynamic) {
+        if (isDynamic.equalsIgnoreCase(DataBindConstants.TRUE_STRING) || isDynamic.equalsIgnoreCase(DataBindConstants
+                .FALSE_STRING)) {
             componentPresentation.setIsDynamic(Boolean.parseBoolean(isDynamic));
         } else {
             componentPresentation.setIsDynamic(false);

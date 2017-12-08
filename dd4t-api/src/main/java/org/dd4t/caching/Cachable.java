@@ -27,9 +27,9 @@ import java.io.Serializable;
  * @author Rogier Oudshoorn, Capgemini
  */
 public interface Cachable extends Serializable {
-    void notifyCached (String key, String realm);
+    void notifyCached(String key, String realm);
 
-    String getCacheRealm ();
+    String getCacheRealm();
 
-    String getCacheKey ();
+    String getCacheKey();
 }

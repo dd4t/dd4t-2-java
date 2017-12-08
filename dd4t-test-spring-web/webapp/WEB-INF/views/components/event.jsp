@@ -10,6 +10,6 @@
 
 <c:if test="${!empty Event.color}">
     <c:forEach items="${Event.color}" var="colorKeyword">
-        <c:out value="${colorKeyword.title}" />
+        <c:out value="${colorKeyword.title}"/>
     </c:forEach>
 </c:if>

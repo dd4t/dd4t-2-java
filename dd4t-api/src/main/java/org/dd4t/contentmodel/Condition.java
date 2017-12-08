@@ -7,19 +7,19 @@ package org.dd4t.contentmodel;
  */
 public interface Condition {
 
-    String getName ();
+    String getName();
 
-    void setName (final String name);
+    void setName(final String name);
 
-    boolean isNegate ();
+    boolean isNegate();
 
-    void setNegate (final boolean negate);
+    void setNegate(final boolean negate);
 
-    ConditionOperator getOperator ();
+    ConditionOperator getOperator();
 
-    void setOperator (final int operator);
+    void setOperator(final int operator);
 
-    String getValue ();
+    String getValue();
 
-    void setValue (final String value);
+    void setValue(final String value);
 }

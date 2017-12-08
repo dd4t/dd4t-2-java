@@ -35,31 +35,31 @@ public interface Keyword extends Item, HasMetadata {
 
     void setIsAbstract(boolean isAbstract);
 
-    String getDescription ();
+    String getDescription();
 
-    String getKey ();
+    String getKey();
 
-    List<Keyword> getChildKeywords ();
+    List<Keyword> getChildKeywords();
 
-    boolean hasChildren ();
+    boolean hasChildren();
 
-    List<Keyword> getParentKeywords ();
+    List<Keyword> getParentKeywords();
 
-    boolean hasParents ();
+    boolean hasParents();
 
-    List<TCMURI> getRelatedKeywords ();
+    List<TCMURI> getRelatedKeywords();
 
-    boolean hasRelatedKeywords ();
+    boolean hasRelatedKeywords();
 
-    String getPath ();
+    String getPath();
 
-    void setPath (String path);
+    void setPath(String path);
 
-    List<TCMURI> getClassifiedItems ();
+    List<TCMURI> getClassifiedItems();
 
-    boolean hasClassifiedItems ();
+    boolean hasClassifiedItems();
 
-    String getTaxonomyId ();
+    String getTaxonomyId();
 
-    void setTaxonomyId (String taxonomyId);
+    void setTaxonomyId(String taxonomyId);
 }

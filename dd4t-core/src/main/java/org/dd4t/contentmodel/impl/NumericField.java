@@ -27,12 +27,12 @@ public class NumericField extends BaseField implements Field, Serializable {
 
     private static final long serialVersionUID = 7071862600858380674L;
 
-    public NumericField () {
+    public NumericField() {
         setFieldType(FieldType.NUMBER);
     }
 
     @Override
-    public List<Object> getValues () {
+    public List<Object> getValues() {
         List<Double> dblValues = getNumericValues();
 
         List<Object> l = new LinkedList<Object>();

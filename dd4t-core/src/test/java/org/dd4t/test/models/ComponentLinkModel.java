@@ -1,6 +1,5 @@
 package org.dd4t.test.models;
 
-import org.dd4t.databind.annotations.ViewModel;
 import org.dd4t.databind.annotations.ViewModelProperty;
 
 /**
@@ -8,20 +7,17 @@ import org.dd4t.databind.annotations.ViewModelProperty;
  *
  * @author R. Kempees
  */
-@ViewModel (
-        viewModelNames = {"generic-content"},
-        rootElementNames = {"Generic"},
-        setComponentObject = true)
+//@ViewModel (viewModelNames = {"generic-content"}, rootElementNames = {"Generic"}, setComponentObject = true)
 public class ComponentLinkModel extends AbstractModelClass {
 
     @ViewModelProperty
     private String heading;
 
-    public String getHeading () {
+    public String getHeading() {
         return heading;
     }
 
-    public void setHeading (final String heading) {
+    public void setHeading(final String heading) {
         this.heading = heading;
     }
 }

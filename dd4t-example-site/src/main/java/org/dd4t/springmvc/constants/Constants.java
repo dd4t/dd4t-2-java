@@ -17,13 +17,13 @@ package org.dd4t.springmvc.constants;
 
 public class Constants {
     public static final String MIDDLE_REGION = "middle";
-    
+
     public static final String CONTENT_MODEL_KEY = "ContentModel";
     public static final String PAGE_MODEL_KEY = "PageModel";
     public static final String NAVIGATION_MODEL_KEY = "NavigationModel";
-    
+
     public static final String COMPONENT_KEY = "Component";
     public static final String COMPONENT_PRESENTATION_KEY = "ComponentPresentation";
-    
+
     public static final String NAVIGATION_PAGE = "/System/Navigation.xml";
 }

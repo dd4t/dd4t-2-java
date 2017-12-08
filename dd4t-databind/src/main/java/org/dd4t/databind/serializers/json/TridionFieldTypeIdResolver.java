@@ -63,23 +63,23 @@ public class TridionFieldTypeIdResolver implements TypeIdResolver {
 
     private JavaType mBaseType;
 
-    public TridionFieldTypeIdResolver () {
+    public TridionFieldTypeIdResolver() {
     }
 
 
     @Override
-    public void init (final JavaType javaType) {
+    public void init(final JavaType javaType) {
         LOG.info("Instantiating TridionJsonFieldTypeResolver for " + javaType);
         mBaseType = javaType;
     }
 
     @Override
-    public String idFromValue (final Object o) {
+    public String idFromValue(final Object o) {
         return idFromValueAndType(o, o.getClass());
     }
 
     @Override
-    public String idFromValueAndType (final Object o, final Class<?> aClass) {
+    public String idFromValueAndType(final Object o, final Class<?> aClass) {
         String name = aClass.getName();
 
         if (null == o) {
@@ -90,12 +90,12 @@ public class TridionFieldTypeIdResolver implements TypeIdResolver {
     }
 
     @Override
-    public String idFromBaseType () {
+    public String idFromBaseType() {
         return "-1";
     }
 
     @Override
-    public JavaType typeFromId (final String s) {
+    public JavaType typeFromId(final String s) {
         String clazzName = getClassForKey(s);
         Class<?> clazz;
 
@@ -111,16 +111,16 @@ public class TridionFieldTypeIdResolver implements TypeIdResolver {
     }
 
     @Override
-    public JavaType typeFromId (final DatabindContext databindContext, final String s) {
+    public JavaType typeFromId(final DatabindContext databindContext, final String s) {
         return typeFromId(s);
     }
 
     @Override
-    public JsonTypeInfo.Id getMechanism () {
+    public JsonTypeInfo.Id getMechanism() {
         return JsonTypeInfo.Id.CUSTOM;
     }
 
-    public static String getClassForKey (String type) {
+    public static String getClassForKey(String type) {
 
         LOG.trace("Fetching field type for {}", type);
         FieldType fieldType;
@@ -137,7 +137,7 @@ public class TridionFieldTypeIdResolver implements TypeIdResolver {
         return result;
     }
 
-    private String getIdFromClass (String aClassName) {
+    private String getIdFromClass(String aClassName) {
         if (!aClassName.startsWith(NAMESPACE_PREFIX)) {
             aClassName = NAMESPACE_PREFIX + aClassName;
         }

@@ -19,6 +19,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 /**
  * Custom processor that generates the Experience Manager tags on the page level
+ *
  * @author Quirijn Slings
  */
 
@@ -30,45 +31,39 @@ public class XpmComponentPresentationProcessor extends AbstractElementTagProcess
     private static final String XPM_ENABLED = "xpm.enabled";
 
     public XpmComponentPresentationProcessor(final String dialectPrefix, PropertiesService propertiesService) {
-     super(TemplateMode.HTML,
-             dialectPrefix,
-             TAG_NAME,
-             true,
-             null,
-             false,
-             PRECEDENCE
-             );
-         String xpmEnabledAsString = propertiesService.getProperty(XPM_ENABLED);
-         if (xpmEnabledAsString != null) {
-             XPMRenderer.getInstance().setEnabled(Boolean.parseBoolean(xpmEnabledAsString));
-         }
+        super(TemplateMode.HTML, dialectPrefix, TAG_NAME, true, null, false, PRECEDENCE);
+        String xpmEnabledAsString = propertiesService.getProperty(XPM_ENABLED);
+        if (xpmEnabledAsString != null) {
+            XPMRenderer.getInstance().setEnabled(Boolean.parseBoolean(xpmEnabledAsString));
+        }
     }
-    
+
     /**
      * Process the tag
      */
-    
+
     @Override
-    protected void doProcess(
-            final ITemplateContext context, final IProcessableElementTag tag,
-            final IElementTagStructureHandler structureHandler) {
+    protected void doProcess(final ITemplateContext context, final IProcessableElementTag tag, final
+    IElementTagStructureHandler structureHandler) {
         final IEngineConfiguration configuration = context.getConfiguration();
         final IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
-        
+
         // check if there is a 'src' attribute on the current tag
-        if (! tag.hasAttribute(SRC_ATTR_NAME)) {
+        if (!tag.hasAttribute(SRC_ATTR_NAME)) {
             LOG.warn("Cannot find the {} attribute on this tag!", SRC_ATTR_NAME);
             return;
         }
 
         // retrieve the entity object from the attribute
-        final IStandardExpression expressionComponentPresentation = parser.parseExpression(context, tag.getAttributeValue(SRC_ATTR_NAME));
+        final IStandardExpression expressionComponentPresentation = parser.parseExpression(context, tag
+                .getAttributeValue(SRC_ATTR_NAME));
         final TridionViewModelBase entity = (TridionViewModelBase) expressionComponentPresentation.execute(context);
-        
+
         // get an XPM renderer (part of DD4T) and generate the XPM comment for this page
         final XPMRenderer renderer = XPMRenderer.getInstance();
-        final String xpmMarkup = renderer.componentPresentation(entity.getTcmUri().toString(), entity.getLastModified(), entity.getTemplateUri().toString(), false);
-        
+        final String xpmMarkup = renderer.componentPresentation(entity.getTcmUri().toString(), entity.getLastModified
+                (), entity.getTemplateUri().toString(), false);
+
         // create a model with the returned markup
         final IModelFactory modelFactory = context.getModelFactory();
         final IModel model = modelFactory.parse(context.getTemplateData(), xpmMarkup);

@@ -1,6 +1,6 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
+#set($symbol_pound='#')
+        #set($symbol_dollar='$')
+        #set($symbol_escape='\' )
 /*
  * Copyright (c) 2015 SDL, Radagio & R. Oudshoorn
  *
@@ -17,11 +17,11 @@
  * limitations under the License.
  */
 
-package ${package}.models;
+        package ${package}.models;
 
-import org.dd4t.databind.annotations.ViewModel;
-import org.dd4t.databind.annotations.ViewModelProperty;
-import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
+        import org.dd4t.databind.annotations.ViewModel;
+        import org.dd4t.databind.annotations.ViewModelProperty;
+        import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
 
 @ViewModel (rootElementNames = {"EmbeddableTest"})
 public class EmbeddedOne extends TridionViewModelBase {
@@ -30,19 +30,19 @@ public class EmbeddedOne extends TridionViewModelBase {
     @ViewModelProperty
     private EmbeddedTwo embeddableTwo;
 
-    public String getTestfieldOne () {
+    public String getTestfieldOne() {
         return testfieldOne;
     }
 
-    public void setTestfieldOne (final String testfieldOne) {
+    public void setTestfieldOne(final String testfieldOne) {
         this.testfieldOne = testfieldOne;
     }
 
-    public EmbeddedTwo getEmbeddableTwo () {
+    public EmbeddedTwo getEmbeddableTwo() {
         return embeddableTwo;
     }
 
-    public void setEmbeddableTwo (final EmbeddedTwo embeddableTwo) {
+    public void setEmbeddableTwo(final EmbeddedTwo embeddableTwo) {
         this.embeddableTwo = embeddableTwo;
     }
 }

@@ -25,11 +25,11 @@ public class PublicationImpl extends BaseItem implements Publication, Serializab
 
     private static final long serialVersionUID = -8593904509879801004L;
 
-    public PublicationImpl () {
+    public PublicationImpl() {
         super();
     }
 
-    public PublicationImpl (String id) {
+    public PublicationImpl(String id) {
         super();
         this.setId(id);
     }

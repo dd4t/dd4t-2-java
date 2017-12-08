@@ -43,12 +43,12 @@ public abstract class BaseProcessor implements Processor {
      */
 
     @Override
-    public void setRunPhase (final RunPhase phase) {
+    public void setRunPhase(final RunPhase phase) {
         this.runPhase = phase;
     }
 
     @Override
-    public RunPhase getRunPhase () {
+    public RunPhase getRunPhase() {
         return runPhase;
     }
 }

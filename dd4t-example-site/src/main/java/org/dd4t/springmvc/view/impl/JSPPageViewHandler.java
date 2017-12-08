@@ -24,7 +24,7 @@ public class JSPPageViewHandler extends BaseJSPViewHandler<Component> {
     public JSPPageViewHandler() {
 
         super();
-        setModelKey(Constants.PAGE_MODEL_KEY);     
+        setModelKey(Constants.PAGE_MODEL_KEY);
     }
 
 }

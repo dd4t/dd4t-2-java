@@ -17,13 +17,17 @@
 package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.dd4t.contentmodel.HasMetadata;
 import org.dd4t.contentmodel.PageTemplate;
 import org.simpleframework.xml.Element;
 
-public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTemplate, HasMetadata {
-	@Element(name = "fileExtension")
+import java.io.Serializable;
+
+public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTemplate, HasMetadata, Serializable {
+
+    private static final long serialVersionUID = -5960304953992709902L;
+
+    @Element (name = "fileExtension")
     @JsonProperty ("FileExtension")
     private String fileExtension;
 
@@ -31,7 +35,7 @@ public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTem
      * Get the file extension
      */
     @Override
-    public String getFileExtension () {
+    public String getFileExtension() {
         return fileExtension;
     }
 
@@ -39,7 +43,7 @@ public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTem
      * Set the file extension
      */
     @Override
-    public void setFileExtension (String fileExtension) {
+    public void setFileExtension(String fileExtension) {
         this.fileExtension = fileExtension;
     }
 }

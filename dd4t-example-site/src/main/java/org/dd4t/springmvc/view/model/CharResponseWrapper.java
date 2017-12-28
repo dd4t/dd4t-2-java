@@ -25,36 +25,35 @@ import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 
 /**
- * Class wraps around a HttpServletResponse to catch everything that is written to it. 
+ * Class wraps around a HttpServletResponse to catch everything that is written to it.
  * It catches both the printwriter AND the OutputStream channels.
- * 
- * @author rooudsho
  *
+ * @author rooudsho
  */
 public class CharResponseWrapper extends HttpServletResponseWrapper {
-	private static final Logger LOG = LoggerFactory.getLogger(CharResponseWrapper.class);
-	
+    private static final Logger LOG = LoggerFactory.getLogger(CharResponseWrapper.class);
+
     private CharArrayWriter output;
     private ServletOutputStreamWrapper stream;
     private boolean writerUsed;
 
     @Override
     public String toString() {
-    	StringBuffer buf = new StringBuffer();
-    	
-    	// if the stream is used, empty it
-    	if(stream.isWrittenTo()){
-    		LOG.debug("Appending stream.");
-    		buf.append( stream.toString());
-    	}
-    	
-    	// if the writer is used, empty it
-    	if(writerUsed){
-    		LOG.debug("Appending printwriter.");
-    		buf.append( output.toString());        
-    	}
-    	
-    	return buf.toString();
+        StringBuffer buf = new StringBuffer();
+
+        // if the stream is used, empty it
+        if (stream.isWrittenTo()) {
+            LOG.debug("Appending stream.");
+            buf.append(stream.toString());
+        }
+
+        // if the writer is used, empty it
+        if (writerUsed) {
+            LOG.debug("Appending printwriter.");
+            buf.append(output.toString());
+        }
+
+        return buf.toString();
     }
 
     public CharResponseWrapper(HttpServletResponse response) {
@@ -62,20 +61,20 @@ public class CharResponseWrapper extends HttpServletResponseWrapper {
         output = new CharArrayWriter();
         stream = new ServletOutputStreamWrapper();
         writerUsed = false;
-        
+
         LOG.debug("CharResponseWrapper initialized.");
     }
 
     @Override
     public PrintWriter getWriter() {
-    	LOG.debug("Writer requested.");
-    	writerUsed = true;
+        LOG.debug("Writer requested.");
+        writerUsed = true;
         return new PrintWriter(output);
     }
-    
+
     @Override
-    public ServletOutputStream getOutputStream(){
-    	LOG.debug("Outputstream requested.");
-		return stream;    	
+    public ServletOutputStream getOutputStream() {
+        LOG.debug("Outputstream requested.");
+        return stream;
     }
 }

@@ -28,10 +28,11 @@ public class DateUtils {
 
     private static final String DATE_PATTERN_WITH_OFFSET = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER_WITH_OFFSET = DateTimeFormat.forPattern(DATE_PATTERN_WITH_OFFSET);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_WITH_OFFSET = DateTimeFormat.forPattern
+            (DATE_PATTERN_WITH_OFFSET);
 
 
-    private DateUtils () {
+    private DateUtils() {
     }
 
     /**
@@ -40,7 +41,7 @@ public class DateUtils {
      * @param date the Joda DateTime object
      * @return the date as String, formatted according to the date pattern.
      */
-    public static String convertDateToString (DateTime date) {
+    public static String convertDateToString(DateTime date) {
         return DATE_TIME_FORMATTER.print(date);
     }
 
@@ -50,7 +51,7 @@ public class DateUtils {
      * @param timestamp the Joda Timestamp
      * @return the timestamp as String, formatted according to the date pattern.
      */
-    public static String convertSqlTimestampToString (Timestamp timestamp) {
+    public static String convertSqlTimestampToString(Timestamp timestamp) {
         return convertDateToString(new DateTime(timestamp));
     }
 
@@ -60,7 +61,7 @@ public class DateUtils {
      * @param date the date string.
      * @return the Joda DateTime
      */
-    public static DateTime convertStringToDate (String date) {
+    public static DateTime convertStringToDate(String date) {
         if (date.length() > 19) {
             return DATE_TIME_FORMATTER.parseDateTime(date);
         } else {
@@ -68,7 +69,7 @@ public class DateUtils {
         }
     }
 
-    public static DateTime convertStringWithOffsetToDate (String date) {
+    public static DateTime convertStringWithOffsetToDate(String date) {
         if (date.endsWith("Z")) {
             return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date);
         }

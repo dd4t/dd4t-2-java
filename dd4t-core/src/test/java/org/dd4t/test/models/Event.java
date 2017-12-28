@@ -8,6 +8,6 @@ import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
  *
  * @author R. Kempees
  */
-@ViewModel(rootElementNames = {"Event"})
+@ViewModel (rootElementNames = {"Event"})
 public class Event extends TridionViewModelBase {
 }

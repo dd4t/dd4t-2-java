@@ -16,8 +16,6 @@
 
 package org.dd4t.core.serializers.impl;
 
-import javax.annotation.Resource;
-
 import org.dd4t.contentmodel.Binary;
 import org.dd4t.contentmodel.impl.BinaryDataImpl;
 import org.dd4t.contentmodel.impl.BinaryImpl;
@@ -26,7 +24,7 @@ import org.dd4t.core.serializers.Serializer;
 import org.dd4t.core.util.CompressionUtils;
 import org.dd4t.providers.transport.BinaryWrapper;
 
-import com.fasterxml.jackson.databind.ser.SerializerFactory;
+import javax.annotation.Resource;
 
 /**
  * Builds a Binary object from a BinaryWrapper object.
@@ -34,10 +32,10 @@ import com.fasterxml.jackson.databind.ser.SerializerFactory;
  * @author Mihai Cadariu
  */
 public class BinaryBuilder {
-	@Resource
-	protected Serializer serializer;
+    @Resource
+    protected Serializer serializer;
 
-	/**
+    /**
      * The BinaryWrapper contains both the Binary metadata and raw byte array content, but in encoded format.
      * The Binary meta will be Base64 decoded, then GZip decompressed, then JSON deserialized. Then the binary
      * byte array in the wrapper will be assigned into the decoded Binary.
@@ -47,7 +45,7 @@ public class BinaryBuilder {
      * @return Binary a full Binary object containing metadata and raw content byte []
      * @throws SerializationException if anything goes wrong during decompressing, deserialization
      */
-    public Binary build (BinaryWrapper wrapper) throws SerializationException {
+    public Binary build(BinaryWrapper wrapper) throws SerializationException {
         byte[] binaryBytes = CompressionUtils.decodeBase64(wrapper.getBinary());
         String binaryJSON = CompressionUtils.decompressGZip(binaryBytes);
         Binary result = serializer.deserialize(binaryJSON, BinaryImpl.class);
@@ -58,12 +56,12 @@ public class BinaryBuilder {
 
         return result;
     }
-    
-    public Serializer getSerializer() {
-		return serializer;
-	}
 
-	public void setSerializer(Serializer serializer) {
-		this.serializer = serializer;
-	}    
+    public Serializer getSerializer() {
+        return serializer;
+    }
+
+    public void setSerializer(Serializer serializer) {
+        this.serializer = serializer;
+    }
 }

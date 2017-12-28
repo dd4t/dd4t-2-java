@@ -17,143 +17,145 @@
 package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.dd4t.contentmodel.BinaryData;
 import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.Multimedia;
 import org.simpleframework.xml.Element;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MultimediaImpl extends BaseField implements Multimedia {
+public class MultimediaImpl extends BaseField implements Multimedia, Serializable {
+
+    private static final long serialVersionUID = 9123738616565718821L;
 
     private BinaryData binaryData;
 
-	@Element(name = "height", required = false)
+    @Element (name = "height", required = false)
     @JsonProperty ("Height")
     private int height;
 
-	@Element(name = "width", required = false)
+    @Element (name = "width", required = false)
     @JsonProperty ("Width")
     private int width;
 
-	@Element(name = "size", required = false)
+    @Element (name = "size", required = false)
     @JsonProperty ("Size")
     private int size;
 
-	@Element(name = "alt", required = false)
+    @Element (name = "alt", required = false)
     @JsonProperty ("Alt")
     private String alt;
 
-	@Element(name = "url", required = false)
+    @Element (name = "url", required = false)
     @JsonProperty ("Url")
     private String url;
 
-	@Element(name = "mimeType", required = false)
+    @Element (name = "mimeType", required = false)
     @JsonProperty ("MimeType")
     private String mimeType;
 
-	@Element(name = "fileExtension", required = false)
+    @Element (name = "fileExtension", required = false)
     @JsonProperty ("FileExtension")
     private String fileExtension;
 
-	@Element(name = "fileName", required = false)
+    @Element (name = "fileName", required = false)
     @JsonProperty ("FileName")
     private String fileName;
 
     @Override
-    public BinaryData getBinaryData () {
+    public BinaryData getBinaryData() {
         return this.binaryData;
     }
 
     @Override
-    public void setBinaryData (BinaryData binaryData) {
+    public void setBinaryData(BinaryData binaryData) {
         this.binaryData = binaryData;
     }
 
     @Override
-    public int getHeight () {
+    public int getHeight() {
         return height;
     }
 
     @Override
-    public void setHeight (int height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
     @Override
-    public int getWidth () {
+    public int getWidth() {
         return width;
     }
 
     @Override
-    public void setWidth (int width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
     @Override
-    public int getSize () {
+    public int getSize() {
         return size;
     }
 
     @Override
-    public void setSize (int size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
     @Override
-    public String getAlt () {
+    public String getAlt() {
         return alt;
     }
 
     @Override
-    public void setAlt (String alt) {
+    public void setAlt(String alt) {
         this.alt = alt;
     }
 
     @Override
-    public String getUrl () {
+    public String getUrl() {
         return url;
     }
 
     @Override
-    public void setUrl (String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
     @Override
-    public String getMimeType () {
+    public String getMimeType() {
         return mimeType;
     }
 
     @Override
-    public void setMimeType (String mimeType) {
+    public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
     }
 
     @Override
-    public String getFileExtension () {
+    public String getFileExtension() {
         return fileExtension;
     }
 
     @Override
-    public void setFileExtension (String fileExtension) {
+    public void setFileExtension(String fileExtension) {
         this.fileExtension = fileExtension;
     }
 
     @Override
-    public String getFileName () {
+    public String getFileName() {
         return fileName;
     }
 
     @Override
-    public void setFileName (String fileName) {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
     @Override
-    public List<Object> getValues () {
+    public List<Object> getValues() {
         List<Component> compValues = getLinkedComponentValues();
         List<Object> l = new LinkedList<Object>();
 

@@ -24,7 +24,7 @@ public class JSPComponentPresentationViewHandler extends BaseJSPViewHandler<Comp
     public JSPComponentPresentationViewHandler() {
 
         super();
-        setModelKey(Constants.COMPONENT_PRESENTATION_KEY);     
+        setModelKey(Constants.COMPONENT_PRESENTATION_KEY);
     }
 
 }

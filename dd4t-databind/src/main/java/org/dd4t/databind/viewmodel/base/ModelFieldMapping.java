@@ -29,16 +29,16 @@ public class ModelFieldMapping {
     private ViewModelProperty viewModelProperty;
     private Field field;
 
-    public ModelFieldMapping (ViewModelProperty modelProperty, Field f) {
+    public ModelFieldMapping(ViewModelProperty modelProperty, Field f) {
         this.field = f;
         this.viewModelProperty = modelProperty;
     }
 
-    public ViewModelProperty getViewModelProperty () {
+    public ViewModelProperty getViewModelProperty() {
         return viewModelProperty;
     }
 
-    public Field getField () {
+    public Field getField() {
         return field;
     }
 }

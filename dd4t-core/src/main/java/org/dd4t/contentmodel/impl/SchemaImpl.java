@@ -17,21 +17,25 @@
 package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.dd4t.contentmodel.Schema;
 import org.simpleframework.xml.Element;
 
-public class SchemaImpl extends BaseRepositoryLocalItem implements Schema {
-    @Element(name = "rootElement", required = false)
+import java.io.Serializable;
+
+public class SchemaImpl extends BaseRepositoryLocalItem implements Schema, Serializable {
+
+    private static final long serialVersionUID = 6906233835226254898L;
+
+    @Element (name = "rootElement", required = false)
     @JsonProperty ("RootElementName")
     private String rootElement;
 
     @Override
-    public String getRootElement () {
+    public String getRootElement() {
         return rootElement;
     }
 
-    public void setRootElement (String rootElement) {
+    public void setRootElement(String rootElement) {
         this.rootElement = rootElement;
     }
 }

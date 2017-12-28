@@ -38,18 +38,19 @@ public class SpringPageController extends AbstractPageController {
      * queried based on the request URI, the page meta XML contains the actual
      * view name to be rendered.
      *
-     * @param model the Spring Model
-     * @param request the HttpServletRequest
+     * @param model    the Spring Model
+     * @param request  the HttpServletRequest
      * @param response the HttpServletResponse
      */
     @RequestMapping (value = {"/**/*.html", "/**/*.txt", "/**/*.xml"}, method = {RequestMethod.GET, RequestMethod.HEAD})
     @Override
-    public String showPage (final Model model, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+    public String showPage(final Model model, final HttpServletRequest request, final HttpServletResponse response)
+            throws IOException {
         return super.showPage(model, request, response);
     }
 
     @Override
-    public String getPageViewName (final Page page) {
+    public String getPageViewName(final Page page) {
         return super.getPageViewName(page);
     }
 
@@ -57,7 +58,7 @@ public class SpringPageController extends AbstractPageController {
      * @return the pageViewPrefix
      */
     @Override
-    public String getPageViewPath () {
+    public String getPageViewPath() {
         return super.getPageViewPath();
     }
 
@@ -65,7 +66,7 @@ public class SpringPageController extends AbstractPageController {
      * @param pageViewPath the path to the page views
      */
     @Override
-    public void setPageViewPath (final String pageViewPath) {
+    public void setPageViewPath(final String pageViewPath) {
         super.setPageViewPath(pageViewPath);
     }
 }

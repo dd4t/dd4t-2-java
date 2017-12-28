@@ -16,19 +16,19 @@ public class EmbeddedOne extends TridionViewModelBase {
     @ViewModelProperty
     private EmbeddedTwo embeddableTwo;
 
-    public String getTestfieldOne () {
+    public String getTestfieldOne() {
         return testfieldOne;
     }
 
-    public void setTestfieldOne (final String testfieldOne) {
+    public void setTestfieldOne(final String testfieldOne) {
         this.testfieldOne = testfieldOne;
     }
 
-    public EmbeddedTwo getEmbeddableTwo () {
+    public EmbeddedTwo getEmbeddableTwo() {
         return embeddableTwo;
     }
 
-    public void setEmbeddableTwo (final EmbeddedTwo embeddableTwo) {
+    public void setEmbeddableTwo(final EmbeddedTwo embeddableTwo) {
         this.embeddableTwo = embeddableTwo;
     }
 }

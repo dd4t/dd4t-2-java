@@ -15,11 +15,11 @@ public class EmbeddedTwo extends TridionViewModelBase {
     @ViewModelProperty
     private String testfieldTwo;
 
-    public String getTestfieldTwo () {
+    public String getTestfieldTwo() {
         return testfieldTwo;
     }
 
-    public void setTestfieldTwo (final String testfieldTwo) {
+    public void setTestfieldTwo(final String testfieldTwo) {
         this.testfieldTwo = testfieldTwo;
     }
 }

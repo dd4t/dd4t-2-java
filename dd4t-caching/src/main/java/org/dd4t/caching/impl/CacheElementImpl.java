@@ -32,52 +32,52 @@ public class CacheElementImpl<T> implements CacheElement<T> {
     private T payload;
     private String dependentKey;
 
-    public CacheElementImpl (T payload) {
+    public CacheElementImpl(T payload) {
         this(payload, false);
     }
 
-    public CacheElementImpl (T payload, boolean isExpired) {
+    public CacheElementImpl(T payload, boolean isExpired) {
         this.payload = payload;
         this.isExpired = isExpired;
     }
 
     @Override
-    public boolean isExpired () {
+    public boolean isExpired() {
         return isExpired;
     }
 
     @Override
-    public void setExpired (boolean expired) {
+    public void setExpired(boolean expired) {
         this.isExpired = expired;
     }
 
     @Override
-    public T getPayload () {
+    public T getPayload() {
         return payload;
     }
 
     @Override
-    public void setPayload (T payload) {
+    public void setPayload(T payload) {
         this.payload = payload;
     }
 
     @Override
-    public String getDependentKey () {
+    public String getDependentKey() {
         return dependentKey;
     }
 
     @Override
-    public void setDependentKey (String dependentKey) {
+    public void setDependentKey(String dependentKey) {
         this.dependentKey = dependentKey;
     }
 
-	@Override
-	public boolean isNull() {
-		return isNull;
-	}
+    @Override
+    public boolean isNull() {
+        return isNull;
+    }
 
-	@Override
-	public void setNull(boolean isnull) {	
-		this.isNull = isnull;
-	}
+    @Override
+    public void setNull(boolean isnull) {
+        this.isNull = isnull;
+    }
 }

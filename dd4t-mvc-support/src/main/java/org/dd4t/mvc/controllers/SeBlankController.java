@@ -18,7 +18,7 @@ public class SeBlankController {
      * Required for XPM - this does not have to return any particular content, just a valid response
      */
     @RequestMapping (value = {"/se_blank.html"}, method = {RequestMethod.GET, RequestMethod.HEAD, RequestMethod.POST})
-    protected String seBlank (final HttpServletResponse response) throws IOException {
+    protected String seBlank(final HttpServletResponse response) throws IOException {
         response.setStatus(200);
         return null;
     }

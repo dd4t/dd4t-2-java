@@ -16,11 +16,11 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.ComponentPresentation;
 import org.dd4t.contentmodel.ComponentTemplate;
@@ -29,6 +29,7 @@ import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.core.databind.BaseViewModel;
 import org.simpleframework.xml.Element;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,13 +40,17 @@ import java.util.Map;
  *
  * @author bjornl, rai, sdl
  */
-public class ComponentPresentationImpl implements ComponentPresentation {
-	@Element(name = "component", required = false)
+@JsonAutoDetect (getterVisibility = JsonAutoDetect.Visibility.NONE)
+public class ComponentPresentationImpl implements ComponentPresentation, Serializable {
+
+    private static final long serialVersionUID = -7971393961257030293L;
+
+    @Element (name = "component", required = false)
     @JsonProperty ("Component")
     @JsonDeserialize (as = ComponentImpl.class)
     private Component component;
 
-	@Element(name = "componentTemplate", required = false)
+    @Element (name = "componentTemplate", required = false)
     @JsonProperty ("ComponentTemplate")
     @JsonDeserialize (as = ComponentTemplateImpl.class)
     private ComponentTemplate componentTemplate;
@@ -54,11 +59,11 @@ public class ComponentPresentationImpl implements ComponentPresentation {
     @JsonDeserialize (contentAs = FieldSetImpl.class)
     private Map<String, FieldSet> extensionData;
 
-	@Element(name = "isDynamic", required = false)
+    @Element (name = "isDynamic", required = false)
     @JsonProperty ("IsDynamic")
     private boolean isDynamic;
 
-	@Element(name = "renderedContent", required = false)
+    @Element (name = "renderedContent", required = false)
     @JsonProperty ("RenderedContent")
     private String renderedContent;
 
@@ -81,7 +86,7 @@ public class ComponentPresentationImpl implements ComponentPresentation {
      * @return the component
      */
     @Override
-    public Component getComponent () {
+    public Component getComponent() {
         return component;
     }
 
@@ -91,7 +96,7 @@ public class ComponentPresentationImpl implements ComponentPresentation {
      * @param component
      */
     @Override
-    public void setComponent (Component component) {
+    public void setComponent(Component component) {
         this.component = component;
     }
 
@@ -101,7 +106,7 @@ public class ComponentPresentationImpl implements ComponentPresentation {
      * @return the component template
      */
     @Override
-    public ComponentTemplate getComponentTemplate () {
+    public ComponentTemplate getComponentTemplate() {
         return componentTemplate;
     }
 
@@ -111,41 +116,42 @@ public class ComponentPresentationImpl implements ComponentPresentation {
      * @param componentTemplate
      */
     @Override
-    public void setComponentTemplate (ComponentTemplate componentTemplate) {
+    public void setComponentTemplate(ComponentTemplate componentTemplate) {
         this.componentTemplate = componentTemplate;
     }
 
     @Override
-    public String getRenderedContent () {
+    public String getRenderedContent() {
         return renderedContent;
     }
 
     @Override
-    public void setRenderedContent (String renderedContent) {
+    public void setRenderedContent(String renderedContent) {
         this.renderedContent = renderedContent;
     }
 
     @Override
-    public boolean isDynamic () {
+    @JsonIgnore
+    public boolean isDynamic() {
         return isDynamic;
     }
 
     @Override
-    public void setIsDynamic (final boolean isDynamic) {
+    public void setIsDynamic(final boolean isDynamic) {
         this.isDynamic = isDynamic;
     }
 
-    public int getOrderOnPage () {
+    public int getOrderOnPage() {
         return orderOnPage;
     }
 
     @Override
-    public void setOrderOnPage (final int orderOnPage) {
+    public void setOrderOnPage(final int orderOnPage) {
         this.orderOnPage = orderOnPage;
     }
 
     @Override
-    public void setConditions (final List<Condition> conditions) {
+    public void setConditions(final List<Condition> conditions) {
         this.conditions = conditions;
     }
 
@@ -156,7 +162,7 @@ public class ComponentPresentationImpl implements ComponentPresentation {
     }
 
     @Override
-    public List<Condition> getConditions () {
+    public List<Condition> getConditions() {
         if (conditions == null) {
             return new LinkedList<>();
         }
@@ -164,7 +170,7 @@ public class ComponentPresentationImpl implements ComponentPresentation {
     }
 
     @Override
-    public Map<String, BaseViewModel> getAllViewModels () {
+    public Map<String, BaseViewModel> getAllViewModels() {
         if (this.baseViewModels == null) {
             return new HashMap<>();
         }
@@ -172,12 +178,12 @@ public class ComponentPresentationImpl implements ComponentPresentation {
     }
 
     @Override
-    public void setViewModel (final Map<String, BaseViewModel> models) {
+    public void setViewModel(final Map<String, BaseViewModel> models) {
         this.baseViewModels = models;
     }
 
     @Override
-    public BaseViewModel getViewModel (String key) {
+    public BaseViewModel getViewModel(String key) {
         if (this.baseViewModels != null && this.baseViewModels.containsKey(key)) {
             return this.baseViewModels.get(key);
         }
@@ -192,22 +198,22 @@ public class ComponentPresentationImpl implements ComponentPresentation {
      * @param rawComponentContent the Json or XML Component String from the broker.
      */
     @Override
-    public void setRawComponentContent (final String rawComponentContent) {
+    public void setRawComponentContent(final String rawComponentContent) {
         this.rawComponentContent = rawComponentContent;
     }
 
     @Override
-    public String getRawComponentContent () {
+    public String getRawComponentContent() {
         return this.rawComponentContent;
     }
 
     @Override
-    public Map<String, FieldSet> getExtensionData () {
+    public Map<String, FieldSet> getExtensionData() {
         return extensionData;
     }
 
     @Override
-    public void setExtensionData (final Map<String, FieldSet> extensionData) {
+    public void setExtensionData(final Map<String, FieldSet> extensionData) {
         this.extensionData = extensionData;
     }
 

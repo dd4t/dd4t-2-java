@@ -1,6 +1,6 @@
-#set( $symbol_pound = '#' )
-#set( $symbol_dollar = '$' )
-#set( $symbol_escape = '\' )
+#set($symbol_pound='#')
+        #set($symbol_dollar='$')
+        #set($symbol_escape='\' )
 /*
  * Copyright (c) 2015 SDL, Radagio & R. Oudshoorn
  *
@@ -17,18 +17,18 @@
  * limitations under the License.
  */
 
-package ${package}.controllers;
+        package ${package}.controllers;
 
-import org.dd4t.contentmodel.Page;
-import org.dd4t.mvc.controllers.AbstractPageController;
-import org.springframework.ui.Model;
+        import org.dd4t.contentmodel.Page;
+        import org.dd4t.mvc.controllers.AbstractPageController;
+        import org.springframework.ui.Model;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+        import org.springframework.web.bind.annotation.RequestMapping;
+        import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+        import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpServletResponse;
+        import java.io.IOException;
 
 /**
  * dd4t-2
@@ -37,41 +37,48 @@ import java.io.IOException;
  */
 public class PageController extends AbstractPageController {
 
-	/**
-	 * All page requests with the configured extensions are handled by this method.
-	 *
-	 * @param model
-	 * @param request
-	 * @param response
-	 */
-	@RequestMapping(value = {"/**/*.html", "/**/*.txt", "/**/*.xml"}, method = {RequestMethod.GET})
-	@Override public String showPage (final Model model, final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		return super.showPage(model, request, response);
-	}
+    /**
+     * All page requests with the configured extensions are handled by this method.
+     *
+     * @param model
+     * @param request
+     * @param response
+     */
+    @RequestMapping (value = {"/**/*.html", "/**/*.txt", "/**/*.xml"}, method = {RequestMethod.GET})
+    @Override
+    public String showPage(final Model model, final HttpServletRequest request, final HttpServletResponse response)
+            throws IOException {
+        return super.showPage(model, request, response);
+    }
 
-	@Override public String getPageViewName (final Page page) {
-		return super.getPageViewName(page);
-	}
+    @Override
+    public String getPageViewName(final Page page) {
+        return super.getPageViewName(page);
+    }
 
-	/**
-	 * @return the pageViewPrefix
-	 */
-	@Override public String getPageViewPath () {
-		return super.getPageViewPath();
-	}
+    /**
+     * @return the pageViewPrefix
+     */
+    @Override
+    public String getPageViewPath() {
+        return super.getPageViewPath();
+    }
 
-	/**
-	 * @param pageViewPath
-	 */
-	@Override public void setPageViewPath (final String pageViewPath) {
-		super.setPageViewPath(pageViewPath);
-	}
+    /**
+     * @param pageViewPath
+     */
+    @Override
+    public void setPageViewPath(final String pageViewPath) {
+        super.setPageViewPath(pageViewPath);
+    }
 
-	@Override public boolean isRemoveContextPath () {
-		return super.isRemoveContextPath();
-	}
+    @Override
+    public boolean isRemoveContextPath() {
+        return super.isRemoveContextPath();
+    }
 
-	@Override public void setRemoveContextPath (final boolean removeContextPath) {
-		super.setRemoveContextPath(removeContextPath);
-	}
+    @Override
+    public void setRemoveContextPath(final boolean removeContextPath) {
+        super.setRemoveContextPath(removeContextPath);
+    }
 }

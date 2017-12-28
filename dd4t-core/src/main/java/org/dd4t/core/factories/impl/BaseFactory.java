@@ -39,7 +39,7 @@ public abstract class BaseFactory {
     protected PayloadCacheProvider cacheProvider;
     protected List<Processor> processors;
 
-    public List<Processor> getProcessors () {
+    public List<Processor> getProcessors() {
         if (processors == null) {
             this.processors = new ArrayList<>();
         }
@@ -51,7 +51,7 @@ public abstract class BaseFactory {
      *
      * @param processors list of Processors to run
      */
-    public void setProcessors (List<Processor> processors) {
+    public void setProcessors(List<Processor> processors) {
         this.processors = new ArrayList<>();
 
         for (Processor processor : processors) {
@@ -66,7 +66,8 @@ public abstract class BaseFactory {
      * @param item The DD4T Item
      * @throws org.dd4t.core.exceptions.ProcessorException
      */
-    public void executeProcessors (Item item, RunPhase runPhase, RequestContext context) throws ProcessorException {
+
+    public void executeProcessors(Item item, RunPhase runPhase, RequestContext context) throws ProcessorException {
         if (item != null) {
             for (Processor processor : getProcessors()) {
                 if (runPhase == processor.getRunPhase() || processor.getRunPhase() == RunPhase.BOTH) {
@@ -76,14 +77,14 @@ public abstract class BaseFactory {
         }
     }
 
-    private void execute (Processor processor, Item item, RequestContext context) throws ProcessorException {
+    private void execute(Processor processor, Item item, RequestContext context) throws ProcessorException {
         processor.execute(item, context);
     }
 
     /**
      * Set the cache agent.
      */
-    public void setCacheProvider (PayloadCacheProvider cacheAgent) {
+    public void setCacheProvider(PayloadCacheProvider cacheAgent) {
         cacheProvider = cacheAgent;
     }
 }

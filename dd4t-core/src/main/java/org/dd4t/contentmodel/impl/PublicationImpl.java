@@ -18,13 +18,18 @@ package org.dd4t.contentmodel.impl;
 
 import org.dd4t.contentmodel.Publication;
 
-public class PublicationImpl extends BaseItem implements Publication {
+import java.io.Serializable;
 
-    public PublicationImpl () {
+public class PublicationImpl extends BaseItem implements Publication, Serializable {
+
+
+    private static final long serialVersionUID = -8593904509879801004L;
+
+    public PublicationImpl() {
         super();
     }
 
-    public PublicationImpl (String id) {
+    public PublicationImpl(String id) {
         super();
         this.setId(id);
     }

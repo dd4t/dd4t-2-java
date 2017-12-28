@@ -35,12 +35,12 @@ public class JMSErrorHandler implements ErrorHandler {
     private JMSCacheMonitor monitor;
 
     @Override
-    public void handleError (Throwable error) {
+    public void handleError(Throwable error) {
         LOG.error("JMS exception occurred", error);
         monitor.setMQServerStatusDown();
     }
 
-    public void setMonitor (JMSCacheMonitor monitor) {
+    public void setMonitor(JMSCacheMonitor monitor) {
         this.monitor = monitor;
     }
 }

@@ -37,7 +37,7 @@ public class RichTextWithLinksResolver extends RichTextResolver implements Proce
     private LinkResolver linkResolver;
 
     @Override
-    protected void resolveXhtmlField (XhtmlField xhtmlField) throws TransformerException {
+    protected void resolveXhtmlField(XhtmlField xhtmlField) throws TransformerException {
         try {
             RichTextUtils.resolveXhtmlField(xhtmlField, true, this.linkResolver, this.linkResolver.getContextPath());
         } catch (ItemNotFoundException | SerializationException e) {
@@ -45,11 +45,11 @@ public class RichTextWithLinksResolver extends RichTextResolver implements Proce
         }
     }
 
-    public LinkResolver getLinkResolver () {
+    public LinkResolver getLinkResolver() {
         return linkResolver;
     }
 
-    public void setLinkResolver (LinkResolver linkResolver) {
+    public void setLinkResolver(LinkResolver linkResolver) {
         this.linkResolver = linkResolver;
     }
 }

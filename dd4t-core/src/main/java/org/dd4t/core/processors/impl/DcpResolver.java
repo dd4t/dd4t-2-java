@@ -16,8 +16,6 @@
 
 package org.dd4t.core.processors.impl;
 
-import javax.annotation.Resource;
-
 import org.dd4t.contentmodel.ComponentPresentation;
 import org.dd4t.contentmodel.Item;
 import org.dd4t.contentmodel.Page;
@@ -27,6 +25,8 @@ import org.dd4t.core.processors.Processor;
 import org.dd4t.core.request.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
 
 /**
  * Pagefactory processor intended to resolve DCP's on pages at the factory level. It checks the page
@@ -38,12 +38,12 @@ import org.slf4j.LoggerFactory;
 public class DcpResolver extends BaseProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(DcpResolver.class);
-    
+
     @Resource
     protected ComponentPresentationFactory componentPresentationFactory;
 
-	@Override
-    public void execute (Item item, RequestContext context) {
+    @Override
+    public void execute(Item item, RequestContext context) {
         LOG.debug("Processing item: {} ", item);
         if (item instanceof Page) {
             final Page page = (Page) item;
@@ -55,23 +55,23 @@ public class DcpResolver extends BaseProcessor implements Processor {
                     LOG.debug("Detected dynamic component presentation " + cp);
 
                     try {
-                        final ComponentPresentation componentPresentation = componentPresentationFactory.getComponentPresentation(cp.getComponent().getId(), cp.getComponentTemplate().getId());
+                        final ComponentPresentation componentPresentation = componentPresentationFactory
+                                .getComponentPresentation(cp.getComponent().getId(), cp.getComponentTemplate().getId());
                         cp.setComponent(componentPresentation.getComponent());
                         cp.setViewModel(componentPresentation.getAllViewModels());
                     } catch (FactoryException e) {
                         LOG.error("Unable to find dynamic component by id " + cp.getComponent().getId(), e);
                     }
                 }
-            }       
+            }
         }
     }
-	
-    public ComponentPresentationFactory getComponentPresentationFactory() {
-		return componentPresentationFactory;
-	}
 
-	public void setComponentPresentationFactory(
-			ComponentPresentationFactory componentPresentationFactory) {
-		this.componentPresentationFactory = componentPresentationFactory;
-	}	
+    public ComponentPresentationFactory getComponentPresentationFactory() {
+        return componentPresentationFactory;
+    }
+
+    public void setComponentPresentationFactory(ComponentPresentationFactory componentPresentationFactory) {
+        this.componentPresentationFactory = componentPresentationFactory;
+    }
 }

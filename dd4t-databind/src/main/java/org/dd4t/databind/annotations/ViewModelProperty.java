@@ -32,9 +32,9 @@ public @interface ViewModelProperty {
     /*
     Entity field name in essence is the Tridion component field name
      */
-    String entityFieldName () default "";
+    String entityFieldName() default "";
 
-    FieldType tridionFieldType () default FieldType.TEXT;
+    FieldType tridionFieldType() default FieldType.TEXT;
 
-    boolean isMetadata () default false;
+    boolean isMetadata() default false;
 }

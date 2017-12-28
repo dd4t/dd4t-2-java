@@ -63,19 +63,18 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
 
     private static final ObjectMapper GENERIC_MAPPER = new ObjectMapper();
 
-	static {
-        GENERIC_MAPPER.configure(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS,true);
+    static {
+        GENERIC_MAPPER.configure(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS, true);
         GENERIC_MAPPER.registerModule(new JodaModule());
         GENERIC_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
     }
 
-    private JsonDataBinder () {
-        LoggerFactory.getLogger(JsonDataBinder.class).info("Creating a JsonDataBinder instance.");
+    public JsonDataBinder () {
     }
 
     @Override
-    public <T extends Page> T buildPage (final String source, final Class<T> aClass) throws SerializationException {
+    public <T extends Page> T buildPage(final String source, final Class<T> aClass) throws SerializationException {
         try {
             return GENERIC_MAPPER.readValue(source, aClass);
         } catch (IOException e) {
@@ -85,7 +84,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @Override
-    public <T extends ComponentPresentation> T buildComponentPresentation (final String source, final Class<T> componentPresentationClass) throws SerializationException {
+    public <T extends ComponentPresentation> T buildComponentPresentation(final String source, final Class<T>
+            componentPresentationClass) throws SerializationException {
         try {
             return GENERIC_MAPPER.readValue(source, componentPresentationClass);
         } catch (IOException e) {
@@ -95,7 +95,9 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @Override
-    public ComponentPresentation buildDynamicComponentPresentation (final ComponentPresentation componentPresentation, final Class<? extends Component> aClass) throws SerializationException {
+    public ComponentPresentation buildDynamicComponentPresentation(final ComponentPresentation componentPresentation,
+                                                                   final Class<? extends Component> aClass) throws
+            SerializationException {
         final Set<String> modelNames = new HashSet<>();
         try {
             String viewModelName = findComponentTemplateViewName(componentPresentation.getComponentTemplate());
@@ -104,7 +106,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
             String rootElementName = component.getSchema().getRootElement();
 
             if (StringUtils.isEmpty(viewModelName)) {
-                LOG.error("Viewmodel name not found on CT: {}. Not proceeding to build models", componentPresentation.getComponentTemplate().getId());
+                LOG.error("Viewmodel name not found on CT: {}. Not proceeding to build models", componentPresentation
+                        .getComponentTemplate().getId());
                 return componentPresentation;
             }
 
@@ -113,7 +116,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
                 modelNames.add(rootElementName);
             }
             final JsonNode rawComponentData = GENERIC_MAPPER.readTree(componentPresentation.getRawComponentContent());
-            final Map<String, BaseViewModel> models = buildModels(rawComponentData, modelNames, componentPresentation.getComponentTemplate().getId());
+            final Map<String, BaseViewModel> models = buildModels(rawComponentData, modelNames, componentPresentation
+                    .getComponentTemplate().getId());
 
             componentPresentation.setViewModel(models);
         } catch (SerializationException | IOException e) {
@@ -123,7 +127,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @Override
-    public <T extends Component> T buildComponent (final Object source, final Class<T> aClass) throws SerializationException {
+    public <T extends Component> T buildComponent(final Object source, final Class<T> aClass) throws
+            SerializationException {
         try {
             if (source instanceof JsonNode) {
                 JsonParser parser = null;
@@ -147,7 +152,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @Override
-    public Map<String, BaseViewModel> buildModels (final Object source, final Set<String> modelNames, final String templateUri) throws SerializationException {
+    public Map<String, BaseViewModel> buildModels(final Object source, final Set<String> modelNames, final String
+            templateUri) throws SerializationException {
 
         // TODO: this should then be Map<String, List<BaseViewModel>> ?
         final Map<String, BaseViewModel> models = new HashMap<>();
@@ -169,7 +175,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
                     models.put(modelName, buildModel(source, modelClass, templateUri));
                 }
             } else {
-                LOG.warn("Could not load Model Class for key: {}", modelName);
+                LOG.debug("Could not load Model Class for key: {}", modelName);
             }
         }
         return models;
@@ -184,7 +190,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
      * @throws SerializationException
      */
     @Override
-    public <T extends BaseViewModel> T buildModel (final Object source, final String modelName, final String templateUri) throws SerializationException {
+    public <T extends BaseViewModel> T buildModel(final Object source, final String modelName, final String
+            templateUri) throws SerializationException {
         if (VIEW_MODELS.containsKey(modelName)) {
             List<Class<? extends BaseViewModel>> modelClasses = VIEW_MODELS.get(modelName);
             // TODO. This is temp. We should offer all classes, not just the first.
@@ -199,7 +206,8 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @Override
-    public <T extends BaseViewModel> T buildModel (final Object source, final Class modelClass, final String templateUri) throws SerializationException {
+    public <T extends BaseViewModel> T buildModel(final Object source, final Class modelClass, final String
+            templateUri) throws SerializationException {
 
         try {
             // This appears a limitation in the Java Generics implementation.
@@ -218,34 +226,38 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
         return null;
     }
 
-    public static ObjectMapper getGenericMapper () {
+    public static ObjectMapper getGenericMapper() {
         return GENERIC_MAPPER;
     }
 
     @PostConstruct
     @Override
-    protected void init () {
+    public void init() {
 
         this.configureMapper();
         this.checkViewModelConfiguration();
         this.scanAndLoadModels();
     }
 
-    protected void configureMapper () {
+    protected void configureMapper() {
         // This is the hook where view models are custom generated
-        final ComponentPresentationDeserializer componentPresentationDeserializer = new ComponentPresentationDeserializer(this.concreteComponentPresentationImpl, this.concreteComponentTemplateImpl, this.concreteComponentImpl, this);
-        final SimpleModule module = new SimpleModule("ComponentPresentationDeserializerModule", new Version(1, 0, 0, "RELEASE", "org.dd4t", "dd4t-databind"));
+        final ComponentPresentationDeserializer componentPresentationDeserializer = new
+                ComponentPresentationDeserializer(this.concreteComponentPresentationImpl, this
+                .concreteComponentTemplateImpl, this.concreteComponentImpl, this);
+        final SimpleModule module = new SimpleModule("ComponentPresentationDeserializerModule", new Version(1, 0, 0,
+                "RELEASE", "org.dd4t", "dd4t-databind"));
         module.addDeserializer(ComponentPresentation.class, componentPresentationDeserializer);
 
         GENERIC_MAPPER.registerModule(module);
         GENERIC_MAPPER.registerModule(new AfterburnerModule());
         GENERIC_MAPPER.addMixIn(Field.class, BaseFieldMixIn.class);
 
-        LOG.debug("Mapper configured for: {} and {}", this.concreteComponentPresentationImpl.toString(), this.concreteComponentTemplateImpl.toString());
+        LOG.debug("Mapper configured for: {} and {}", this.concreteComponentPresentationImpl.toString(), this
+                .concreteComponentTemplateImpl.toString());
     }
 
     @Override
-    public String findComponentTemplateViewName (ComponentTemplate template) throws IOException {
+    public String findComponentTemplateViewName(ComponentTemplate template) throws IOException {
         if (template == null) {
             throw new IOException("The component template to find the viewModel of is null.");
         }
@@ -265,7 +277,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @Override
-    public String getRootElementName (Object componentNode) {
+    public String getRootElementName(Object componentNode) {
 
         if (!JsonUtils.isValidJsonNode(componentNode)) {
             LOG.error("Dunno what you're trying to do, but we're doing Json here.");
@@ -287,10 +299,9 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
 
     /**
      * To-Do: implement sanity checking that we're given json
-     * 
      */
-	@Override
-	public boolean canDeserialize(String source) {
-		return source.startsWith("{\"");
-	}
+    @Override
+    public boolean canDeserialize(String source) {
+        return source.startsWith("{\"");
+    }
 }

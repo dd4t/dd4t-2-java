@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dd4t-parent</artifactId>
         <groupId>org.dd4t</groupId>
-        <version>2.1.1-SNAPSHOT</version>
+        <version>2.1.0-beta7-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dd4t-bom-2013SP1</artifactId>
@@ -199,7 +199,7 @@
                 </exclusions>
                 <scope>runtime</scope>
             </dependency>
-            
+
             <!-- TODO: move to example web app -->
             <dependency>
                 <groupId>com.microsoft.sqlserver</groupId>
@@ -216,7 +216,7 @@
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-client</artifactId>
                 <version>${activemq.version}</version>
-            </dependency>            
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

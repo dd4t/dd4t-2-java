@@ -49,7 +49,7 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
      * @throws StorageException if something went wrong during accessing the CD DB
      */
 
-    public Keyword getTaxonomy (String taxonomyURI) throws StorageException {
+    public Keyword getTaxonomy(String taxonomyURI) throws StorageException {
         WebTaxonomyFactory webTaxonomyFactory = new WebTaxonomyFactoryImpl();
         return webTaxonomyFactory.getTaxonomyKeywords(taxonomyURI);
     }
@@ -65,7 +65,8 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
      * @throws StorageException if something went wrong during accessing the CD DB
      */
 
-    public List<RelatedKeyword> getRelatedItems (String taxonomyURI, int itemType) throws ParseException, StorageException {
+    public List<RelatedKeyword> getRelatedItems(String taxonomyURI, int itemType) throws ParseException,
+            StorageException {
         throw new NotImplementedException();
     }
 
@@ -79,18 +80,21 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
      * @throws ParseException   if the given Keyword URI does not represent a valid TCMURI
      * @throws StorageException if something went wrong during accessing the CD DB
      */
-    public List<RelatedKeyword> getRelatedComponentsBySchema (String taxonomyURI, String schemaURI) throws ParseException, StorageException {
+    public List<RelatedKeyword> getRelatedComponentsBySchema(String taxonomyURI, String schemaURI) throws
+            ParseException, StorageException {
         throw new NotImplementedException();
     }
 
 
     @Override
-    public String getTaxonomyByURI (final String taxonomyURI, final boolean resolveContent) throws ItemNotFoundException, SerializationException {
-       throw new NotImplementedException();
+    public String getTaxonomyByURI(final String taxonomyURI, final boolean resolveContent) throws
+            ItemNotFoundException, SerializationException {
+        throw new NotImplementedException();
     }
 
     @Override
-    public String getTaxonomyFilterBySchema (final String taxonomyURI, final String schemaURI) throws ItemNotFoundException, SerializationException {
+    public String getTaxonomyFilterBySchema(final String taxonomyURI, final String schemaURI) throws
+            ItemNotFoundException, SerializationException {
         throw new NotImplementedException();
     }
 }

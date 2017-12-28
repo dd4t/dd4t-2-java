@@ -17,52 +17,58 @@
 package org.dd4t.core.factories;
 
 import org.dd4t.contentmodel.ComponentPresentation;
+import org.dd4t.contentmodel.Item;
 import org.dd4t.core.exceptions.FactoryException;
+import org.dd4t.core.processors.RunPhase;
 import org.dd4t.core.request.RequestContext;
 
 // TODO: expand with: getComponentPresentations
 public interface ComponentPresentationFactory extends Factory {
 
-    /**
-     * Get a component by its uri and Component Template URI.
-     *
-     * @param componentURI      String representing the Component TCMURI to retrieve
-     * @return a Generic Component object
-     * @throws org.dd4t.core.exceptions.FactoryException
-     */
-    ComponentPresentation getComponentPresentation (String componentURI) throws FactoryException;
-    
-    /**
-     * Get a component by its uri and Component Template URI.
-     *
-     * @param componentURI      String representing the Component TCMURI to retrieve
-     * @param viewOrTemplateURI String representing either the View Name or Component Template TCMURI
-     *                          to use when looking up the DCP
-     * @return a Generic Component object
-     * @throws org.dd4t.core.exceptions.FactoryException
-     */
-    ComponentPresentation getComponentPresentation (String componentURI, String viewOrTemplateURI) throws FactoryException;
+    void executeProcessors(Item item, RunPhase runPhase, RequestContext context) throws FactoryException;
 
-    
     /**
      * Get a component by its uri and Component Template URI.
      *
-     * @param componentURI      String representing the Component TCMURI to retrieve
-     * @param context			RequestContext to be passed to the processors
+     * @param componentURI String representing the Component TCMURI to retrieve
      * @return a Generic Component object
      * @throws org.dd4t.core.exceptions.FactoryException
      */
-    ComponentPresentation getComponentPresentation (String componentURI, RequestContext context) throws FactoryException;        
-    
+    ComponentPresentation getComponentPresentation(String componentURI) throws FactoryException;
+
     /**
      * Get a component by its uri and Component Template URI.
      *
      * @param componentURI      String representing the Component TCMURI to retrieve
      * @param viewOrTemplateURI String representing either the View Name or Component Template TCMURI
      *                          to use when looking up the DCP
-     * @param context			RequestContext to be passed to the processors
      * @return a Generic Component object
      * @throws org.dd4t.core.exceptions.FactoryException
      */
-    ComponentPresentation getComponentPresentation (String componentURI, String viewOrTemplateURI, RequestContext context) throws FactoryException;    
+    ComponentPresentation getComponentPresentation(String componentURI, String viewOrTemplateURI) throws
+            FactoryException;
+
+
+    /**
+     * Get a component by its uri and Component Template URI.
+     *
+     * @param componentURI String representing the Component TCMURI to retrieve
+     * @param context      RequestContext to be passed to the processors
+     * @return a Generic Component object
+     * @throws org.dd4t.core.exceptions.FactoryException
+     */
+    ComponentPresentation getComponentPresentation(String componentURI, RequestContext context) throws FactoryException;
+
+    /**
+     * Get a component by its uri and Component Template URI.
+     *
+     * @param componentURI      String representing the Component TCMURI to retrieve
+     * @param viewOrTemplateURI String representing either the View Name or Component Template TCMURI
+     *                          to use when looking up the DCP
+     * @param context           RequestContext to be passed to the processors
+     * @return a Generic Component object
+     * @throws org.dd4t.core.exceptions.FactoryException
+     */
+    ComponentPresentation getComponentPresentation(String componentURI, String viewOrTemplateURI, RequestContext
+            context) throws FactoryException;
 }

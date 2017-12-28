@@ -26,6 +26,7 @@ public interface ComponentFactory extends Factory {
     /**
      * Get a Component by its uri. No security available; the method will fail if a
      * SecurityFilter is configured on the factory.
+     *
      * @param uri
      * @param context
      * @return
@@ -33,10 +34,11 @@ public interface ComponentFactory extends Factory {
      * @throws NotAuthorizedException
      * @throws NotAuthenticatedException
      */
-    Component getComponent (String uri) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException;
+    Component getComponent(String uri) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException;
 
     /**
      * Get a Component by its uri. The request context is used by the security filter (if there is one).
+     *
      * @param uri
      * @param context
      * @return
@@ -44,11 +46,13 @@ public interface ComponentFactory extends Factory {
      * @throws NotAuthorizedException
      * @throws NotAuthenticatedException
      */
-    Component getComponent (String uri, RequestContext context) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException;
+    Component getComponent(String uri, RequestContext context) throws ItemNotFoundException, NotAuthorizedException,
+            NotAuthenticatedException;
 
     /**
      * Get a component by its uri and component template uri. No security available; the method will fail if a
      * SecurityFilter is configured on the factory.
+     *
      * @param componentUri
      * @param componentTemplateUri
      * @param context
@@ -57,10 +61,13 @@ public interface ComponentFactory extends Factory {
      * @throws NotAuthorizedException
      * @throws NotAuthenticatedException
      */
-    Component getComponent (String componentUri, String componentTemplateUri) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException;
+    Component getComponent(String componentUri, String componentTemplateUri) throws ItemNotFoundException,
+            NotAuthorizedException, NotAuthenticatedException;
 
     /**
-     * Get a component by its uri and component template uri. The request context is used by the security filter (if there is one).
+     * Get a component by its uri and component template uri. The request context is used by the security filter (if
+     * there is one).
+     *
      * @param componentUri
      * @param componentTemplateUri
      * @param context
@@ -69,14 +76,16 @@ public interface ComponentFactory extends Factory {
      * @throws NotAuthorizedException
      * @throws NotAuthenticatedException
      */
-    Component getComponent (String componentUri, String componentTemplateUri, RequestContext context) throws ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException;
+    Component getComponent(String componentUri, String componentTemplateUri, RequestContext context) throws
+            ItemNotFoundException, NotAuthorizedException, NotAuthenticatedException;
 
     /**
-     * Get an embedded (i.e.: stored inside of a DD4T page) component. This method is slightly slower as it has to utilize the componentlinker.
+     * Get an embedded (i.e.: stored inside of a DD4T page) component. This method is slightly slower as it has to
+     * utilize the componentlinker.
      *
      * @param tcmUri
      * @return
      * @throws ItemNotFoundException
      */
-    Component getEmbeddedComponent (String uri) throws ItemNotFoundException;
+    Component getEmbeddedComponent(String uri) throws ItemNotFoundException;
 }

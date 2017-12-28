@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceConfig ConnectionTimeout="10000" CacheEnabled="true" CacheExpirationDuration="600"
+               ServiceAvailabilityCheck="false">
+    <DiscoveryService ServiceUri="http://[HOST]:[PORT]/discovery.svc"/>
+    <TokenService ClientId="cduser" ClientSecret="CDUserP@ssw0rd"/>
+</ServiceConfig>

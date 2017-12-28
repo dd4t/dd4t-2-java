@@ -34,34 +34,34 @@ public class TCMURI implements Serializable {
     protected int pubId;
     protected int version;
 
-    public TCMURI (String uri) throws ParseException {
+    public TCMURI(String uri) throws ParseException {
         this(new Builder(uri));
     }
 
-    public TCMURI (String uri, int version) throws ParseException {
+    public TCMURI(String uri, int version) throws ParseException {
         this(new Builder(uri).version(version));
     }
 
-    public TCMURI (int publicationId, int itemId, int itemType) {
+    public TCMURI(int publicationId, int itemId, int itemType) {
         this(new Builder(publicationId, itemId, itemType));
     }
 
-    public TCMURI (int publicationId, int itemId, int itemType, int version) {
+    public TCMURI(int publicationId, int itemId, int itemType, int version) {
         this(new Builder(publicationId, itemId, itemType).version(version));
     }
 
-    private TCMURI (Builder builder) {
+    private TCMURI(Builder builder) {
         this.itemType = builder.itemType;
         this.itemId = builder.itemId;
         this.pubId = builder.pubId;
         this.version = builder.version;
     }
 
-    public static boolean isValid (String tcmUri) {
+    public static boolean isValid(String tcmUri) {
         return tcmUri != null && tcmUri.startsWith(URI_NAMESPACE);
     }
 
-    protected void load (String uriString) throws ParseException {
+    protected void load(String uriString) throws ParseException {
         Builder builder = new Builder(uriString);
         this.itemType = builder.itemType;
         this.itemId = builder.itemId;
@@ -69,7 +69,7 @@ public class TCMURI implements Serializable {
         this.version = builder.version;
     }
 
-    public static int safeLongToInt (long l) {
+    public static int safeLongToInt(long l) {
         if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
             throw new IllegalArgumentException(l + " cannot be cast to int without changing its value.");
         }
@@ -77,28 +77,29 @@ public class TCMURI implements Serializable {
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return URI_NAMESPACE + this.pubId + SEPARATOR + this.itemId + SEPARATOR + this.itemType;
     }
 
-    public int getItemType () {
+    public int getItemType() {
         return this.itemType;
     }
 
-    public int getItemId () {
+    public int getItemId() {
         return this.itemId;
     }
 
-    public int getPublicationId () {
+    public int getPublicationId() {
         return this.pubId;
     }
 
-    public int getVersion () {
+    public int getVersion() {
         return this.version;
     }
 
     public static class Builder {
-        private static final Pattern PATTERN = Pattern.compile("^tcm:(?<pubId>\\d+)-(?<itemId>\\d+)(-(?<itemType>\\d+))?(-v(?<version>\\d+))?$");
+        private static final Pattern PATTERN = Pattern.compile("^tcm:(?<pubId>\\d+)-(?<itemId>\\d+)(-" +
+                "(?<itemType>\\d+))?(-v(?<version>\\d+))?$");
         private static final Logger LOG = LoggerFactory.getLogger(Builder.class);
 
         private int pubId;
@@ -112,18 +113,18 @@ public class TCMURI implements Serializable {
          * @param pubId  the publication Id
          * @param itemId the item Id
          */
-        public Builder (int pubId, int itemId) {
+        public Builder(int pubId, int itemId) {
             this.pubId = pubId;
             this.itemId = itemId;
         }
 
-        public Builder (int pubId, int itemId, int itemType) {
+        public Builder(int pubId, int itemId, int itemType) {
             this.pubId = pubId;
             this.itemId = itemId;
             this.itemType = itemType;
         }
 
-        public Builder (String uri) throws ParseException {
+        public Builder(String uri) throws ParseException {
             try {
                 validatePatternOf(uri);
                 extractItemsFrom(uri);
@@ -133,27 +134,28 @@ public class TCMURI implements Serializable {
             }
         }
 
-        public Builder itemType (int itemType) {
+        public Builder itemType(int itemType) {
             this.itemType = itemType;
             return this;
         }
 
-        public Builder version (int version) {
+        public Builder version(int version) {
             this.version = version;
             return this;
         }
 
-        private static void validatePatternOf (String uri) {
+        private static void validatePatternOf(String uri) {
             if (uri == null) {
                 throw new IllegalArgumentException("Invalid TCMURI String, string cannot be null");
             }
 
             if (!uri.startsWith(URI_NAMESPACE)) {
-                throw new IllegalArgumentException(String.format("URI string %s does not start with %s", uri, URI_NAMESPACE));
+                throw new IllegalArgumentException(String.format("URI string %s does not start with %s", uri,
+                        URI_NAMESPACE));
             }
         }
 
-        private void extractItemsFrom (String uri) {
+        private void extractItemsFrom(String uri) {
             Matcher m = PATTERN.matcher(uri);
 
             if (!m.find()) {
@@ -172,7 +174,7 @@ public class TCMURI implements Serializable {
             }
         }
 
-        public TCMURI create () {
+        public TCMURI create() {
             return new TCMURI(this);
         }
     }

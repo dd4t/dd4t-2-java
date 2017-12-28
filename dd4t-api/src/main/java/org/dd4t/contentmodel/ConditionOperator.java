@@ -7,24 +7,17 @@ package org.dd4t.contentmodel;
  */
 public enum ConditionOperator {
 
-    EQUALS(0),
-    GREATERTHAN(1),
-    LESSTHAN(2),
-    NOTEQUAL(3),
-    STRINGEQUALS(4),
-    CONTAINS(5),
-    STARTSWITH(6),
-    ENDSWITH(7),
+    EQUALS(0), GREATERTHAN(1), LESSTHAN(2), NOTEQUAL(3), STRINGEQUALS(4), CONTAINS(5), STARTSWITH(6), ENDSWITH(7),
     UNKNOWN(-1);
 
     private final int value;
 
 
-    ConditionOperator (final int v) {
-        this.value=v;
+    ConditionOperator(final int v) {
+        this.value = v;
     }
 
-    public static ConditionOperator findByValue (int value) {
+    public static ConditionOperator findByValue(int value) {
         for (ConditionOperator operator : values()) {
             if (operator.getValue() == value) {
                 return operator;
@@ -34,7 +27,7 @@ public enum ConditionOperator {
         return UNKNOWN;
     }
 
-    public int getValue () {
+    public int getValue() {
         return value;
     }
 }

@@ -15,19 +15,19 @@
  */
 package org.dd4t.contentmodel.exceptions;
 
-public class NotAuthorizedException extends  org.dd4t.core.exceptions.NotAuthorizedException {
+public class NotAuthorizedException extends org.dd4t.core.exceptions.NotAuthorizedException {
 
     private static final long serialVersionUID = 7860070186906683875L;
 
-    public NotAuthorizedException (String message) {
+    public NotAuthorizedException(String message) {
         super(message);
     }
 
-    public NotAuthorizedException (Throwable t) {
+    public NotAuthorizedException(Throwable t) {
         super(t);
     }
 
-    public NotAuthorizedException (String message, Throwable t) {
+    public NotAuthorizedException(String message, Throwable t) {
         super(message, t);
     }
 }

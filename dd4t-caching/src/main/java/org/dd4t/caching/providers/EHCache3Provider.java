@@ -14,9 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * dd4t-parent
@@ -68,16 +66,16 @@ public class EHCache3Provider extends AbstractEHCacheProvider implements Payload
 
         if (dependentEntry != null) {
             LOG.info("Expire key: {} from dependency cache", dependencyKey);
-            dependencyCache.remove();
+//            dependencyCache.remove();
             setExpired(dependentEntry, ADJUST_TTL);
-            ConcurrentSkipListSet<String> cacheSet = ((CacheElement<ConcurrentSkipListSet<String>>) entry.getValue()).getPayload();
-            if (cacheSet != null) {
-                for (String cacheKey : cacheSet) {
-                    LOG.debug("Expire cache key: {} from cache", cacheKey);
-                    CacheElement entry = cache.get(cacheKey);
-                    setExpired(entry, 0);
-                }
-            }
+//            ConcurrentSkipListSet<String> cacheSet = ((CacheElement<ConcurrentSkipListSet<String>>) entry.getValue()).getPayload();
+//            if (cacheSet != null) {
+//                for (String cacheKey : cacheSet) {
+//                    LOG.debug("Expire cache key: {} from cache", cacheKey);
+//                    CacheElement entry = cache.get(cacheKey);
+//                    setExpired(entry, 0);
+//                }
+//            }
         } else {
             LOG.info("Attempting to expire key {} but not found in dependency cache", dependencyKey);
         }
@@ -148,17 +146,17 @@ public class EHCache3Provider extends AbstractEHCacheProvider implements Payload
             cacheElement.setExpired(true);
 
             // TODO: something totally different.
-            expireElement(entry, adjustTTL);
+//            expireElement(entry, adjustTTL);
         }
     }
 
     private void expireElement (Cache.Entry<String, CacheElement> entry, int adjustTTL) {
 
-        long lastAccessTime = entry.getValue().getLastAccessTime();
-        long creationTime = element.getCreationTime();
-        // set element eviction to ('now' + expiredTTL) seconds in the future
-        int timeToLive = lastAccessTime == 0 ? expiredTTL : (int) (lastAccessTime - creationTime) / 1000 + expiredTTL;
-        timeToLive += adjustTTL;
-        element.setTimeToLive(timeToLive);
+//        long lastAccessTime = entry.getValue().getLastAccessTime();
+//        long creationTime = element.getCreationTime();
+//        // set element eviction to ('now' + expiredTTL) seconds in the future
+//        int timeToLive = lastAccessTime == 0 ? expiredTTL : (int) (lastAccessTime - creationTime) / 1000 + expiredTTL;
+//        timeToLive += adjustTTL;
+//        element.setTimeToLive(timeToLive);
     }
 }

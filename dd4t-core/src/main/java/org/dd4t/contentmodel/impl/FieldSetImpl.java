@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
-
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.contentmodel.Schema;
@@ -32,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,15 +39,15 @@ import java.util.Map;
  * Embedded fields basically are an array of
  * ambiguous and unknown keynames, with multiple Fields in them
  */
-public class FieldSetImpl implements FieldSet {
+public class FieldSetImpl implements FieldSet, Serializable {
 
     private static final Logger LOG = LoggerFactory.getLogger(FieldSetImpl.class);
 
-    private final Map<String, Object> rawContent = new HashMap<>();
-    
-    @ElementMap(name = "fields", keyType = String.class, valueType = Field.class, entry = "item", required = false)    
+    private static final long serialVersionUID = -2184588044467613932L;
+
+    @ElementMap(name = "fields", keyType = String.class, valueType = Field.class, entry = "item", required = false)
     @JsonIgnore
-    private Map<String, Field> content = new HashMap<>();
+    private Map<String, Field> fieldSet = new HashMap<>();
 
     @Element(name = "schema", required = true)
     @JsonProperty ("Schema")
@@ -64,22 +64,20 @@ public class FieldSetImpl implements FieldSet {
     }
 
     @JsonAnyGetter
-    public Map<String, Object> getRawContent () {
-        return rawContent;
+    public Map<String, Field> getRawContent () {
+        return fieldSet;
     }
 
     @JsonAnySetter
-    public void set (String fieldKey, JsonNode embeddedField) {
+    public void setContent (String fieldKey, JsonNode embeddedField) {
 
         try {
             // The basefield annotations will map the fields to concrete types
             BaseField b = JsonDataBinder.getGenericMapper().readValue(embeddedField.toString(), BaseField.class);
-            content.put(fieldKey, b);
+            fieldSet.put(fieldKey, b);
         } catch (IOException e) {
             LOG.error("Error deserializing FieldSet.", e);
         }
-
-        rawContent.put(fieldKey, embeddedField);
     }
 
     /**
@@ -88,15 +86,27 @@ public class FieldSetImpl implements FieldSet {
      * @return a map of field objects representing the content
      */
     @Override
-    public Map<String, Field> getContent () {
-        return content;
+    public Map<String, Field> getFieldSet () {
+        return this.fieldSet;
     }
 
     /**
      * Set the content
      */
     @Override
-    public void setContent (Map<String, Field> content) {
-        this.content = content;
+    public void setFieldSet (Map<String, Field> content) {
+        this.fieldSet = content;
+    }
+
+    @Override
+    @JsonIgnore
+    public void setContent(final Map<String, Field> content) {
+        this.fieldSet = content;
+    }
+
+    @Override
+    @JsonIgnore
+    public Map<String, Field> getContent() {
+        return this.fieldSet;
     }
 }

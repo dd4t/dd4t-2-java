@@ -21,10 +21,13 @@ import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldType;
 import org.dd4t.contentmodel.Keyword;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class KeywordField extends BaseField implements Field {
+public class KeywordField extends BaseField implements Field, Serializable {
+
+    private static final long serialVersionUID = 5239810268909419707L;
 
     @JsonProperty ("CategoryName")
     private String categoryName;
@@ -32,12 +35,12 @@ public class KeywordField extends BaseField implements Field {
     @JsonProperty ("CategoryId")
     private String categoryId;
 
-    public KeywordField () {
+    public KeywordField() {
         setFieldType(FieldType.KEYWORD);
     }
 
     @Override
-    public List<Object> getValues () {
+    public List<Object> getValues() {
         List<Keyword> keywordValues = getKeywordValues();
         List<Object> l = new LinkedList<>();
 
@@ -48,19 +51,19 @@ public class KeywordField extends BaseField implements Field {
         return l;
     }
 
-    public String getCategoryName () {
+    public String getCategoryName() {
         return categoryName;
     }
 
-    public void setCategoryName (String categoryName) {
+    public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
 
-    public String getCategoryId () {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId (String categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 }

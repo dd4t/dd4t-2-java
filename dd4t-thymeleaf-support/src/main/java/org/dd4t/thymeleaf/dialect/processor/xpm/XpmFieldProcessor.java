@@ -92,8 +92,8 @@ public class XpmFieldProcessor extends AbstractElementTagProcessor {
 
             // instruct the engine to replace this entire element with the specified model
             structureHandler.replaceWith(model, false);
-        } catch (IllegalArgumentException ex) {
-            LOG.debug(createMessage(context));
+        } catch (IllegalArgumentException e) {
+            LOG.error(createMessage(context), e);
         }
     }
 

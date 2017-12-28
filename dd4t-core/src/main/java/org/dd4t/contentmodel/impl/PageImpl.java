@@ -52,18 +52,20 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata, Seri
     @JsonDeserialize (as = StructureGroupImpl.class)
     protected StructureGroup structureGroup;
 
+    @JsonProperty ("Url")
+    protected String url;
+
     @Override
     public PageTemplate getPageTemplate() {
         return pageTemplate;
     }
 
-    @JsonProperty ("Url")
-    protected String url;
-
+    @Override
     public String getUrl() {
         return url;
     }
 
+    @Override
     public void setUrl(String url) {
         this.url = url;
     }

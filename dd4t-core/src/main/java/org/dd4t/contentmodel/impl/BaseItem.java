@@ -45,7 +45,7 @@ public abstract class BaseItem implements Item, Serializable {
     @JsonProperty ("CustomProperties")
     private Map<String, Object> customProperties = new HashMap<>();
 
-    @JsonProperty (value = "ExtensionData", required = false)
+    @JsonProperty (value = "ExtensionData")
     @JsonDeserialize (contentAs = FieldSetImpl.class)
     private Map<String, FieldSet> extensionData;
 

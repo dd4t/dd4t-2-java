@@ -16,6 +16,9 @@
 
 package org.dd4t.contentmodel;
 
+/**
+ * @deprecated
+ */
 @Deprecated
 public interface GenericComponent extends Component {
 }

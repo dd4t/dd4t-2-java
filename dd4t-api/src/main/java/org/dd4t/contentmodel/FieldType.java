@@ -51,7 +51,7 @@ public enum FieldType {
                 return findByValue(value);
             } catch (NumberFormatException nfe) {
                 LOG.error(nfe.getLocalizedMessage(), nfe);
-                return UNKNOWN;
+                return FieldType.UNKNOWN;
             }
         }
     }

@@ -32,6 +32,7 @@ public interface FieldSet {
      * dd4t-compatibility to have it filled as it was in dd4t-1.
      * I
      *
+     * @deprecated
      * @return the schema
      */
     @Deprecated
@@ -48,9 +49,21 @@ public interface FieldSet {
 
     void setFieldSet(Map<String, Field> content);
 
+    /**
+     * Sets the content map
+     *
+     * @deprecated
+     * @param content the map
+     */
     @Deprecated
     void setContent(Map<String, Field> content);
 
+    /**
+     * Gets the content map
+     *
+     * @deprecated
+     * @return map.
+     */
     @Deprecated
     Map<String, Field> getContent();
 

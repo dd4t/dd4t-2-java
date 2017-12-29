@@ -35,13 +35,13 @@ public class NoCacheProvider implements PayloadCacheProvider, CacheProvider {
 
     @Override
     public <T> void storeInItemCache(String key, CacheElement<T> cacheElement) {
-
+        // Do nothing
     }
 
     @Override
     public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, int dependingPublicationId, int
             dependingItemId) {
-
+        // Do nothing
     }
 
     @Override
@@ -51,19 +51,23 @@ public class NoCacheProvider implements PayloadCacheProvider, CacheProvider {
 
     @Override
     public void storeInCache(String key, Cachable ob, Collection<Cachable> deps) {
+        // Do nothing
     }
 
     @Override
     public void storeInItemCache(String key, Object ob, int dependingPublicationId, int dependingItemId) {
+        // Do nothing
     }
 
     @Override
     public void storeInComponentPresentationCache(String key, Object ob, int dependingPublicationId, int
             dependingCompId, int dependingTemplateId) {
+        // Do nothing
     }
 
     @Override
     public void storeInKeywordCache(String key, Object ob, int dependingPublicationId, int dependingItemId) {
+        // Do nothing
     }
 
     @Override
@@ -79,7 +83,6 @@ public class NoCacheProvider implements PayloadCacheProvider, CacheProvider {
     @Override
     public void addDependency(String cacheKey, String dependencyKey) {
         // Nothing to do.
-
     }
 
     @Override

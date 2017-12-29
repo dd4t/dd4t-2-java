@@ -33,8 +33,6 @@ import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * EH Cache implementation
- * <p>
- * TODO: this class has bugs! Only use for Tridion Object invalidation!
  *
  * @author R. Kempees, Mihai Cadariu, Rogier Oudshoorn
  */

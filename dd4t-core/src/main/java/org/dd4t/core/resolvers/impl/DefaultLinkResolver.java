@@ -112,8 +112,6 @@ public class DefaultLinkResolver implements LinkResolver {
             resolvedUrl = contextPath + resolvedUrl;
         }
 
-
-        // TODO: reinstated for the time being. It's quite an anti pattern
         component.setResolvedUrl(resolvedUrl);
 
 
@@ -137,7 +135,7 @@ public class DefaultLinkResolver implements LinkResolver {
         return resolve(componentURI, null);
     }
 
-    private boolean validInCache(CacheElement<String> cacheElement) {
+    private static boolean validInCache(CacheElement<String> cacheElement) {
         if (cacheElement.isExpired()) {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
@@ -186,29 +184,31 @@ public class DefaultLinkResolver implements LinkResolver {
 
     private String addToCache(String componentURI, String key, CacheElement<String> cacheElement, String result)
             throws ParseException {
-        result = result == null ? "" : result;
-        cacheElement.setPayload(result);
+
+        String toReturn = result == null ? "" : result;
+        cacheElement.setPayload(toReturn);
 
         TCMURI tcmUri = new TCMURI(componentURI);
         cacheProvider.storeInItemCache(key, cacheElement, tcmUri.getPublicationId(), tcmUri.getItemId());
         LOG.debug("Added link url: {} for uri: {} to cache", result, componentURI);
-        return result;
+        return toReturn;
     }
 
-    private String getCacheKey(String componentURI) {
+    private static String getCacheKey(String componentURI) {
         return String.format("CL-%s", componentURI);
     }
 
-    private String getCacheKey(String componentURI, String pageURI) {
+    private static String getCacheKey(String componentURI, String pageURI) {
         return String.format("CL-%s-%s", componentURI, pageURI);
     }
 
     private String replacePlaceholders(String resolvedUrl, String placeholder, String replacementText) {
         StringBuilder sb = new StringBuilder();
         if (!StringUtils.isEmpty(replacementText)) {
+            String toReplace = "";
             if (getEncodeUrl()) {
                 try {
-                    replacementText = URLEncoder.encode(replacementText, CharEncoding.UTF_8);
+                    toReplace = URLEncoder.encode(replacementText, CharEncoding.UTF_8);
                 } catch (UnsupportedEncodingException e) {
                     LOG.warn("Not possible to encode string: " + replacementText, e);
                     return "";
@@ -223,7 +223,7 @@ public class DefaultLinkResolver implements LinkResolver {
             while (m.find()) {
                 sb.append(resolvedUrl, pos, m.start());
                 pos = m.end();
-                sb.append(replacementText);
+                sb.append(toReplace);
             }
             sb.append(resolvedUrl, pos, resolvedUrl.length());
         }
@@ -231,7 +231,7 @@ public class DefaultLinkResolver implements LinkResolver {
     }
 
     private String findUrlMapping(Schema schema) {
-        String key = "";
+        String key;
         if ("id".equals(schemaKey)) {
             try {
                 TCMURI tcmUri = new TCMURI(schema.getId());

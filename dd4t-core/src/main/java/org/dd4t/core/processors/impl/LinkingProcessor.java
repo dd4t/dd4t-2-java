@@ -72,6 +72,13 @@ public class LinkingProcessor extends BaseProcessor implements LinkResolverProce
                 LOG.error(e.getMessage(), e);
                 throw new ProcessorException(e);
             }
+        } else if (item instanceof ComponentPresentation) {
+            try {
+                resolveComponent(((ComponentPresentation) item).getComponent());
+            } catch (TransformerException e) {
+                LOG.error(e.getMessage(), e);
+                throw new ProcessorException(e);
+            }
         } else if (item instanceof Component) {
             try {
                 resolveComponent((Component) item);
@@ -80,8 +87,8 @@ public class LinkingProcessor extends BaseProcessor implements LinkResolverProce
                 throw new ProcessorException(e);
             }
         } else {
-            LOG.debug("DefaultLinkResolverFilter. Item is not a GenericPage or GenericComponent so no component to " +
-                    "resolve");
+            LOG.debug("DefaultLinkResolverFilter. Item is not a GenericPage or GenericComponent so no component to "
+                    + "resolve");
         }
     }
 

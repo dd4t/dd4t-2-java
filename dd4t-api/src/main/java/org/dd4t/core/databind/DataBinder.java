@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * test
+ *
  *
  * @author R. Kempees
  * @since 01/12/14.
@@ -47,6 +47,18 @@ public interface DataBinder {
 
     <T extends BaseViewModel> T buildModel(final Object source, final Class modelClass, final String templateUri)
             throws SerializationException;
+
+
+    /**
+     * Used in the time that DD4T didnt give back ComponentPresentations.
+     *
+     * @param componentPresentation the CP with Component info only
+     * @param aClass the class to build into
+     * @return a full CP
+     * @throws SerializationException in case anything goes wrong.
+     *
+     * @deprecated
+     */
 
     @Deprecated
     ComponentPresentation buildDynamicComponentPresentation(final ComponentPresentation componentPresentation, final

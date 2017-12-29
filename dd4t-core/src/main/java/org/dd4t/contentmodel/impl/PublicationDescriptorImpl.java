@@ -50,7 +50,7 @@ public class PublicationDescriptorImpl implements PublicationDescriptor, Seriali
     }
 
     public PublicationDescriptorImpl() {
-
+        // allow manual setting.
     }
 
     @Override

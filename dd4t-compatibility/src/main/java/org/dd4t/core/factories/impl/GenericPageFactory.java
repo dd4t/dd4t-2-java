@@ -18,6 +18,7 @@ package org.dd4t.core.factories.impl;
 /**
  * Backwards compatibility class
  *
+ * @deprecated
  * @author Rogier Oudshoorn
  */
 @Deprecated

@@ -37,19 +37,13 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.List;
 
-// TODO: refactor duplicate code
 public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(PageFactoryImpl.class);
 
     @Resource
     protected PageProvider pageProvider;
-
-    @Resource
-    protected List<DataBinder> dataBinders;
-
 
     /**
      * @param uri of the page
@@ -201,30 +195,6 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
     @Override
     public TCMURI findPageIdByUrl(final String url, final int publicationId) throws FactoryException {
         return pageProvider.getPageIdForUrl(url, publicationId);
-    }
-
-    /**
-     * Method finds the relevant databinder for given source by calling canDeserialize() on them.
-     *
-     * @param source
-     * @return
-     */
-    protected DataBinder selectDataBinder(final String source) throws FactoryException {
-        if (dataBinders == null || dataBinders.size() == 0) {
-            return null;
-        }
-
-        if (dataBinders.size() == 1) {
-            return dataBinders.get(0);
-        }
-
-        for (DataBinder binder : dataBinders) {
-            if (binder.canDeserialize(source)) {
-                return binder;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -415,13 +385,5 @@ public class PageFactoryImpl extends BaseFactory implements PageFactory {
 
     public void setPageProvider(PageProvider provider) {
         this.pageProvider = provider;
-    }
-
-    public List<DataBinder> getDataBinders() {
-        return dataBinders;
-    }
-
-    public void setDataBinders(List<DataBinder> dataBinder) {
-        this.dataBinders = dataBinder;
     }
 }

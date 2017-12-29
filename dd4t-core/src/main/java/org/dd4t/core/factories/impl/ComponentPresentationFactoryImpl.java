@@ -19,7 +19,6 @@ package org.dd4t.core.factories.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.dd4t.caching.CacheElement;
 import org.dd4t.contentmodel.ComponentPresentation;
-import org.dd4t.core.databind.DataBinder;
 import org.dd4t.core.exceptions.FactoryException;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.ProcessorException;
@@ -34,40 +33,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.util.List;
 
 public class ComponentPresentationFactoryImpl extends BaseFactory implements ComponentPresentationFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(ComponentPresentationFactoryImpl.class);
     @Resource
     protected ComponentPresentationProvider componentPresentationProvider;
-    @Resource
-    protected List<DataBinder> dataBinders;
-
-
-    /**
-     * Method finds the relevant databinder for given source by calling canDeserialize() on them.
-     *
-     * @param source
-     * @return
-     */
-    protected DataBinder selectDataBinder(final String source) throws FactoryException {
-        if (dataBinders == null || dataBinders.size() == 0) {
-            return null;
-        }
-
-        if (dataBinders.size() == 1) {
-            return dataBinders.get(0);
-        }
-
-        for (DataBinder binder : dataBinders) {
-            if (binder.canDeserialize(source)) {
-                return binder;
-            }
-        }
-
-        return null;
-    }
 
     /**
      * Get the component by the component uri and template uri.
@@ -116,7 +87,7 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
             }
         }
 
-        componentURI = componentTcmUri.toString();
+        String parsedComponentUri = componentTcmUri.toString();
         int publicationId = componentTcmUri.getPublicationId();
         int componentId = componentTcmUri.getItemId();
 
@@ -133,15 +104,13 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
                     ComponentPresentationResultItem<String> result = componentPresentationProvider
                             .getDynamicComponentPresentationItem(componentId, templateId, publicationId);
                     String rawComponentPresentation = result.getSourceContent();
-                    //rawComponentPresentation = componentPresentationProvider.getDynamicComponentPresentation
-                    // (componentId, templateId, publicationId);
 
                     if (rawComponentPresentation == null) {
                         cacheElement.setPayload(null);
                         cacheElement.setNull(true);
                         cacheProvider.storeInItemCache(key, cacheElement);
                         throw new ItemNotFoundException(String.format("Could not find DCP with componentURI: %s and " +
-                                "templateURI: %s", componentURI, templateURI));
+                                "templateURI: %s", parsedComponentUri, templateURI));
                     }
 
                     // Building STMs here.
@@ -153,21 +122,20 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
                             .getTemplateId(), 32).toString());
 
                     LOG.debug("Running pre caching processors");
-                    // TODO: support full CPs?
                     this.executeProcessors(componentPresentation.getComponent(), RunPhase.BEFORE_CACHING, context);
                     cacheElement.setPayload(componentPresentation);
                     cacheProvider.storeInItemCache(key, cacheElement, publicationId, componentId);
                     cacheElement.setExpired(false);
-                    LOG.debug("Added component with uri: {} and template: {} to cache", componentURI, templateURI);
+                    LOG.debug("Added component with uri: {} and template: {} to cache", parsedComponentUri, templateURI);
 
                 } else {
-                    LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", componentURI,
+                    LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", parsedComponentUri,
                             templateURI);
                     componentPresentation = cacheElement.getPayload();
                 }
             }
         } else {
-            LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", componentURI,
+            LOG.debug("Return component for componentURI: {} and templateURI: {} from cache", parsedComponentUri,
                     templateURI);
             componentPresentation = cacheElement.getPayload();
         }
@@ -187,7 +155,7 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
         return componentPresentation;
     }
 
-    private String getKey(int publicationId, int componentId, int templateId) {
+    private static String getKey(int publicationId, int componentId, int templateId) {
         return String.format("Component-%d-%d-%d", publicationId, componentId, templateId);
     }
 
@@ -197,14 +165,6 @@ public class ComponentPresentationFactoryImpl extends BaseFactory implements Com
 
     public void setComponentPresentationProvider(ComponentPresentationProvider componentPresentationProvider) {
         this.componentPresentationProvider = componentPresentationProvider;
-    }
-
-    public List<DataBinder> getDataBinders() {
-        return dataBinders;
-    }
-
-    public void setDataBinders(List<DataBinder> dataBinder) {
-        this.dataBinders = dataBinder;
     }
 
     @Override

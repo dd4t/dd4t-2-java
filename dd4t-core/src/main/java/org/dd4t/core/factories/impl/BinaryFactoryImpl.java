@@ -36,7 +36,6 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(BinaryFactoryImpl.class);
 
-    private PayloadCacheProvider cacheProvider;
     private BinaryProvider binaryProvider;
 
     public BinaryFactoryImpl() {

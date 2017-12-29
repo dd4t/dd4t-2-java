@@ -52,7 +52,7 @@ public class CategoryImpl extends BaseItem implements Category, Serializable {
 
     // DD4T 2.0.2 template support
     @JsonSetter ("KeywordValues")
-    private void setKeywordValues(List<Keyword> keywordValues) {
+    public void setKeywordValues(List<Keyword> keywordValues) {
         this.keywords = keywordValues;
     }
 }

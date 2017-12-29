@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * test
- *
  * @author R. Kempees
  */
 public abstract class ViewModelBase implements BaseViewModel {

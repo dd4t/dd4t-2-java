@@ -37,4 +37,6 @@ public @interface ViewModelProperty {
     FieldType tridionFieldType() default FieldType.TEXT;
 
     boolean isMetadata() default false;
+
+    
 }

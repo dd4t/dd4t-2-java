@@ -60,10 +60,6 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
     @Resource
     protected JsonDataBinder databinder;
 
-    public JsonModelConverter() {
-
-    }
-
     @Override
     public <T extends BaseViewModel> T convertSource(final Object data, final T model) throws SerializationException {
 
@@ -131,10 +127,13 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
                 fieldKey = getFieldKeyForModelProperty(fieldName, m);
 
                 boolean isEmbedabble = false;
-                if (!rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) && !isRootComponent) {
-                    isEmbedabble = true;
-                } else if (rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) && (FieldType.findByValue(rawJsonData
-                        .get(DataBindConstants.FIELD_TYPE_KEY).intValue()) == FieldType.EMBEDDED)) {
+                if (
+                        (!rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) && !isRootComponent) ||
+                        (rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) &&
+                                (FieldType.findByValue(rawJsonData.get(DataBindConstants.FIELD_TYPE_KEY)
+                                        .intValue()) == FieldType.EMBEDDED))
+
+                        ) {
                     isEmbedabble = true;
                 }
 
@@ -235,7 +234,12 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         final List<JsonNode> nodeList = new ArrayList<>();
         if (tridionDataFieldType.equals(FieldType.COMPONENTLINK) || tridionDataFieldType.equals(FieldType
                 .MULTIMEDIALINK)) {
-            fillLinkedComponentValues(currentField, nodeList);
+
+//            if (modelFieldMapping.getViewModelProperty().isLinkResolving) {
+//                LOG.debug("Resolving link for a component link or multimedialink field. ");
+//            } else {
+                fillLinkedComponentValues(currentField, nodeList);
+//            }
         } else if (tridionDataFieldType == FieldType.EMBEDDED && !modelFieldIsRegularEmbeddedType) {
 
             handleEmbeddedContent(currentField, nodeList);
@@ -475,6 +479,8 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         model.setLastPublishDate(JsonUtils.getDateFromField(DataBindConstants.LAST_PUBLISHED_DATE, rawComponent));
         model.setLastModified(JsonUtils.getDateFromField(DataBindConstants.LAST_MODIFIED_DATE, rawComponent));
         model.setTcmUri(JsonUtils.getTcmUriFromField(DataBindConstants.ID, rawComponent));
+
+//        model.getModelProperties()
     }
 
 

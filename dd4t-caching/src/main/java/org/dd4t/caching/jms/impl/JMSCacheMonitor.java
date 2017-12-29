@@ -40,7 +40,7 @@ public class JMSCacheMonitor {
 
             MQServerStatus previousServerStatus = MQServerStatus.UP;
             try {
-                while (true) {
+                while (!Thread.currentThread().isInterrupted()) {
                     LOG.debug("JMS MQ server is {} ", serverStatus);
 
                     if (cacheInvalidator != null) {
@@ -57,6 +57,7 @@ public class JMSCacheMonitor {
                 }
             } catch (InterruptedException e) {
                 LOG.debug("Cache monitor thread interrupted");
+                Thread.currentThread().interrupt();
             }
         }
     };

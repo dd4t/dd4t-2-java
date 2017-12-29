@@ -135,7 +135,7 @@ public class DefaultLinkResolver implements LinkResolver {
         return resolve(componentURI, null);
     }
 
-    private static boolean validInCache(CacheElement<String> cacheElement) {
+    private static boolean validInCache(final CacheElement<String> cacheElement) {
         if (cacheElement.isExpired()) {
             //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (cacheElement) {
@@ -156,7 +156,7 @@ public class DefaultLinkResolver implements LinkResolver {
         } else {
             key = getCacheKey(componentURI);
         }
-        CacheElement<String> cacheElement = cacheProvider.loadPayloadFromLocalCache(key);
+        final CacheElement<String> cacheElement = cacheProvider.loadPayloadFromLocalCache(key);
         String result;
 
         if (!validInCache(cacheElement)) {

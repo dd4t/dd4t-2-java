@@ -168,6 +168,15 @@
                 <module>dd4t-test-spring-web</module>
                 <module>dd4t-example-site</module>
             </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>3.4.0.905</version>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>release-central</id>
@@ -234,11 +243,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonarsource.scanner.maven</groupId>
-                        <artifactId>sonar-maven-plugin</artifactId>
-                        <version>3.4.0.905</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

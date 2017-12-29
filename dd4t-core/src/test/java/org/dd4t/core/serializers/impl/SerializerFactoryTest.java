@@ -33,10 +33,6 @@ public class SerializerFactoryTest {
                 .toURI()));
 
         String pageSource = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(testPage));
-
-        // TODO: move away from the SerializerFactory for Pages and CPs
-        //Page page = SerializerFactory.deserialize(pageSource, PageImpl.class);
-        // loading item by interface; perhaps by name is better depending on the context
         DataBinder databinder = context.getBean(DataBinder.class);
         Page page = databinder.buildPage(pageSource, PageImpl.class);
 

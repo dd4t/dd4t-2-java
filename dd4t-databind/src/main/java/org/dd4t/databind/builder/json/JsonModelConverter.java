@@ -118,7 +118,6 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
     private <T extends BaseViewModel> void buildModelProperties(final T model, final JsonNode rawJsonData, final
     boolean isRootComponent, final JsonNode contentFields, final JsonNode metadataFields, final Component
             .ComponentType componentType) throws SerializationException {
-        // TODO: mandatory but missing fields need their XPath set as well..
         final Map<String, Object> modelProperties = model.getModelProperties();
 
         try {
@@ -199,6 +198,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
     // TODO: we shouldnt need to have a separate method for this. The Json should be
     // constructed in such a way that it's 1:1 mappable, meaning a FieldType has to be there
+
     private <T extends BaseViewModel> void buildMultimediaField(final T model, final String fieldName, final JsonNode
             currentField, final ModelFieldMapping modelFieldMapping) throws IllegalAccessException {
         final Field modelField = modelFieldMapping.getField();
@@ -207,8 +207,6 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
         Class<?> fieldTypeOfFieldToSet = TypeUtils.determineTypeOfField(modelField);
 
-        // no multivalued fields here, Sir
-        // TODO: see if we're going to set BinaryData here
         if (fieldTypeOfFieldToSet == String.class) {
             modelField.set(model, currentField.textValue());
         } else if (fieldTypeOfFieldToSet == int.class || fieldTypeOfFieldToSet == Integer.class) {

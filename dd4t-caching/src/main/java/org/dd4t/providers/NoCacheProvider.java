@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * dd4t-parent
- * TODO: merge with org.dd4t.providers.NoCacheProvider
  *
+ * @deprecated
  * @author R. Kempees
  */
 @Deprecated

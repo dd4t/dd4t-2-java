@@ -54,7 +54,6 @@ public class UrlPublicationResolver implements PublicationResolver {
             return publicationProvider.discoverPublicationByBaseUrl(HttpUtils.appendDefaultPageIfRequired(HttpUtils
                     .getOriginalFullUrl(request, this.stripServletContextPath)));
         } else {
-            // TODO: add possibility to discover publication Id when a binary URL comes in?
             LOG.debug("Determining Pub Id on page URL.");
             return publicationProvider.discoverPublicationIdByPageUrlPath(HttpUtils.appendDefaultPageIfRequired
                     (HttpUtils.getOriginalFullUrl(request, this.stripServletContextPath)));

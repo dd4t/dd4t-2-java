@@ -44,45 +44,11 @@ public class DD4TModelConverter {
 
         // Load Spring
         context = new ClassPathXmlApplicationContext("application-context.xml");
-
-
-//		System.out.println(testXml + xml2 + xml3);
-//		String completeXml = FileUtils.readFileToString(new File("dd4t-test/target/classes/xml-without-java-xslt
-// .xml"));
-//
         String homepage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()));
-        //System.out.println(completeXml);
-        //deserializeXmlJackson(completeXml);
         deserializeJson(homepage);
 
 
     }
-
-//	private static void deserializeXmlJackson (final String completeXml) throws IOException {
-//		JacksonXmlModule module = new JacksonXmlModule();
-//		ObjectMapper mapper = new XmlMapper(module);
-//		mapper.registerModule(configureXmlMapper());
-//		PageImpl page = mapper.readValue(completeXml, PageImpl.class);
-//
-//		System.out.println(page.getTitle());
-//	}
-
-//	protected static SimpleModule configureXmlMapper () {
-//		// TODO: to concrete basefield and customizable CT impls and into DataBinder
-//		final XmlBaseFieldsDeserializer<BaseField> xmlBaseFieldsDeserializer = new XmlBaseFieldsDeserializer<>
-// (BaseField.class);
-//		final ComponentPresentationDeserializer componentPresentationDeserializer = new
-// ComponentPresentationDeserializer(ComponentPresentationImpl.class, ComponentTemplateImpl.class, ComponentImpl.class);
-//		final XmlValuesDeserializer<List> xmlValuesDeserializer = new XmlValuesDeserializer<>(List.class);
-//		final SimpleModule module = new SimpleModule();
-//		module.addDeserializer(BaseField.class, xmlBaseFieldsDeserializer);
-//		module.addDeserializer(ComponentPresentation.class,componentPresentationDeserializer);
-//		module.addDeserializer(List.class,xmlValuesDeserializer);
-//		return module;
-//
-//	}
-
-    // TODO: OrderOnPage always is 0 in the JSon
 
     private static void deserializeJson(String content) throws IOException, SerializationException {
         String content1 = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(content));//test4;//

@@ -27,7 +27,6 @@ public class ComponentTypeTransformer implements Transform<ComponentType> {
 
     @Override
     public String write(ComponentType value) throws Exception {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// TODO: move
 package org.dd4t.databind.serializers.json;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

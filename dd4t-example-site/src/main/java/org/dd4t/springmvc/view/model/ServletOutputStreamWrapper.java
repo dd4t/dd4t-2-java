@@ -29,6 +29,7 @@ import java.nio.charset.Charset;
  * @author Rogier Oudshoorn
  */
 public class ServletOutputStreamWrapper extends ServletOutputStream {
+
     private static Logger logger = LoggerFactory.getLogger(ServletOutputStreamWrapper.class);
 
     private ByteArrayOutputStream fBuffer;

@@ -53,9 +53,6 @@ public class GenericConverter implements Converter<Object> {
         this.serializer = serializer;
     }
 
-    /**
-     * TODO: make the element to class mapping configurable.
-     */
     @Override
     public Object read(InputNode node) throws Exception {
 
@@ -114,7 +111,7 @@ public class GenericConverter implements Converter<Object> {
 
     @Override
     public void write(OutputNode node, Object object) throws Exception {
-        // TODO: implement to support serialization.
+        // implement to support serialization.
 
     }
 }

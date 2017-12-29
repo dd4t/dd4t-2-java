@@ -153,7 +153,6 @@ public class XPMRenderer {
                 "src=\"" + cmsURL + XPM_BOOTSTRAP_PATH + "\"></script>";
     }
 
-    // TODO: enable option to lazy load
     public String getTagLazyLoaded() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<script>\n");

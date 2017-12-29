@@ -49,8 +49,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-// TODO: Split stuff between the factory and the real controller stuff
-
 /**
  * @author edwin
  * <p/>

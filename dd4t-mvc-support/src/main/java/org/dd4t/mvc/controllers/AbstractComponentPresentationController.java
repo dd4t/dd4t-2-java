@@ -69,15 +69,9 @@ public class AbstractComponentPresentationController {
     }
 
     /**
-     * Renders the component template response, the exact mapping needs to be
+     * Renders the component template response when a page render occurs, the exact mapping needs to be
      * determined.
-     * <p/>
-     * TODO: split this logic. It is now used for two different things:
-     * 1. For attempting to fetch a DCP which is on a Page
-     * 2. Attempt to load a DCP based on the incoming URL. Which is something totally different, as we need the
-     * publication path
-     * to actually do this.
-     * <p/>
+     *
      * For now, if you use this controller to load DCPs, make sure that the componentViewPrefix variable is actually
      * the publication path,
      * or simply extend this controller and be creative with the ComponentPresentationFactory and resolving
@@ -114,20 +108,6 @@ public class AbstractComponentPresentationController {
                     LOG.error(e.getLocalizedMessage(), e);
                 }
             }
-
-//			else {
-//
-//
-//
-//				int publicationId = PublicationResolverFactory.getPublicationResolver().getPublicationId();
-//
-//				// Depending on whether the incoming path actually is a publication path
-//				if (publicationId <= 0) {
-//					LOG.warn("Cannot get publication Id!");
-//				} else {
-//					componentPresentation = componentPresentationFactory.getComponentPresentation()
-//				}
-//			}
         }
 
         if (componentPresentation == null) {

@@ -26,7 +26,6 @@ import java.util.Map;
  * QueryProvider. Interface for doing Broker look ups.
  * Currently provides only the basic stuff.
  * <p/>
- * TODO: add methods to query custom meta for normal CPs
  *
  * @author R. Kempees
  */

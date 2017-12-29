@@ -128,7 +128,6 @@ public class BrokerBinaryProvider extends BaseBrokerProvider implements BinaryPr
     public byte[] getBinaryContentByURL(String url, int publication) throws ItemNotFoundException {
 
         BinaryMeta binaryMeta = getBinaryMetaByURL(url, publication);
-        // TODO: check if long to int cast is correct
         return getBinaryContentById((int) binaryMeta.getId(), binaryMeta.getPublicationId());
     }
 

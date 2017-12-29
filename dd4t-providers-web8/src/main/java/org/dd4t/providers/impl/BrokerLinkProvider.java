@@ -32,8 +32,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Provider implementation to wrap around the ComponentLinker.
- * TODO: Dynamic Component Links! Nice!
- * TODO: Build link caching
  *
  * @author rooudsho, Mihai Cadariu, rai
  */
@@ -116,6 +114,4 @@ public class BrokerLinkProvider extends BaseBrokerProvider implements LinkProvid
         }
         return null;
     }
-
-    // TODO resolveDynamicComponent
 }

@@ -22,7 +22,6 @@ import org.dd4t.core.exceptions.FactoryException;
 import org.dd4t.core.processors.RunPhase;
 import org.dd4t.core.request.RequestContext;
 
-// TODO: expand with: getComponentPresentations
 public interface ComponentPresentationFactory extends Factory {
 
     void executeProcessors(Item item, RunPhase runPhase, RequestContext context) throws FactoryException;

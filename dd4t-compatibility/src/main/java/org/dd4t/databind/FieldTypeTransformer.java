@@ -27,7 +27,6 @@ public class FieldTypeTransformer implements Transform<FieldType> {
 
     @Override
     public String write(FieldType value) throws Exception {
-        // TODO Auto-generated method stub
         return null;
     }
 

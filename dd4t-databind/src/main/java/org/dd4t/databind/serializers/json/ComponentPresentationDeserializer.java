@@ -158,19 +158,12 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
     private void renderComponentData(final ComponentPresentation componentPresentation, final JsonNode
             rawComponentData, final String viewModelName, final String rootElementName) throws IOException,
             SerializationException {
-//		if ((StringUtils.isEmpty(viewModelName) && StringUtils.isEmpty(rootElementName)) || DataBindFactory
-// .renderGenericComponentsOnly()) {
-//			LOG.debug("No view name set on Component Template and no rootElementName found or only rendering to
-// Generic Component");
         try {
-            // Note: Components actually always have to be set
-            // TODO: figure out a way to not have to do it.
             componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this
                     .concreteComponentClass));
         } catch (SerializationException e) {
             throw new IOException(e.getLocalizedMessage(), e);
         }
-//		} else {
 
         final Set<String> modelNames = new HashSet<>();
 
@@ -184,8 +177,6 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
         final Map<String, BaseViewModel> models = dataBinder.buildModels(rawComponentData, modelNames,
                 componentPresentation.getComponentTemplate().getId());
 
-
-        // TODO: error in here
         if (models == null || models.isEmpty()) {
             if (dataBinder.renderDefaultComponentsIfNoModelFound()) {
                 componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this
@@ -203,7 +194,6 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
                     if (((TridionViewModel) model).setGenericComponentOnComponentPresentation()) {
                         LOG.debug("Also setting a Component object on the CP.");
 
-                        // TODO: error in here..
                         componentPresentation.setComponent(dataBinder.buildComponent(rawComponentData, this
                                 .concreteComponentClass));
                     }

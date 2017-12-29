@@ -42,7 +42,7 @@ import java.util.Map;
  * children relationships resolved. It also provides the capability to retrieve related items (i.e. Tridion items that
  * use each Keyword in the taxonomy directly).
  * <p/>
- * TODO TODO TODO. Proper interface (same for client and service)
+ * TODO: Proper interface (same for client and service)
  * TODO: Proper overrides
  * TODO: decompress
  *

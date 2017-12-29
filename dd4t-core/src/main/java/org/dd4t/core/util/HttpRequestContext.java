@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * dd4t-2
  * <p/>
- * Has become a duplicate of BasicRequestContext. TODO: merge
+ * Has become a duplicate of BasicRequestContext.
  *
  * @author R. Kempees
  */

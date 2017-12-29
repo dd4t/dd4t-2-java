@@ -3,6 +3,8 @@ package org.dd4t.thymeleaf.dialect.processor.xpm;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.core.services.PropertiesService;
 import org.dd4t.mvc.utils.XPMRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.context.ITemplateContext;
 import org.thymeleaf.model.IModel;
@@ -15,8 +17,6 @@ import org.thymeleaf.standard.expression.IStandardExpressionParser;
 import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.templatemode.TemplateMode;
 
-import java.util.logging.Logger;
-
 /**
  * Custom processor that generates the Experience Manager tags on the page level
  *
@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  */
 
 public class XpmPageInitProcessor extends AbstractElementTagProcessor {
-    private static final Logger LOG = Logger.getLogger(XpmPageInitProcessor.class.getName());
+    private static final Logger LOG = LoggerFactory.getLogger(XpmPageInitProcessor.class);
     private static final String TAG_NAME = "page";
     private static final String SRC_ATTR_NAME = "src";
     private static final int PRECEDENCE = 10000;
@@ -50,7 +50,7 @@ public class XpmPageInitProcessor extends AbstractElementTagProcessor {
 
         // check if there is a 'src' attribute on the current tag
         if (!tag.hasAttribute(SRC_ATTR_NAME)) {
-            // TODO: log a warning message
+            LOG.warn("No Src attribute on: {}", tag.getElementCompleteName());
             return;
         }
 

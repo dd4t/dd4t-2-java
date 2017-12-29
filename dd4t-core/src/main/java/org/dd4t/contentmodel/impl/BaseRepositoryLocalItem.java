@@ -55,7 +55,6 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
     @JsonDeserialize (as = PublicationImpl.class)
     protected Publication owningPublication;
 
-    // TODO: move lower in the chain
     @Element (name = "folder", required = false)
     @JsonProperty ("Folder")
     @JsonDeserialize (as = OrganizationalItemImpl.class)
@@ -71,7 +70,6 @@ public abstract class BaseRepositoryLocalItem extends BaseItem implements Reposi
 
     @ElementMap (name = "metadata", keyType = String.class, valueType = Field.class, entry = "item", required = false)
     @JsonProperty ("MetadataFields")
-    // TODO: for XML add a separate MixIn
     @JsonDeserialize (contentAs = BaseField.class)
     protected Map<String, Field> metadata;
 

@@ -59,7 +59,7 @@ public interface PayloadCacheProvider {
      * @param cacheElement CacheElement representing wrapper around the actual payload to store in cache
      * @param dependencies List of CacheDependency objects, representing the dependencies for this item
      */
-    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, List<CacheDependency> dependencies);
+    <T> void storeInItemCache(String key, CacheElement<T> cacheElement, List<CacheDependency> dependencies);
 
     /**
      * Adds a dependency between two cache keys
@@ -67,6 +67,14 @@ public interface PayloadCacheProvider {
      * @param cacheKey      String representing the key of the cache item that will flush if the other item flushes
      * @param dependencyKey String representing the key of the cache item that will act as a dependency
      */
-    public void addDependency(String cacheKey, String dependencyKey);
+    void addDependency(String cacheKey, String dependencyKey);
 
+
+    /**
+     * Checks the cache.enabled property in dd4t.properties
+     * and then determines whether anything should be cached at all.
+     *
+     * @return boolean. cache is enabled or disabled.
+     */
+    boolean isEnabled();
 }

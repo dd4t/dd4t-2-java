@@ -22,14 +22,12 @@ import net.sf.ehcache.Element;
 import org.dd4t.caching.CacheDependency;
 import org.dd4t.caching.CacheElement;
 import org.dd4t.caching.CacheInvalidator;
-import org.dd4t.caching.impl.CacheDependencyImpl;
 import org.dd4t.caching.impl.CacheElementImpl;
 import org.dd4t.core.util.TridionUtils;
 import org.dd4t.providers.PayloadCacheProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -50,17 +48,6 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
     private int expiredTTL = 299;
     private int cacheDependencyTTL = 299;
     private int cacheTTL = 3599;
-    private boolean checkForPreview = false;
-
-    @Override
-    public boolean doCheckForPreview() {
-        return checkForPreview;
-    }
-
-    @Override
-    public void setCheckForPreview(boolean breakOnPreview) {
-        this.checkForPreview = breakOnPreview;
-    }
 
     /*
      * Getters and setters for cache TTL's
@@ -104,6 +91,12 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
      */
     @Override
     public <T> CacheElement<T> loadPayloadFromLocalCache(String key) {
+
+        if (!isEnabled()) {
+            LOG.debug("Cache is disabled. Returning a null Cache Element.");
+            return new CacheElementImpl<>(null, true);
+        }
+
         if (!doCheckForPreview() || (TridionUtils.getSessionPreviewToken() == null && cache != null)) {
             Element currentElement = cache.get(key);
             if (currentElement == null) {
@@ -134,31 +127,26 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
         }
     }
 
-    /**
-     * Store given item in the cache with a simple time-to-live property.
-     *
-     * @param key          String representing the key to store the payload under
-     * @param cacheElement CacheElement a wrapper around the actual value to store in
-     *                     cache
-     */
     @Override
-    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement) {
-        if (cache == null) {
-            LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
+    protected boolean cacheExists() {
+        return cache != null;
+    }
+
+    @Override
+    protected boolean dependencyCacheExists() {
+        return dependencyCache != null;
+    }
+
+
+    @Override
+    protected <T> void storeElement(final String key, CacheElement<T> cacheElement) {
+        if (!isEnabled()) {
             return;
         }
 
-        // detect undeclared nulls, complain, and set to null
-        if (!cacheElement.isNull() && cacheElement.getPayload() == null) {
-            Exception exToLogToHaveStacktraceWhoCausedIt = new Exception();
-            LOG.error("Detected undeclared null payload on element with key " + key + " at insert time!",
-                    exToLogToHaveStacktraceWhoCausedIt);
-            cacheElement.setNull(true);
-        }
-
-        cacheElement.setExpired(false);
-        Element element = new Element(key, cacheElement);
+        final Element element = new Element(key, cacheElement);
         element.setTimeToLive(cacheTTL);
+
         if (cache.isKeyInCache(key)) {
             cache.replace(element);
         } else {
@@ -166,31 +154,13 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
         }
     }
 
-    /**
-     * Store given item in the cache with a reference to supplied Tridion Item.
-     *
-     * @param key                    String representing the key to store the cacheItem under
-     * @param cacheElement           Object the actual value to store in cache
-     * @param dependingPublicationId int representing the Publication id of the Tridion item the
-     *                               cacheItem depends on
-     * @param dependingItemId        int representing the Item id of the Tridion item the cacheItem
-     *                               depends on
-     */
-    @Override
-    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, int dependingPublicationId, int
-            dependingItemId) {
-
-        CacheDependency dependency = new CacheDependencyImpl(dependingPublicationId, dependingItemId);
-        List<CacheDependency> dependencies = new ArrayList<>();
-        dependencies.add(dependency);
-        storeInItemCache(key, cacheElement, dependencies);
-
-    }
-
     @Override
     public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, List<CacheDependency> dependencies) {
+        if (!isEnabled()) {
+            return;
+        }
 
-        if (cache == null) {
+        if (!cacheExists()) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
         }
@@ -223,6 +193,10 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
 
     @Override
     public void flush() {
+        if (!isEnabled()) {
+            return;
+        }
+
         if (cache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
@@ -238,6 +212,10 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
 
     @Override
     public void invalidate(final String key) {
+        if (!isEnabled()) {
+            return;
+        }
+
         if (dependencyCache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
@@ -267,6 +245,11 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
      */
     @Override
     public void addDependency(String cacheKey, String dependencyKey) {
+
+        if (!isEnabled()) {
+            return;
+        }
+
         if (dependencyCache == null) {
             LOG.error("Cache configuration is invalid! NOT Caching. Check EH Cache configuration.");
             return;
@@ -298,6 +281,11 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
     }
 
     public void setExpired(Element element, int adjustTTL) {
+
+        if (!isEnabled()) {
+            return;
+        }
+
         if (element == null) {
             return;
         }

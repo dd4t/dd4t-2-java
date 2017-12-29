@@ -11,7 +11,6 @@
 
     <artifactId>dd4t-caching</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
-    <!-- TODO: document this major change-->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -45,12 +44,14 @@
             <groupId>javax.jms</groupId>
             <artifactId>jms-api</artifactId>
             <scope>provided</scope>
+            <version>${javax.jms.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client</artifactId>
             <scope>provided</scope>
+            <version>${activemq.version}</version>
         </dependency>
 
         <!-- Note this dependency. We set scope = provided,
@@ -80,15 +81,31 @@
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>${ehcache.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- TODO: add to pom!-->
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>jcache</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-            <version>${ehcache3.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
 </project>

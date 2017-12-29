@@ -73,12 +73,10 @@
         <property name="runPhase" value="AFTER_CACHING"/>
     </bean>
 
-    <!-- DD4T Provider beans -->
-    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCacheProvider">
+    <!-- DD4T Provider beans -->>
+
+    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCache3Provider">
         <property name="enabled" value="${cache.enabled}" />
-        <property name="cacheTTL" value="${cache.ttl}" />
-        <property name="cacheDependencyTTL" value="${cache.dependency.ttl}" />
-        <property name="expiredTTL" value="${cache.expired.ttl}" />
     </bean>
 
     <bean id="binaryProvider" class="org.dd4t.providers.impl.BrokerBinaryProvider">

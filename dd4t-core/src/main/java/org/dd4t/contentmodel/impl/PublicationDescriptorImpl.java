@@ -18,12 +18,17 @@ package org.dd4t.contentmodel.impl;
 
 import org.dd4t.contentmodel.PublicationDescriptor;
 
+import java.io.Serializable;
+
 /**
  * dd4t-2
  *
  * @author Q. Slings, R. Kempees
  */
-public class PublicationDescriptorImpl implements PublicationDescriptor {
+public class PublicationDescriptorImpl implements PublicationDescriptor, Serializable {
+
+    private static final long serialVersionUID = 2510439538856123282L;
+
     private int id;
     private String key;
     private String title;
@@ -32,7 +37,9 @@ public class PublicationDescriptorImpl implements PublicationDescriptor {
     private String publicationUrl;
     private String publicationPath;
 
-    public PublicationDescriptorImpl (final int id, final String key, final String title, final String multimediaPath, final String multimediaUrl, final String publicationUrl, final String publicationPath) {
+    public PublicationDescriptorImpl(final int id, final String key, final String title, final String multimediaPath,
+                                     final String multimediaUrl, final String publicationUrl, final String
+                                             publicationPath) {
         this.id = id;
         this.key = key;
         this.title = title;
@@ -42,82 +49,84 @@ public class PublicationDescriptorImpl implements PublicationDescriptor {
         this.publicationPath = publicationPath;
     }
 
-    public PublicationDescriptorImpl () {
-
+    public PublicationDescriptorImpl() {
+        // allow manual setting.
     }
 
     @Override
-    public int getId () {
+    public int getId() {
         return id;
     }
 
     @Override
-    public void setId (final int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
     @Override
-    public String getKey () {
+    public String getKey() {
         return key;
     }
 
     @Override
-    public void setKey (final String key) {
+    public void setKey(final String key) {
         this.key = key;
     }
 
     @Override
-    public String getTitle () {
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public void setTitle (final String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
     @Override
-    public String getMultimediaPath () {
+    public String getMultimediaPath() {
         return multimediaPath;
     }
 
     @Override
-    public void setMultimediaPath (final String multimediaPath) {
+    public void setMultimediaPath(final String multimediaPath) {
         this.multimediaPath = multimediaPath;
     }
 
     @Override
-    public String getMultimediaUrl () {
+    public String getMultimediaUrl() {
         return multimediaUrl;
     }
 
     @Override
-    public void setMultimediaUrl (final String multimediaUrl) {
+    public void setMultimediaUrl(final String multimediaUrl) {
         this.multimediaUrl = multimediaUrl;
     }
 
     @Override
-    public String getPublicationUrl () {
+    public String getPublicationUrl() {
         return publicationUrl;
     }
 
     @Override
-    public void setPublicationUrl (final String publicationUrl) {
+    public void setPublicationUrl(final String publicationUrl) {
         this.publicationUrl = publicationUrl;
     }
 
     @Override
-    public String getPublicationPath () {
+    public String getPublicationPath() {
         return publicationPath;
     }
 
     @Override
-    public void setPublicationPath (final String publicationPath) {
+    public void setPublicationPath(final String publicationPath) {
         this.publicationPath = publicationPath;
     }
 
     @Override
-    public String toString () {
-        return "[Id: " + this.id + ", Key: " + this.key + ", Title: " + this.title + "MM Path: " + this.multimediaPath + "MM URL: " + this.multimediaUrl + "Publication URL: " + this.publicationUrl + "Publication Path" + this.publicationPath + "]";
+    public String toString() {
+        return "[Id: " + this.id + ", Key: " + this.key + ", Title: " + this.title + "MM Path: " + this
+                .multimediaPath + "MM URL: " + this.multimediaUrl + "Publication URL: " + this.publicationUrl +
+                "Publication Path" + this.publicationPath + "]";
     }
 }

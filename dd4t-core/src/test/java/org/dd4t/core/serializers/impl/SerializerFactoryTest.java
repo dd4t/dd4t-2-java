@@ -18,24 +18,21 @@ import static org.junit.Assert.assertEquals;
 
 public class SerializerFactoryTest {
 
-	protected ApplicationContext context;
+    protected ApplicationContext context;
 
     @Before
-    public void setUp () throws Exception {
+    public void setUp() throws Exception {
         // Load Spring
         context = new ClassPathXmlApplicationContext("application-context.xml");
     }
 
     @Test
-    public void testDeserializePage () throws Exception {
+    public void testDeserializePage() throws Exception {
 
-        String testPage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json").toURI()));
+        String testPage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json")
+                .toURI()));
 
         String pageSource = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(testPage));
-
-        // TODO: move away from the SerializerFactory for Pages and CPs
-        //Page page = SerializerFactory.deserialize(pageSource, PageImpl.class);
-        // loading item by interface; perhaps by name is better depending on the context
         DataBinder databinder = context.getBean(DataBinder.class);
         Page page = databinder.buildPage(pageSource, PageImpl.class);
 

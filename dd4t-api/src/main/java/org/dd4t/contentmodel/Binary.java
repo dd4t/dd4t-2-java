@@ -29,16 +29,16 @@ package org.dd4t.contentmodel;
  */
 public interface Binary extends RepositoryLocalItem {
 
-    void setBinaryData (BinaryData binaryData);
+    void setBinaryData(BinaryData binaryData);
 
-    BinaryData getBinaryData ();
+    BinaryData getBinaryData();
 
-    void setMimeType (String mimeType);
+    void setMimeType(String mimeType);
 
-    String getMimeType ();
+    String getMimeType();
 
-    void setUrlPath (String urlPath);
+    void setUrlPath(String urlPath);
 
-    String getUrlPath ();
+    String getUrlPath();
 
 }

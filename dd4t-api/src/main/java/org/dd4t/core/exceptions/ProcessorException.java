@@ -19,15 +19,15 @@ public class ProcessorException extends FactoryException {
 
     private static final long serialVersionUID = -1823501094129230885L;
 
-    public ProcessorException (String message) {
+    public ProcessorException(String message) {
         super(message);
     }
 
-    public ProcessorException (Throwable t) {
+    public ProcessorException(Throwable t) {
         super(t);
     }
 
-    public ProcessorException (String message, Throwable t) {
+    public ProcessorException(String message, Throwable t) {
         super(message, t);
     }
 }

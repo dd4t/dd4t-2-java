@@ -48,8 +48,9 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
      * @return a publiction Id
      */
     @Override
-    public int discoverPublicationByBaseUrl (final String fullUrl) {
-        PublicationMapping publicationMapping = DynamicContent.getInstance().getMappingsResolver().getPublicationMappingFromUrl(fullUrl);
+    public int discoverPublicationByBaseUrl(final String fullUrl) {
+        PublicationMapping publicationMapping = DynamicContent.getInstance().getMappingsResolver()
+                .getPublicationMappingFromUrl(fullUrl);
 
         if (publicationMapping != null) {
             return publicationMapping.getPublicationId();
@@ -61,7 +62,7 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
 
     //TODO: Document
     @Override
-    public int discoverPublicationIdByPageUrlPath (final String url) {
+    public int discoverPublicationIdByPageUrlPath(final String url) {
         LOG.debug("Discovering Publication id for url: {}", url);
         final String key = getKey(CacheType.DISCOVER_PUBLICATION_URL, url);
         final CacheElement<Integer> cacheElement = cacheProvider.loadPayloadFromLocalCache(key);
@@ -75,14 +76,14 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
                     final PageMeta pageMeta = loadPageMetaByConcreteFactory(url);
                     if (pageMeta != null) {
                         result = pageMeta.getPublicationId();
+                        cacheElement.setPayload(result);
+                        cacheProvider.storeInItemCache(key, cacheElement);
+                        cacheElement.setExpired(false);
                         LOG.debug("Publication Id for URL: {}, is {}", url, result);
                     } else {
                         LOG.warn("Could not resolve publication Id for URL: {}", url);
                     }
 
-                    cacheElement.setPayload(result);
-                    cacheProvider.storeInItemCache(key, cacheElement);
-                    cacheElement.setExpired(false);
                     LOG.debug("Stored Publication Id with key: {} in cache", key);
                 } else {
                     LOG.debug("Fetched a Publication Id with key: {} from cache", key);
@@ -98,7 +99,7 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
     }
 
     @Override
-    public int discoverPublicationByImagesUrl (final String fullUrl) {
+    public int discoverPublicationByImagesUrl(final String fullUrl) {
         LOG.debug("Discovering Publication id for Binary url: {}", fullUrl);
         final String key = getKey(CacheType.DISCOVER_IMAGES_URL, fullUrl);
         final CacheElement<Integer> cacheElement = cacheProvider.loadPayloadFromLocalCache(key);
@@ -135,7 +136,7 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
     }
 
     @Override
-    protected PublicationMeta loadPublicationMetaByConcreteFactory (final int publicationId) {
+    protected PublicationMeta loadPublicationMetaByConcreteFactory(final int publicationId) {
         try {
             return PUBLICATION_META_FACTORY.getMeta(publicationId);
         } catch (StorageException e) {
@@ -145,12 +146,12 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
     }
 
     @Override
-    protected PageMeta loadPageMetaByConcreteFactory (final String url) {
+    protected PageMeta loadPageMetaByConcreteFactory(final String url) {
         return DYNAMIC_META_RETRIEVER.getPageMetaByURL(url);
     }
 
     @Override
-    protected BinaryMeta loadBinaryMetaByConcreteFactory (final String url) {
+    protected BinaryMeta loadBinaryMetaByConcreteFactory(final String url) {
         return DYNAMIC_META_RETRIEVER.getBinaryMetaByURL(url);
     }
 

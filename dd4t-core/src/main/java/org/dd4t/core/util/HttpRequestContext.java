@@ -23,23 +23,23 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * dd4t-2
  * <p/>
- * Has become a duplicate of BasicRequestContext. TODO: merge
+ * Has become a duplicate of BasicRequestContext.
  *
  * @author R. Kempees
  */
 public class HttpRequestContext implements RequestContext {
     private HttpServletRequest httpServletRequest;
 
-    public HttpRequestContext () {
+    public HttpRequestContext() {
         httpServletRequest = HttpUtils.getCurrentRequest();
     }
 
     @Override
-    public HttpServletRequest getServletRequest () {
+    public HttpServletRequest getServletRequest() {
         return this.httpServletRequest;
     }
 
-    public boolean isUserInRole (String role) {
+    public boolean isUserInRole(String role) {
         return httpServletRequest.isUserInRole(role);
     }
 }

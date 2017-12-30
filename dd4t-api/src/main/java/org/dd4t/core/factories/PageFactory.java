@@ -16,13 +16,17 @@
 
 package org.dd4t.core.factories;
 
+import org.dd4t.contentmodel.Item;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.core.exceptions.FactoryException;
+import org.dd4t.core.processors.RunPhase;
 import org.dd4t.core.request.RequestContext;
 import org.dd4t.core.util.TCMURI;
 
 public interface PageFactory extends Factory {
 
+    void executeProcessors(Item item, RunPhase runPhase, RequestContext context) throws FactoryException;
+
     /**
      * Get a page by its URI. No security available; the method will fail if a
      * SecurityFilter is configured on the factory.
@@ -31,82 +35,86 @@ public interface PageFactory extends Factory {
      * @return a Page Object
      * @throws FactoryException
      */
-    Page getPage (String uri) throws FactoryException;
+    Page getPage(String uri) throws FactoryException;
 
-    
+
     /**
      * Get a page by its URI. No security available; the method will fail if a
      * SecurityFilter is configured on the factory.
      *
-     * @param uri of the page
-     * @param requestContext describing the current request to be passed on to processors
-     * @return a Page Object
-     * @throws FactoryException
-     */
-    Page getPage (String uri, RequestContext context) throws FactoryException;
-
-    /**
-     * Get a Page by its URI. Deserialize into any object implementing the Page interface.
-     *
-     * @param uri the page Uri
-     * @param pageModel the Class to deserialize into
-     * @param <T> the Type to return
-     * @return a deserialied object
-     * @throws FactoryException
-     */
-    <T extends Page> T getPage(final String uri, final Class<T> pageModel ) throws FactoryException;
-
-    /**
-     * Get a Page by its URI. Deserialize into any object implementing the Page interface.
-     *
-     * @param uri the page Uri
-     * @param pageModel the Class to deserialize into
-     * @param <T> the Type to return
-     * @return a deserialied object
-     * @throws FactoryException
-     */
-    <T extends Page> T getPage(final String uri, RequestContext context, final Class<T> pageModel ) throws FactoryException;
-
-    /**
-     * Find page by its URL. The url and publication id are specified. No
-     * security available; the method will fail if a SecurityFilter is
-     * configured on the factory.
-     *
-     * @param url of the page
-     * @param publicationId of the publication
-     * @return a Page Object
-     * @throws org.dd4t.core.exceptions.FactoryException
-     */
-    Page findPageByUrl (String url, int publicationId) throws FactoryException;
-    
-    /**
-     * Find page by its URL. The url and publication id are specified. No
-     * security available; the method will fail if a SecurityFilter is
-     * configured on the factory.
-     *
-     * @param url of the page
-     * @param publicationId of the publication
+     * @param uri     of the page
      * @param context describing the current request to be passed on to processors
      * @return a Page Object
-     * @throws org.dd4t.core.exceptions.FactoryException
+     * @throws FactoryException
      */
-    Page findPageByUrl (String url, int publicationId, RequestContext context) throws FactoryException;
+    Page getPage(String uri, RequestContext context) throws FactoryException;
 
     /**
-     * Find page by its URL. The url and publication id are specified. Deserialize into any object implementing the Page interface.
+     * Get a Page by its URI. Deserialize into any object implementing the Page interface.
+     *
+     * @param uri       the page Uri
+     * @param pageModel the Class to deserialize into
+     * @param <T>       the Type to return
+     * @return a deserialied object
+     * @throws FactoryException
+     */
+    <T extends Page> T getPage(final String uri, final Class<T> pageModel) throws FactoryException;
+
+    /**
+     * Get a Page by its URI. Deserialize into any object implementing the Page interface.
+     *
+     * @param uri       the page Uri
+     * @param pageModel the Class to deserialize into
+     * @param <T>       the Type to return
+     * @return a deserialied object
+     * @throws FactoryException
+     */
+    <T extends Page> T getPage(final String uri, RequestContext context, final Class<T> pageModel) throws
+            FactoryException;
+
+    /**
+     * Find page by its URL. The url and publication id are specified. No
+     * security available; the method will fail if a SecurityFilter is
+     * configured on the factory.
+     *
+     * @param url           of the page
+     * @param publicationId of the publication
+     * @return a Page Object
+     * @throws org.dd4t.core.exceptions.FactoryException
+     */
+    Page findPageByUrl(String url, int publicationId) throws FactoryException;
+
+    /**
+     * Find page by its URL. The url and publication id are specified. No
+     * security available; the method will fail if a SecurityFilter is
+     * configured on the factory.
+     *
+     * @param url           of the page
+     * @param publicationId of the publication
+     * @param context       describing the current request to be passed on to processors
+     * @return a Page Object
+     * @throws org.dd4t.core.exceptions.FactoryException
+     */
+    Page findPageByUrl(String url, int publicationId, RequestContext context) throws FactoryException;
+
+    /**
+     * Find page by its URL. The url and publication id are specified. Deserialize into any object implementing the
+     * Page interface.
      *
      * @return a Page Object
      * @throws org.dd4t.core.exceptions.FactoryException
      */
-    <T extends Page> T findPageByUrl (String url, int publicationId, Class<T> pageModel) throws FactoryException;
+    <T extends Page> T findPageByUrl(String url, int publicationId, Class<T> pageModel) throws FactoryException;
 
     /**
-     * Find page by its URL. The url and publication id are specified. Deserialize into any object implementing the Page interface.
+     * Find page by its URL. The url and publication id are specified. Deserialize into any object implementing the
+     * Page interface.
      *
      * @return a Page Object
      * @throws org.dd4t.core.exceptions.FactoryException
      */
-    <T extends Page> T findPageByUrl (String url, int publicationId, RequestContext context, Class<T> pageModel) throws FactoryException;
+    <T extends Page> T findPageByUrl(String url, int publicationId, RequestContext context, Class<T> pageModel)
+            throws FactoryException;
 
     /**
      * Find the source of the Page by Url. The url and publication id are specified.
@@ -114,7 +122,7 @@ public interface PageFactory extends Factory {
      * @return The page source as string
      * @throws FactoryException
      */
-    String findSourcePageByUrl (String url, int publicationId) throws FactoryException;
+    String findSourcePageByUrl(String url, int publicationId) throws FactoryException;
 
     /**
      * Find the source of the Page by Tcm Id.
@@ -123,7 +131,7 @@ public interface PageFactory extends Factory {
      * @return The page source as String
      * @throws FactoryException
      */
-    String findSourcePageByTcmId (String tcmId) throws FactoryException;
+    String findSourcePageByTcmId(String tcmId) throws FactoryException;
 
     /**
      * Find the TCM Uri of a page by URL
@@ -133,7 +141,7 @@ public interface PageFactory extends Factory {
      * @return a TCMURI if found.
      * @throws FactoryException
      */
-    TCMURI findPageIdByUrl (String url, int publicationId) throws FactoryException;
+    TCMURI findPageIdByUrl(String url, int publicationId) throws FactoryException;
 
     /**
      * Deserializes a JSON encoded String into an object of the given type, which must
@@ -143,7 +151,7 @@ public interface PageFactory extends Factory {
      * @param clazz  Class representing the implementation type to deserialize into
      * @return the deserialized object
      */
-    <T extends Page> T deserialize (final String source, final Class<? extends T> clazz) throws FactoryException;
+    <T extends Page> T deserialize(final String source, final Class<? extends T> clazz) throws FactoryException;
 
     /**
      * Method to check whether a page exists in the Tridion Broker.
@@ -152,7 +160,7 @@ public interface PageFactory extends Factory {
      * @param publicationId the publication Id for the url
      * @return true if the page url exists in the broker
      */
-    Boolean isPagePublished (String url, int publicationId);
+    Boolean isPagePublished(String url, int publicationId);
 }
 
 

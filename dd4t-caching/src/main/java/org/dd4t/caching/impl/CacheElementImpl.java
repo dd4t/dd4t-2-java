@@ -18,6 +18,8 @@ package org.dd4t.caching.impl;
 
 import org.dd4t.caching.CacheElement;
 
+import java.io.Serializable;
+
 /**
  * Wrapper around a 'payload' object that represents the actual object in the
  * cache. The payload is wrapped inside this cache element object, so we can
@@ -26,58 +28,58 @@ import org.dd4t.caching.CacheElement;
  *
  * @author Mihai Cadariu
  */
-public class CacheElementImpl<T> implements CacheElement<T> {
+public class CacheElementImpl<T> implements CacheElement<T>, Serializable {
     private boolean isExpired;
     private boolean isNull;
     private T payload;
     private String dependentKey;
 
-    public CacheElementImpl (T payload) {
+    public CacheElementImpl(T payload) {
         this(payload, false);
     }
 
-    public CacheElementImpl (T payload, boolean isExpired) {
+    public CacheElementImpl(T payload, boolean isExpired) {
         this.payload = payload;
         this.isExpired = isExpired;
     }
 
     @Override
-    public boolean isExpired () {
+    public boolean isExpired() {
         return isExpired;
     }
 
     @Override
-    public void setExpired (boolean expired) {
+    public void setExpired(boolean expired) {
         this.isExpired = expired;
     }
 
     @Override
-    public T getPayload () {
+    public T getPayload() {
         return payload;
     }
 
     @Override
-    public void setPayload (T payload) {
+    public void setPayload(T payload) {
         this.payload = payload;
     }
 
     @Override
-    public String getDependentKey () {
+    public String getDependentKey() {
         return dependentKey;
     }
 
     @Override
-    public void setDependentKey (String dependentKey) {
+    public void setDependentKey(String dependentKey) {
         this.dependentKey = dependentKey;
     }
 
-	@Override
-	public boolean isNull() {
-		return isNull;
-	}
+    @Override
+    public boolean isNull() {
+        return isNull;
+    }
 
-	@Override
-	public void setNull(boolean isnull) {	
-		this.isNull = isnull;
-	}
+    @Override
+    public void setNull(boolean isnull) {
+        this.isNull = isnull;
+    }
 }

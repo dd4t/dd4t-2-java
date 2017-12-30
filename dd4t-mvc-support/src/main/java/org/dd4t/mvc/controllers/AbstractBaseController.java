@@ -30,36 +30,38 @@ public abstract class AbstractBaseController {
 
     @PostConstruct
     protected void init() {
-        String stripContext = propertiesService.getProperty(Constants.PROPERTY_STRIP_CONTEXT_PATH,"false");
-        if ("true".equalsIgnoreCase(stripContext)|| "false".equalsIgnoreCase(stripContext)) {
+        String stripContext = propertiesService.getProperty(Constants.PROPERTY_STRIP_CONTEXT_PATH, "false");
+        if ("true".equalsIgnoreCase(stripContext) || "false".equalsIgnoreCase(stripContext)) {
             removeContextPath = Boolean.valueOf(stripContext);
         } else {
-            LOG.warn("{} not set! If a Servlet Context path is present and it should be stripped, this will not be done.",Constants.PROPERTY_STRIP_CONTEXT_PATH);
+            LOG.warn("{} not set! If a Servlet Context path is present and it should be stripped, this will not be " +
+                    "done.", Constants.PROPERTY_STRIP_CONTEXT_PATH);
         }
     }
+
     /**
      * Create Date format for last-modified headers. Note that a constant
      * SimpleDateFormat is not allowed, it's access should be sync-ed.
      */
-    protected static DateFormat createDateFormat () {
+    protected static DateFormat createDateFormat() {
         final SimpleDateFormat dateFormat = new SimpleDateFormat(Constants.HEADER_DATE_FORMAT, Locale.US);
         dateFormat.setTimeZone(Constants.TIMEZONE_GMT);
         return dateFormat;
     }
 
-    public void setRemoveContextPath (boolean removeContextPath) {
+    public void setRemoveContextPath(boolean removeContextPath) {
         this.removeContextPath = removeContextPath;
     }
 
-    public boolean removeContextPath () {
+    public boolean removeContextPath() {
         return removeContextPath;
     }
 
-    public PublicationResolver getPublicationResolver () {
+    public PublicationResolver getPublicationResolver() {
         return publicationResolver;
     }
 
-    public void setPublicationResolver (final PublicationResolver publicationResolver) {
+    public void setPublicationResolver(final PublicationResolver publicationResolver) {
         this.publicationResolver = publicationResolver;
     }
 }

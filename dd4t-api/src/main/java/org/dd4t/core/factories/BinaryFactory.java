@@ -17,9 +17,12 @@
 package org.dd4t.core.factories;
 
 import org.dd4t.contentmodel.Binary;
+import org.dd4t.contentmodel.Item;
 import org.dd4t.core.exceptions.FactoryException;
 import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
+import org.dd4t.core.processors.RunPhase;
+import org.dd4t.core.request.RequestContext;
 
 /**
  * Interface for factories that return binary items (e.g. images, office documents).
@@ -27,6 +30,8 @@ import org.dd4t.core.exceptions.SerializationException;
  * @author Quirijn Slings
  */
 public interface BinaryFactory extends Factory {
+
+    void executeProcessors(Item item, RunPhase runPhase, RequestContext context) throws FactoryException;
 
     /**
      * Get a binary by the tcmUri.
@@ -36,7 +41,7 @@ public interface BinaryFactory extends Factory {
      * @throws ItemNotFoundException  if the items cannot be found in the underlying storage
      * @throws SerializationException if the binary cannot be deserialized into an object
      */
-    Binary getBinaryByURI (String tcmUri) throws FactoryException;
+    Binary getBinaryByURI(String tcmUri) throws FactoryException;
 
     /**
      * Get a binary by the url and publicationId.
@@ -47,6 +52,6 @@ public interface BinaryFactory extends Factory {
      * @throws ItemNotFoundException  if the items cannot be found in the underlying storage
      * @throws SerializationException if the binary cannot be deserialized into an object
      */
-    Binary getBinaryByURL (String url, int publicationId) throws FactoryException;
+    Binary getBinaryByURL(String url, int publicationId) throws FactoryException;
 
 }

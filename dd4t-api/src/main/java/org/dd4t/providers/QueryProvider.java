@@ -26,7 +26,6 @@ import java.util.Map;
  * QueryProvider. Interface for doing Broker look ups.
  * Currently provides only the basic stuff.
  * <p/>
- * TODO: add methods to query custom meta for normal CPs
  *
  * @author R. Kempees
  */
@@ -44,7 +43,8 @@ public interface QueryProvider {
      * @throws ItemNotFoundException  if the requested CP does not exist
      * @throws SerializationException if something went wrong during deserialization
      */
-    String[] getDynamicComponentPresentationsByCustomMetaQuery (String locale, Map<String, Collection<String>> keyValueMap, int templateId) throws ItemNotFoundException, SerializationException;
+    String[] getDynamicComponentPresentationsByCustomMetaQuery(String locale, Map<String, Collection<String>>
+            keyValueMap, int templateId) throws ItemNotFoundException, SerializationException;
 
     /**
      * Retrieves content of a Dynamic Component Presentation by doing a Broker Query
@@ -63,7 +63,8 @@ public interface QueryProvider {
      * @throws ItemNotFoundException
      * @throws SerializationException
      */
-    String[] getDynamicComponentPresentationsBySchema (String locale, String schema, int templateId) throws ItemNotFoundException, SerializationException;
+    String[] getDynamicComponentPresentationsBySchema(String locale, String schema, int templateId) throws
+            ItemNotFoundException, SerializationException;
 
 
     /**
@@ -86,5 +87,6 @@ public interface QueryProvider {
      * @throws SerializationException
      */
 
-    String[] getDynamicComponentPresentationsBySchemaInKeyword (String locale, String schema, int categoryId, int keywordId, int templateId) throws ItemNotFoundException, SerializationException;
+    String[] getDynamicComponentPresentationsBySchemaInKeyword(String locale, String schema, int categoryId, int
+            keywordId, int templateId) throws ItemNotFoundException, SerializationException;
 }

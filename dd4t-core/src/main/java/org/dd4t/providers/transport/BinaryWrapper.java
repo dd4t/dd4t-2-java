@@ -36,24 +36,24 @@ public class BinaryWrapper implements Serializable {
      * @param binary  String representing a Binary object that has been JSONed, GZipped and Base64 encoded
      * @param content byte array representing the raw content of a binary
      */
-    public BinaryWrapper (String binary, byte[] content) {
+    public BinaryWrapper(String binary, byte[] content) {
         this.binary = binary;
         this.content = content.clone();
     }
 
-    public byte[] getContent () {
+    public byte[] getContent() {
         return content.clone();
     }
 
-    public void setContent (byte[] content) {
+    public void setContent(byte[] content) {
         this.content = content.clone();
     }
 
-    public String getBinary () {
+    public String getBinary() {
         return binary;
     }
 
-    public void setBinary (String binary) {
+    public void setBinary(String binary) {
         this.binary = binary;
     }
 }

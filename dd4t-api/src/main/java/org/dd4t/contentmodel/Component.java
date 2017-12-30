@@ -36,14 +36,15 @@ public interface Component extends RepositoryLocalItem {
      * @return the schema
      */
     @Override
-    Schema getSchema ();
+    Schema getSchema();
 
     /**
      * Set the schema of the component
      *
      * @param schema
      */
-    void setSchema (Schema schema);
+    @Override
+    void setSchema(Schema schema);
 
     /**
      * Get the last published date
@@ -51,7 +52,7 @@ public interface Component extends RepositoryLocalItem {
      * @return the last published date
      */
     @Override
-    DateTime getLastPublishedDate ();
+    DateTime getLastPublishedDate();
 
     /**
      * Set the last published date
@@ -59,67 +60,67 @@ public interface Component extends RepositoryLocalItem {
      * @param date published date
      */
     @Override
-    void setLastPublishedDate (DateTime date);
+    void setLastPublishedDate(DateTime date);
 
     /**
      * Get the metadata
      *
      * @return a map of field objects representing the metadata
      */
-    Map<String, Field> getMetadata ();
+    Map<String, Field> getMetadata();
 
     /**
      * Set the metadata
      */
-    void setMetadata (Map<String, Field> metadata);
+    void setMetadata(Map<String, Field> metadata);
 
     /**
      * Get the content
      *
      * @return a map of field objects representing the content
      */
-    Map<String, Field> getContent ();
+    Map<String, Field> getContent();
 
     /**
      * Set the content
      */
-    void setContent (Map<String, Field> content);
+    void setContent(Map<String, Field> content);
 
     /**
      * Get the component type
      *
      * @return the component type
      */
-    ComponentType getComponentType ();
+    ComponentType getComponentType();
 
     /**
      * Set the component type
      *
      * @param componentType
      */
-    void setComponentType (ComponentType componentType);
+    void setComponentType(ComponentType componentType);
 
     /**
      * Get the multimedia object
      *
      * @return the multimedia object
      */
-    Multimedia getMultimedia ();
+    Multimedia getMultimedia();
 
     /**
      * Set the multimedia object
      */
-    void setMultimedia (Multimedia multimedia);
+    void setMultimedia(Multimedia multimedia);
 
-    List<Category> getCategories ();
+    List<Category> getCategories();
 
-    void setCategories (List<Category> categories);
+    void setCategories(List<Category> categories);
 
-    int getVersion ();
+    int getVersion();
 
-    DateTime getRevisionDate ();
+    DateTime getRevisionDate();
 
-    void setRevisionDate (DateTime date);
+    void setRevisionDate(DateTime date);
 
     /**
      * Get the resolved url
@@ -135,18 +136,18 @@ public interface Component extends RepositoryLocalItem {
      */
     void setResolvedUrl(String resolvedUrl);
 
-    String getEclId ();
+    String getEclId();
 
-    public enum ComponentType {
+    enum ComponentType {
         MULTIMEDIA(0), NORMAL(1), UNKNOWN(-1);
         private final int value;
         private static final Logger LOG = LoggerFactory.getLogger(ComponentType.class);
 
-        ComponentType (int value) {
+        ComponentType(int value) {
             this.value = value;
         }
 
-        public static ComponentType findByValue (int value) {
+        public static ComponentType findByValue(int value) {
             for (ComponentType componentType : values()) {
                 if (componentType.getValue() == value) {
                     return componentType;
@@ -156,7 +157,7 @@ public interface Component extends RepositoryLocalItem {
             return UNKNOWN;
         }
 
-        public static ComponentType findByName (String name) {
+        public static ComponentType findByName(String name) {
             try {
                 return ComponentType.valueOf(name.toUpperCase());
             } catch (IllegalArgumentException iae) {
@@ -166,12 +167,12 @@ public interface Component extends RepositoryLocalItem {
                     return findByValue(value);
                 } catch (NumberFormatException nfe) {
                     LOG.error(nfe.getLocalizedMessage(), nfe);
-                    return UNKNOWN;
+                    return ComponentType.UNKNOWN;
                 }
             }
         }
 
-        public int getValue () {
+        public int getValue() {
             return value;
         }
     }

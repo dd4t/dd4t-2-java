@@ -27,8 +27,6 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * TODO: move this to dd4t-caching
- * <p/>
  * CacheProvider which doesn't cache anything.
  *
  * @author rooudsho
@@ -36,58 +34,64 @@ import java.util.List;
 public class NoCacheProvider implements PayloadCacheProvider, CacheProvider {
 
     @Override
-    public <T> void storeInItemCache (String key, CacheElement<T> cacheElement) {
-
+    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement) {
+        // Do nothing
     }
 
     @Override
-    public <T> void storeInItemCache (String key, CacheElement<T> cacheElement, int dependingPublicationId, int dependingItemId) {
-
+    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, int dependingPublicationId, int
+            dependingItemId) {
+        // Do nothing
     }
 
     @Override
-    public <T> CacheElement<T> loadPayloadFromLocalCache (String key) {
+    public <T> CacheElement<T> loadPayloadFromLocalCache(String key) {
         return new CacheElementImpl<T>(null, true);
     }
 
     @Override
-    public void storeInCache (String key, Cachable ob, Collection<Cachable> deps) {
+    public void storeInCache(String key, Cachable ob, Collection<Cachable> deps) {
+        // Do nothing
     }
 
     @Override
-    public void storeInItemCache (String key, Object ob, int dependingPublicationId, int dependingItemId) {
+    public void storeInItemCache(String key, Object ob, int dependingPublicationId, int dependingItemId) {
+        // Do nothing
     }
 
     @Override
-    public void storeInComponentPresentationCache (String key, Object ob, int dependingPublicationId, int dependingCompId, int dependingTemplateId) {
+    public void storeInComponentPresentationCache(String key, Object ob, int dependingPublicationId, int
+            dependingCompId, int dependingTemplateId) {
+        // Do nothing
     }
 
     @Override
-    public void storeInKeywordCache (String key, Object ob, int dependingPublicationId, int dependingItemId) {
+    public void storeInKeywordCache(String key, Object ob, int dependingPublicationId, int dependingItemId) {
+        // Do nothing
     }
 
     @Override
-    public Object loadFromLocalCache (String key) {
+    public Object loadFromLocalCache(String key) {
         return null;
     }
 
     @Override
-    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement,
-                                     List<CacheDependency> dependencies) {
-        // TODO Auto-generated method stub
-
+    public <T> void storeInItemCache(String key, CacheElement<T> cacheElement, List<CacheDependency> dependencies) {
+        // Nothing to do.
     }
 
     @Override
     public void addDependency(String cacheKey, String dependencyKey) {
-        // TODO Auto-generated method stub
-
+        // Nothing to do.
     }
 
     @Override
-    public void storeInItemCache(String key, Object ob,
-                                 List<CacheDependency> dependencies) {
-        // TODO Auto-generated method stub
+    public boolean isEnabled() {
+        return false;
+    }
 
+    @Override
+    public void storeInItemCache(String key, Object ob, List<CacheDependency> dependencies) {
+        // Nothing to do.
     }
 }

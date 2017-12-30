@@ -20,13 +20,11 @@ import org.joda.time.DateTime;
 
 /**
  * Interface for the component template
- * <p/>
- * TODO: revision date should be LPD?
  *
  * @author bjornl
  */
 public interface ComponentTemplate extends Item, HasMetadata {
-    DateTime getRevisionDate ();
+    DateTime getRevisionDate();
 
-    void setRevisionDate (DateTime date);
+    void setRevisionDate(DateTime date);
 }

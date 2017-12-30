@@ -42,7 +42,7 @@ import java.util.Map;
  * children relationships resolved. It also provides the capability to retrieve related items (i.e. Tridion items that
  * use each Keyword in the taxonomy directly).
  * <p/>
- * TODO TODO TODO. Proper interface (same for client and service)
+ * TODO: Proper interface (same for client and service)
  * TODO: Proper overrides
  * TODO: decompress
  *
@@ -50,10 +50,13 @@ import java.util.Map;
  */
 public class BrokerTaxonomyProvider extends BaseBrokerProvider implements TaxonomyProvider {
 
-    private static final String SELECT_RELATED_KEYWORDS = "select distinct(rk) from RelatedKeyword rk, ItemMeta im" + " where rk.publicationId = :publicationId and rk.taxonomyId = :taxonomyId and im.itemType = :itemType and rk.itemId = im.itemId and rk.publicationId = im.publicationId";
-    private static final String SELECT_RELATED_COMPONENTS_BY_SCHEMA = "select distinct(rk) from RelatedKeyword rk, ItemMeta im, ComponentMeta cm" +
-            " where rk.publicationId = :publicationId and rk.taxonomyId = :taxonomyId and im.itemType = 16 and rk.itemId = im.itemId and rk.publicationId = im.publicationId and" +
-            " cm.publicationId = im.publicationId and cm.itemId = im.itemId and cm.schemaId = :schemaId";
+    private static final String SELECT_RELATED_KEYWORDS = "select distinct(rk) from RelatedKeyword rk, ItemMeta im" +
+            " where rk.publicationId = :publicationId and rk.taxonomyId = :taxonomyId and im.itemType = :itemType and" +
+            " rk.itemId = im.itemId and rk.publicationId = im.publicationId";
+    private static final String SELECT_RELATED_COMPONENTS_BY_SCHEMA = "select distinct(rk) from RelatedKeyword rk, " +
+            "ItemMeta im, ComponentMeta cm" + " where rk.publicationId = :publicationId and rk.taxonomyId = " +
+            ":taxonomyId and im.itemType = 16 and rk.itemId = im.itemId and rk.publicationId = im.publicationId and"
+            + " cm.publicationId = im.publicationId and cm.itemId = im.itemId and cm.schemaId = :schemaId";
 
     /**
      * Retrieves the Keyword object model with all its Parent/Children relationships resloved.
@@ -63,7 +66,7 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
      * @throws StorageException if something went wrong during accessing the CD DB
      */
 
-    public Keyword getTaxonomy (String taxonomyURI) throws StorageException {
+    public Keyword getTaxonomy(String taxonomyURI) throws StorageException {
         TaxonomyFactory factory = new TaxonomyFactory();
 
         return factory.getTaxonomyKeywords(taxonomyURI);
@@ -80,7 +83,8 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
      * @throws StorageException if something went wrong during accessing the CD DB
      */
 
-    public List<RelatedKeyword> getRelatedItems (String taxonomyURI, int itemType) throws ParseException, StorageException {
+    public List<RelatedKeyword> getRelatedItems(String taxonomyURI, int itemType) throws ParseException,
+            StorageException {
         TCMURI taxonomyTcmUri = new TCMURI(taxonomyURI);
         int publicationId = taxonomyTcmUri.getPublicationId();
 
@@ -102,7 +106,8 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
      * @throws ParseException   if the given Keyword URI does not represent a valid TCMURI
      * @throws StorageException if something went wrong during accessing the CD DB
      */
-    public List<RelatedKeyword> getRelatedComponentsBySchema (String taxonomyURI, String schemaURI) throws ParseException, StorageException {
+    public List<RelatedKeyword> getRelatedComponentsBySchema(String taxonomyURI, String schemaURI) throws
+            ParseException, StorageException {
         TCMURI taxonomyTcmUri = new TCMURI(taxonomyURI);
         TCMURI schemaTcmUri = new TCMURI(schemaURI);
         int publicationId = taxonomyTcmUri.getPublicationId();
@@ -118,7 +123,7 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
     /*
     Looks for the JPABaseDAO defined in the storage config. If XPM wrappers are used, it searches inside the wrapper.
      */
-    private JPABaseDAO getJPADAO (int publicationId) throws StorageException {
+    private JPABaseDAO getJPADAO(int publicationId) throws StorageException {
         BaseDAO baseDAO = StorageManagerFactory.getDAO(publicationId, StorageTypeMapping.ITEM_META);
         boolean loop = true;
 
@@ -138,12 +143,14 @@ public class BrokerTaxonomyProvider extends BaseBrokerProvider implements Taxono
     }
 
     @Override
-    public String getTaxonomyByURI (final String taxonomyURI, final boolean resolveContent) throws ItemNotFoundException, SerializationException {
+    public String getTaxonomyByURI(final String taxonomyURI, final boolean resolveContent) throws
+            ItemNotFoundException, SerializationException {
         throw new NotImplementedException();
     }
 
     @Override
-    public String getTaxonomyFilterBySchema (final String taxonomyURI, final String schemaURI) throws ItemNotFoundException, SerializationException {
+    public String getTaxonomyFilterBySchema(final String taxonomyURI, final String schemaURI) throws
+            ItemNotFoundException, SerializationException {
         throw new NotImplementedException();
     }
 }

@@ -42,74 +42,74 @@ public abstract class TridionViewModelBase extends ViewModelBase implements Trid
     private transient Map<String, XPMInfo> fieldMap = new HashMap<String, XPMInfo>();
 
     @Override
-    protected void setGenericParameters () {
+    protected void setGenericParameters() {
         super.setGenericParameters();
         final ViewModel viewModelAnnotation = this.getClass().getAnnotation(ViewModel.class);
         this.setGenericComponentOnComponentPresentation = viewModelAnnotation.setComponentObject();
     }
 
     @Override
-    public TCMURI getTcmUri () {
+    public TCMURI getTcmUri() {
         return this.itemTcmUri;
     }
 
     @Override
-    public void setTcmUri (final TCMURI tcmUri) {
+    public void setTcmUri(final TCMURI tcmUri) {
         this.itemTcmUri = tcmUri;
     }
 
     @Override
-    public TCMURI getTemplateUri () {
+    public TCMURI getTemplateUri() {
         return this.templateUri;
     }
 
     @Override
-    public void setTemplateUri (final TCMURI tcmUri) {
+    public void setTemplateUri(final TCMURI tcmUri) {
         this.templateUri = tcmUri;
     }
 
     @Override
-    public DateTime getLastModified () {
+    public DateTime getLastModified() {
         return this.lastModifiedDate;
     }
 
     @Override
-    public void setLastModified (final DateTime lastModified) {
+    public void setLastModified(final DateTime lastModified) {
         this.lastModifiedDate = lastModified;
     }
 
     @Override
-    public DateTime getLastPublishDate () {
+    public DateTime getLastPublishDate() {
         return this.lastPublishDate;
     }
 
     @Override
-    public void setLastPublishDate (final DateTime lastPublishDate) {
+    public void setLastPublishDate(final DateTime lastPublishDate) {
         this.lastPublishDate = lastPublishDate;
     }
 
     @Override
-    public boolean setGenericComponentOnComponentPresentation () {
+    public boolean setGenericComponentOnComponentPresentation() {
         return setGenericComponentOnComponentPresentation;
     }
 
     @Override
-    public boolean isMultiValued (final String fieldName) {
+    public boolean isMultiValued(final String fieldName) {
         return getFieldMap().get(fieldName).isMultiValued();
     }
 
     @Override
-    public boolean isDynamicCP () {
+    public boolean isDynamicCP() {
         return isDynamicCP;
     }
 
     @Override
-    public void setIsDynamicCP (final boolean dynamicCP) {
+    public void setIsDynamicCP(final boolean dynamicCP) {
         isDynamicCP = dynamicCP;
     }
 
     @Override
-    public String getXPath (final String fieldName) {
+    public String getXPath(final String fieldName) {
         XPMInfo xpmInfo = fieldMap.get(fieldName);
         if (xpmInfo != null) {
             return xpmInfo.getXpath();
@@ -119,11 +119,11 @@ public abstract class TridionViewModelBase extends ViewModelBase implements Trid
     }
 
     @Override
-    public void addXpmEntry (final String fieldName, final String xpath, final boolean multiValued) {
+    public void addXpmEntry(final String fieldName, final String xpath, final boolean multiValued) {
         fieldMap.put(fieldName, new XPMInfo(xpath, multiValued));
     }
 
-    public Map<String, XPMInfo> getFieldMap () {
+    public Map<String, XPMInfo> getFieldMap() {
         return fieldMap;
     }
 
@@ -131,16 +131,16 @@ public abstract class TridionViewModelBase extends ViewModelBase implements Trid
         private final String xpath;
         private final boolean multiValued;
 
-        XPMInfo (final String xpath, final boolean multiValued) {
+        XPMInfo(final String xpath, final boolean multiValued) {
             this.xpath = xpath;
             this.multiValued = multiValued;
         }
 
-        public String getXpath () {
+        public String getXpath() {
             return xpath;
         }
 
-        public boolean isMultiValued () {
+        public boolean isMultiValued() {
             return multiValued;
         }
     }

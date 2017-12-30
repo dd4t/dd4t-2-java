@@ -38,6 +38,7 @@ public class DataBindConstants {
     public static final String COMPONENT_TEMPLATE_NODE_NAME = "ComponentTemplate";
     public static final String ORDER_ON_PAGE_NODE = "OrderOnPage";
     public static final String RENDERED_CONTENT_NODE = "RenderedContent";
+    public static final String EXTENSION_DATA_NODE = "ExtensionData";
     public static final String ROOT_ELEMENT_NAME = "RootElementName";
     public static final String LAST_PUBLISHED_DATE = "LastPublishedDate";
     public static final String LAST_MODIFIED_DATE = "RevisionDate";
@@ -47,20 +48,23 @@ public class DataBindConstants {
     public static final String FALSE_STRING = "false";
     public static final String COMPONENT_FIELDS = "Fields";
     public static final String METADATA_FIELDS = "MetadataFields";
+    public static final String VALUES_NODE = "Values";
     public static final String EMBEDDED_VALUES_NODE = "EmbeddedValues";
     public static final String LINKED_COMPONENT_VALUES_NODE = "LinkedComponentValues";
     public static final String FIELD_TYPE_KEY = "FieldType";
     public static final String COMPONENT_TYPE = "ComponentType";
     public static final String MULTIMEDIA = "Multimedia";
     public static final String XPATH = "XPath";
+    public static final String URL = "Url";
     public static final String VIEW_MODEL_ANNOTATION_NAME = ViewModel.class.getCanonicalName();
     public static final String TRIDION_VIEW_MODEL_BASE_CLASS_NAME = TridionViewModelBase.class.getCanonicalName();
     public static final String VIEW_MODEL_BASE_CLASS_NAME = ViewModelBase.class.getCanonicalName();
     public static final String TRIDION_VIEW_MODEL_INTERFACE = TridionViewModel.class.getCanonicalName();
     public static final String BASE_VIEW_MODEL_INTERFACE = BaseViewModel.class.getCanonicalName();
     public static final String EMBEDDED_SCHEMA_FIELD_NAME = "EmbeddedSchema";
+    public static final String VIEW_MODEL_ANNOTATION = "org.dd4t.databind.annotations.ViewModel";
 
-    private DataBindConstants () {
+    private DataBindConstants() {
 
     }
 }

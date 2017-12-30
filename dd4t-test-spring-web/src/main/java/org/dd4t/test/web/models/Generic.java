@@ -16,10 +16,7 @@ import java.util.List;
  * @author R. Kempees
  */
 
-@ViewModel (
-        viewModelNames = {"generic-content"},
-        rootElementNames = {"Generic"},
-        setComponentObject = true)
+@ViewModel (viewModelNames = {"generic-content"}, rootElementNames = {"Generic"}, setComponentObject = true)
 public class Generic extends TridionViewModelBase {
 
     @ViewModelProperty
@@ -57,76 +54,76 @@ public class Generic extends TridionViewModelBase {
 
     }
 
-    public String getHeading () {
+    public String getHeading() {
         return heading;
     }
 
-    public void setHeading (final String heading) {
+    public void setHeading(final String heading) {
         this.heading = heading;
     }
 
-    public List<String> getBody () {
+    public List<String> getBody() {
         return body;
     }
 
-    public void setBody (final List<String> body) {
+    public void setBody(final List<String> body) {
         this.body = body;
     }
 
-    public double getNumeric () {
+    public double getNumeric() {
         return numeric;
     }
 
-    public void setNumeric (final double numeric) {
+    public void setNumeric(final double numeric) {
         this.numeric = numeric;
     }
 
-    public DateTime getDate () {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate (final DateTime date) {
+    public void setDate(final DateTime date) {
         this.date = date;
     }
 
-    public String getExternalLink () {
+    public String getExternalLink() {
         return externalLink;
     }
 
-    public void setExternalLink (final String externalLink) {
+    public void setExternalLink(final String externalLink) {
         this.externalLink = externalLink;
     }
 
-    public Multimedia getMultimedia () {
+    public Multimedia getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia (final Multimedia multimedia) {
+    public void setMultimedia(final Multimedia multimedia) {
         this.multimedia = multimedia;
     }
 
-    public Component getComponentLink () {
+    public Component getComponentLink() {
         return componentLink;
     }
 
-    public void setComponentLink (final Component componentLink) {
+    public void setComponentLink(final Component componentLink) {
         this.componentLink = componentLink;
     }
 
 
-    public List<EmbeddedOne> getEmbedded () {
+    public List<EmbeddedOne> getEmbedded() {
         return embedded;
     }
 
-    public void setEmbedded (final List<EmbeddedOne> embedded) {
+    public void setEmbedded(final List<EmbeddedOne> embedded) {
         this.embedded = embedded;
     }
 
-    public Keyword getKeyword () {
+    public Keyword getKeyword() {
         return keyword;
     }
 
-    public void setKeyword (final Keyword keyword) {
+    public void setKeyword(final Keyword keyword) {
         this.keyword = keyword;
     }
 

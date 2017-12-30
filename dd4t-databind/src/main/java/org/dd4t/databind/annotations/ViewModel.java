@@ -28,11 +28,11 @@ import java.lang.annotation.Target;
 @Target (ElementType.TYPE)
 @Retention (RetentionPolicy.RUNTIME)
 public @interface ViewModel {
-    String[] viewModelNames () default "";
+    String[] viewModelNames() default "";
 
-    String[] rootElementNames () default "";
+    String[] rootElementNames() default "";
 
-    boolean setRawData () default false;
+    boolean setRawData() default false;
 
-    boolean setComponentObject () default false;
+    boolean setComponentObject() default false;
 }

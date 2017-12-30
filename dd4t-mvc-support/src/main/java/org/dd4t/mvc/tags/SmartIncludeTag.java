@@ -16,9 +16,7 @@
 
 package org.dd4t.mvc.tags;
 
-import org.dd4t.core.factories.ComponentPresentationFactory;
 import org.dd4t.core.factories.PageFactory;
-import org.dd4t.core.factories.impl.PageFactoryImpl;
 import org.dd4t.core.resolvers.PublicationResolver;
 import org.dd4t.core.util.Constants;
 import org.dd4t.core.util.HttpUtils;
@@ -34,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
-
 import java.io.IOException;
 import java.net.URL;
 
@@ -67,10 +64,11 @@ public class SmartIncludeTag extends TagSupport {
     private transient PublicationResolver publicationResolver = PublicationResolverFactory.getPublicationResolver();
 
     @Override
-    public int doStartTag () throws JspException {
+    public int doStartTag() throws JspException {
         final HttpServletRequest currentRequest = (HttpServletRequest) pageContext.getRequest();
 
-        if (currentRequest.getDispatcherType() == DispatcherType.INCLUDE || currentRequest.getAttribute(Constants.SMART_INCLUDE_URL) != null) {
+        if (currentRequest.getDispatcherType() == DispatcherType.INCLUDE || currentRequest.getAttribute(Constants
+                .SMART_INCLUDE_URL) != null) {
             LOG.debug("Already including.");
             return SKIP_BODY;
         }
@@ -147,11 +145,13 @@ public class SmartIncludeTag extends TagSupport {
      * @throws ServletException
      * @throws IOException
      */
-    private void includePage (final HttpServletRequest currentRequest, final String includeUrl) throws ServletException, IOException {
+    private void includePage(final HttpServletRequest currentRequest, final String includeUrl) throws
+            ServletException, IOException {
         pageContext.getRequest().setAttribute(Constants.SMART_INCLUDE_URL, includeUrl);
         LOG.debug(">> Including: {}", includeUrl);
 
-        String renderedInclude = RenderUtils.dispatchBufferedRequest(currentRequest, (HttpServletResponse) this.pageContext.getResponse(), includeUrl);
+        String renderedInclude = RenderUtils.dispatchBufferedRequest(currentRequest, (HttpServletResponse) this
+                .pageContext.getResponse(), includeUrl);
         pageContext.getOut().print(renderedInclude);
 
         currentRequest.setAttribute(Constants.SMART_INCLUDE_URL, null);
@@ -164,7 +164,7 @@ public class SmartIncludeTag extends TagSupport {
      * @see super.doEndTag()
      */
     @Override
-    public int doEndTag () throws JspException {
+    public int doEndTag() throws JspException {
         return SKIP_BODY;
     }
 
@@ -173,7 +173,7 @@ public class SmartIncludeTag extends TagSupport {
      *
      * @return String the URL
      */
-    public String getPage () {
+    public String getPage() {
         return page;
     }
 
@@ -182,7 +182,7 @@ public class SmartIncludeTag extends TagSupport {
      *
      * @param page the page URL to include
      */
-    public void setPage (final String page) {
+    public void setPage(final String page) {
         this.page = page;
     }
 }

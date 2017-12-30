@@ -30,7 +30,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.xml.stream.XMLStreamException;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -38,96 +37,66 @@ import java.net.URISyntaxException;
 import java.util.zip.GZIPInputStream;
 
 public class DD4TModelConverter {
-	protected static ApplicationContext context;
+    protected static ApplicationContext context;
 
-	public static void main (String[] args) throws IOException, XMLStreamException, SerializationException, URISyntaxException {
+    public static void main(String[] args) throws IOException, XMLStreamException, SerializationException,
+            URISyntaxException {
 
-		// Load Spring
-		context = new ClassPathXmlApplicationContext("application-context.xml");
-
-
-//		System.out.println(testXml + xml2 + xml3);
-//		String completeXml = FileUtils.readFileToString(new File("dd4t-test/target/classes/xml-without-java-xslt.xml"));
-//
-		String homepage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()));
-		//System.out.println(completeXml);
-		//deserializeXmlJackson(completeXml);
-		deserializeJson(homepage);
+        // Load Spring
+        context = new ClassPathXmlApplicationContext("application-context.xml");
+        String homepage = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()));
+        deserializeJson(homepage);
 
 
-	}
+    }
 
-//	private static void deserializeXmlJackson (final String completeXml) throws IOException {
-//		JacksonXmlModule module = new JacksonXmlModule();
-//		ObjectMapper mapper = new XmlMapper(module);
-//		mapper.registerModule(configureXmlMapper());
-//		PageImpl page = mapper.readValue(completeXml, PageImpl.class);
-//
-//		System.out.println(page.getTitle());
-//	}
-
-//	protected static SimpleModule configureXmlMapper () {
-//		// TODO: to concrete basefield and customizable CT impls and into DataBinder
-//		final XmlBaseFieldsDeserializer<BaseField> xmlBaseFieldsDeserializer = new XmlBaseFieldsDeserializer<>(BaseField.class);
-//		final ComponentPresentationDeserializer componentPresentationDeserializer = new ComponentPresentationDeserializer(ComponentPresentationImpl.class, ComponentTemplateImpl.class, ComponentImpl.class);
-//		final XmlValuesDeserializer<List> xmlValuesDeserializer = new XmlValuesDeserializer<>(List.class);
-//		final SimpleModule module = new SimpleModule();
-//		module.addDeserializer(BaseField.class, xmlBaseFieldsDeserializer);
-//		module.addDeserializer(ComponentPresentation.class,componentPresentationDeserializer);
-//		module.addDeserializer(List.class,xmlValuesDeserializer);
-//		return module;
-//
-//	}
-
-	// TODO: OrderOnPage always is 0 in the JSon
-
-	private static void deserializeJson (String content) throws IOException, SerializationException {
-		String content1 = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(content));//test4;//
+    private static void deserializeJson(String content) throws IOException, SerializationException {
+        String content1 = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(content));//test4;//
         DataBinder databinder = context.getBean(DataBinder.class);
 
-		PageImpl page = databinder.buildPage(content1, PageImpl.class);
-		System.out.println(content1);
-		System.out.println("Page Title: " + page.getTitle());
-	}
+        PageImpl page = databinder.buildPage(content1, PageImpl.class);
+        System.out.println(content1);
+        System.out.println("Page Title: " + page.getTitle());
+    }
 
-	private static String decodeAndDecompressContent (String content) throws IOException {
-		byte[] decoded;
-		if (Base64.isBase64(content)) {
-			System.out.println(">> length before base64 decode: " + content.getBytes("UTF-8").length);
+    private static String decodeAndDecompressContent(String content) throws IOException {
+        byte[] decoded;
+        if (Base64.isBase64(content)) {
+            System.out.println(">> length before base64 decode: " + content.getBytes("UTF-8").length);
 
-			decoded = Base64.decodeBase64(content);
-			System.out.println(">> length after base64 decode: " + decoded.length);
-		} else {
-			decoded = content.getBytes();
-		}
+            decoded = Base64.decodeBase64(content);
+            System.out.println(">> length after base64 decode: " + decoded.length);
+        } else {
+            decoded = content.getBytes();
+        }
 
-		String r = decompress(decoded);
+        String r = decompress(decoded);
 
-		System.out.println(">> length after decompress: " + r.getBytes("UTF-8").length);
-		System.out.println("Content is: " + r);
-		return r;
-	}
+        System.out.println(">> length after decompress: " + r.getBytes("UTF-8").length);
+        System.out.println("Content is: " + r);
+        return r;
+    }
 
-	public static String decompress (byte[] bytes) throws IOException {
-		GZIPInputStream gis = null;
-		String result = null;
+    public static String decompress(byte[] bytes) throws IOException {
+        GZIPInputStream gis = null;
+        String result = null;
 
-		try {
-			gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
-			result = IOUtils.toString(gis);
-		} finally {
-			IOUtils.closeQuietly(gis);
-		}
-		return result;
-	}
+        try {
+            gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
+            result = IOUtils.toString(gis);
+        } finally {
+            IOUtils.closeQuietly(gis);
+        }
+        return result;
+    }
 
-	static String[] splitBuffer (String input, int maxLength) {
-		int elements = (input.length() + maxLength - 1) / maxLength;
-		String[] ret = new String[elements];
-		for (int i = 0; i < elements; i++) {
-			int start = i * maxLength;
-			ret[i] = input.substring(start, Math.min(input.length(), start + maxLength));
-		}
-		return ret;
-	}
+    static String[] splitBuffer(String input, int maxLength) {
+        int elements = (input.length() + maxLength - 1) / maxLength;
+        String[] ret = new String[elements];
+        for (int i = 0; i < elements; i++) {
+            int start = i * maxLength;
+            ret[i] = input.substring(start, Math.min(input.length(), start + maxLength));
+        }
+        return ret;
+    }
 }

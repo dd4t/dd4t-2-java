@@ -25,57 +25,57 @@ import org.dd4t.contentmodel.ComponentPresentation;
  * @author Rogier Oudshoorn
  */
 public class RenderedComponent {
-	private String html;
-	private String region;
-	private ComponentPresentation cp;
-	private int order;
-	
-	public RenderedComponent(String html, String region, ComponentPresentation cp, int order){
-		this.setHtml(html);
-		this.setRegion(region);
-		this.setCp(cp);
-		this.setOrder(order);
-	}
+    private String html;
+    private String region;
+    private ComponentPresentation cp;
+    private int order;
 
-	public String getHtml() {
-		return html;
-	}
+    public RenderedComponent(String html, String region, ComponentPresentation cp, int order) {
+        this.setHtml(html);
+        this.setRegion(region);
+        this.setCp(cp);
+        this.setOrder(order);
+    }
 
-	public void setHtml(String html) {
-		this.html = html;
-	}
+    public String getHtml() {
+        return html;
+    }
 
-	public ComponentPresentation getCp() {
-		return cp;
-	}
+    public void setHtml(String html) {
+        this.html = html;
+    }
 
-	public void setCp(ComponentPresentation cp) {
-		this.cp = cp;
-	}
+    public ComponentPresentation getCp() {
+        return cp;
+    }
 
-	public String getRegion() {
-		return region;
-	}
+    public void setCp(ComponentPresentation cp) {
+        this.cp = cp;
+    }
 
-	public void setRegion(String region) {
-		this.region = region;
-	}
+    public String getRegion() {
+        return region;
+    }
 
-	public int getOrder() {
-		return order;
-	}
+    public void setRegion(String region) {
+        this.region = region;
+    }
 
-	public void setOrder(int order) {
-		this.order = order;
-	}
-	
-	/**
-	 * When rendered components have been processed they are replaced by a {@link PostProcessedRenderedComponent}.
-	 * 
-	 * @return
-	 */
-	public boolean isPostProcessed() {
-		return false;
-	}
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    /**
+     * When rendered components have been processed they are replaced by a {@link PostProcessedRenderedComponent}.
+     *
+     * @return
+     */
+    public boolean isPostProcessed() {
+        return false;
+    }
 
 }

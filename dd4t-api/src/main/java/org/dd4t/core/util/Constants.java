@@ -45,7 +45,7 @@ public class Constants {
     public static final String HTTP_X_FORWARDED_FOR_HEADER = "HTTP_X_FORWARDED_FOR";
     public static final int UNKNOWN_PUBLICATION_ID = -1;
 
-    public static final String MONITOR_SERVICE_INTERVAL= "monitor.service.interval";
+    public static final String MONITOR_SERVICE_INTERVAL = "monitor.service.interval";
     public static final String CACHE_EXPIRED_TTL = "cache.expired.ttl";
     public static final String CACHE_DEPENDENCY_TTL = "cache.dependency.ttl";
     public static final String CACHE_TTL = "cache.ttl";
@@ -62,7 +62,7 @@ public class Constants {
     public static final String HEADER_CONTENT_LENGTH = "Content-Length";
 
 
-    private Constants () {
+    private Constants() {
 
     }
 }

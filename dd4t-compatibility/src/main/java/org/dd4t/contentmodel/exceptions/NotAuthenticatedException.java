@@ -15,22 +15,22 @@
  */
 package org.dd4t.contentmodel.exceptions;
 
-public class NotAuthenticatedException extends  org.dd4t.core.exceptions.NotAuthenticatedException {
+public class NotAuthenticatedException extends org.dd4t.core.exceptions.NotAuthenticatedException {
 
     /**
      *
      */
     private static final long serialVersionUID = -1393489613071343863L;
 
-    public NotAuthenticatedException (String message) {
+    public NotAuthenticatedException(String message) {
         super(message);
     }
 
-    public NotAuthenticatedException (Throwable t) {
+    public NotAuthenticatedException(Throwable t) {
         super(t);
     }
 
-    public NotAuthenticatedException (String message, Throwable t) {
+    public NotAuthenticatedException(String message, Throwable t) {
         super(message, t);
     }
 }

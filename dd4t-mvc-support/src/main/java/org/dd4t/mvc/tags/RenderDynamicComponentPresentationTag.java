@@ -26,7 +26,7 @@ public class RenderDynamicComponentPresentationTag extends SimpleTagSupport {
     private String viewName;
 
     @Override
-    public void doTag () throws JspException, IOException {
+    public void doTag() throws JspException, IOException {
 
         final Page page = (Page) getJspContext().getAttribute(Constants.PAGE_MODEL_KEY, PageContext.REQUEST_SCOPE);
 
@@ -37,7 +37,8 @@ public class RenderDynamicComponentPresentationTag extends SimpleTagSupport {
 
             String renderedCp = "";
             try {
-                renderedCp = RenderUtils.renderDynamicComponentPresentation(request, response, componentURI, templateURI, viewName);
+                renderedCp = RenderUtils.renderDynamicComponentPresentation(request, response, componentURI,
+                        templateURI, viewName);
             } catch (FactoryException e) {
                 LOG.error(e.getLocalizedMessage(), e);
             }
@@ -48,27 +49,27 @@ public class RenderDynamicComponentPresentationTag extends SimpleTagSupport {
         }
     }
 
-    public String getComponentURI () {
+    public String getComponentURI() {
         return componentURI;
     }
 
-    public void setComponentURI (final String componentURI) {
+    public void setComponentURI(final String componentURI) {
         this.componentURI = componentURI;
     }
 
-    public String getTemplateURI () {
+    public String getTemplateURI() {
         return templateURI;
     }
 
-    public void setTemplateURI (final String templateURI) {
+    public void setTemplateURI(final String templateURI) {
         this.templateURI = templateURI;
     }
 
-    public String getViewName () {
+    public String getViewName() {
         return viewName;
     }
 
-    public void setViewName (final String viewName) {
+    public void setViewName(final String viewName) {
         this.viewName = viewName;
     }
 }

@@ -18,59 +18,65 @@ package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.dd4t.contentmodel.*;
+import org.dd4t.contentmodel.ComponentPresentation;
+import org.dd4t.contentmodel.GenericPage;
+import org.dd4t.contentmodel.HasMetadata;
+import org.dd4t.contentmodel.PageTemplate;
+import org.dd4t.contentmodel.StructureGroup;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * TODO: Region support. Or are we just sticking the region on the CP?
- */
-public class PageImpl extends BasePage implements GenericPage, HasMetadata {
-	@Element(name = "fileName")
+public class PageImpl extends BasePage implements GenericPage, HasMetadata, Serializable {
+
+    private static final long serialVersionUID = 4393211269602154657L;
+    @Element (name = "fileName")
     @JsonProperty ("Filename")
     protected String fileName;
 
-	@Element(name = "pageTemplate")
+    @Element (name = "pageTemplate")
     @JsonProperty ("PageTemplate")
     @JsonDeserialize (as = PageTemplateImpl.class)
     protected PageTemplate pageTemplate;
 
-	@ElementList(name = "componentPresentations", required = false)
+    @ElementList (name = "componentPresentations", required = false)
     @JsonProperty ("ComponentPresentations")
     @JsonDeserialize (contentAs = ComponentPresentation.class)
     protected List<ComponentPresentation> componentPresentations;
 
-	@Element(name = "structureGroup", required = false)
+    @Element (name = "structureGroup", required = false)
     @JsonProperty ("StructureGroup")
     @JsonDeserialize (as = StructureGroupImpl.class)
     protected StructureGroup structureGroup;
 
+    @JsonProperty ("Url")
+    protected String url;
+
     @Override
-    public PageTemplate getPageTemplate () {
+    public PageTemplate getPageTemplate() {
         return pageTemplate;
     }
-    
-    protected String url;    
 
+    @Override
     public String getUrl() {
-		return url;
-	}
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    @Override
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	@Override
-    public void setPageTemplate (PageTemplate pageTemplate) {
+    @Override
+    public void setPageTemplate(PageTemplate pageTemplate) {
         this.pageTemplate = pageTemplate;
     }
 
     @Override
-    public List<ComponentPresentation> getComponentPresentations () {
+    public List<ComponentPresentation> getComponentPresentations() {
         if (componentPresentations == null) {
             componentPresentations = new ArrayList<>();
         }
@@ -78,7 +84,7 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata {
     }
 
     @Override
-    public void setComponentPresentations (List<ComponentPresentation> componentPresentations) {
+    public void setComponentPresentations(List<ComponentPresentation> componentPresentations) {
         this.componentPresentations = componentPresentations;
     }
 
@@ -86,7 +92,7 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata {
      * Get the file name
      */
     @Override
-    public String getFileName () {
+    public String getFileName() {
         return fileName;
     }
 
@@ -94,7 +100,7 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata {
      * Set the file name
      */
     @Override
-    public void setFileName (String fileName) {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
@@ -103,7 +109,7 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata {
      * page template but also set here for clarity).
      */
     @Override
-    public String getFileExtension () {
+    public String getFileExtension() {
         if (this.getPageTemplate() != null) {
             return this.getPageTemplate().getFileExtension();
         } else {
@@ -116,19 +122,19 @@ public class PageImpl extends BasePage implements GenericPage, HasMetadata {
      * because that is were the extension is determined.
      */
     @Override
-    public void setFileExtension (String fileExtension) {
+    public void setFileExtension(String fileExtension) {
         if (this.getPageTemplate() != null) {
             this.getPageTemplate().setFileExtension(fileExtension);
         }
     }
 
     @Override
-    public StructureGroup getStructureGroup () {
+    public StructureGroup getStructureGroup() {
         return structureGroup;
     }
 
     @Override
-    public void setStructureGroup (StructureGroup structureGroup) {
+    public void setStructureGroup(StructureGroup structureGroup) {
         this.structureGroup = structureGroup;
     }
 }

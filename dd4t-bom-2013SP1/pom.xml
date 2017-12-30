@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dd4t-parent</artifactId>
         <groupId>org.dd4t</groupId>
-        <version>2.1.0-beta</version>
+        <version>2.1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>dd4t-bom-2013SP1</artifactId>
@@ -45,24 +45,21 @@
         <guava.version>17.0</guava.version>
         <commons-codec.version>1.8</commons-codec.version>
         <commons-dbcp-version>1.4</commons-dbcp-version>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-pool-version>1.5.3</commons-pool-version>
         <dom4j.version>1.6.1</dom4j.version>
+        <guava.version>15.0</guava.version>
         <hibernate.version>4.0.1.Final</hibernate.version>
         <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
         <json-smart-version>1.1.1</json-smart-version>
-        <spring.version>3.2.0.RELEASE</spring.version>
+        <logback.version>1.0.13</logback.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <spring.version>3.2.18.RELEASE</spring.version>
         <sqljdbc4-version>4.0.0</sqljdbc4-version>
         <xalan-version>2.7.1</xalan-version>
     </properties>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.dd4t</groupId>
-                <artifactId>dd4t-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <!--
                 If you use the Tridion Stack inside the web app,
                 include these dependencies. They are for 2013SP1
@@ -126,6 +123,17 @@
             </dependency>
 
             <!-- Third-party libraries used by Tridion Content Delivery -->
+
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
@@ -142,10 +150,60 @@
                 <version>${jcl-over-slf4j.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <exclusions>
+                    <!-- Exclude Commons Logging because we use SLF4J and Logback instead -->
+                    <!-- See: http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#overview-logging -->
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jms</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
             <!-- Hibernate -->
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
@@ -199,8 +257,17 @@
                 </exclusions>
                 <scope>runtime</scope>
             </dependency>
-            
-            <!-- TODO: move to example web app -->
+
+            <dependency>
+                <groupId>javax.jms</groupId>
+                <artifactId>jms-api</artifactId>
+                <scope>provided</scope>
+                <version>${javax.jms.version}</version>
+            </dependency>
+
+            <!--
+                For Oracle or Mysql, change this.
+            -->
             <dependency>
                 <groupId>com.microsoft.sqlserver</groupId>
                 <artifactId>sqljdbc4</artifactId>
@@ -216,7 +283,7 @@
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-client</artifactId>
                 <version>${activemq.version}</version>
-            </dependency>            
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

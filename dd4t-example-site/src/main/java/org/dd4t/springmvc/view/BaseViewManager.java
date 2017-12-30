@@ -30,10 +30,9 @@ import java.util.Map;
  * Abstract class, wiring different viewhandlers together to act as a single
  * handler. Different handlers can be wired, and they will be polled for
  * viewrequests to determine if there is one to handle it.
- * 
- * @author rooudsho
- * 
+ *
  * @param <T>
+ * @author rooudsho
  */
 public abstract class BaseViewManager<T> implements IViewManager<T> {
     private static Logger logger = LoggerFactory.getLogger(BaseViewManager.class);
@@ -51,27 +50,29 @@ public abstract class BaseViewManager<T> implements IViewManager<T> {
      * Function determines if there is a handler in our wiring able to handle
      * the view for given viewname; handler is returned and the polling result
      * is cached for performance reasons.
-     * 
+     *
      * @param viewname
      * @return
      */
-    protected IViewHandler<T> determineHandler(String viewname,
-            HttpServletRequest req, HttpServletResponse res) {
+    protected IViewHandler<T> determineHandler(String viewname, HttpServletRequest req, HttpServletResponse res) {
 
         IViewHandler<T> handler = null;
 
-        if (logger.isDebugEnabled())
+        if (logger.isDebugEnabled()) {
             logger.debug("Searching for handler for view " + viewname);
+        }
 
         if (cachedHandlers.containsKey(viewname)) {
-            if (logger.isDebugEnabled())
+            if (logger.isDebugEnabled()) {
                 logger.debug("Found view in cache, returning");
+            }
 
             handler = cachedHandlers.get(viewname);
         } else {
             for (IViewHandler<T> thishandler : handlers) {
-                if (logger.isDebugEnabled())
-                    logger.debug("Searching for view in "+ thishandler);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Searching for view in " + thishandler);
+                }
 
                 if (thishandler.canHandleView(viewname, req, res)) {
                     handler = thishandler;
@@ -82,16 +83,15 @@ public abstract class BaseViewManager<T> implements IViewManager<T> {
 
         return handler;
     }
-    
+
     @Override
-    public boolean canHandleView(String view,
-            HttpServletRequest req, HttpServletResponse res){
+    public boolean canHandleView(String view, HttpServletRequest req, HttpServletResponse res) {
         return determineHandler(view, req, res) != null;
     }
 
     @Override
-    public String handleView(Page pagemodel, T model, String ViewID, HttpServletRequest req,
-            HttpServletResponse res) throws Exception {
+    public String handleView(Page pagemodel, T model, String ViewID, HttpServletRequest req, HttpServletResponse res)
+            throws Exception {
 
         IViewHandler<T> handler = determineHandler(ViewID, req, res);
 

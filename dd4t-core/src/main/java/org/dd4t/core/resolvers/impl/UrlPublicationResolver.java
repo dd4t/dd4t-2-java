@@ -17,9 +17,9 @@
 package org.dd4t.core.resolvers.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.dd4t.contentmodel.PublicationDescriptor;
 import org.dd4t.core.resolvers.PublicationResolver;
 import org.dd4t.core.util.HttpUtils;
-import org.dd4t.contentmodel.PublicationDescriptor;
 import org.dd4t.providers.PublicationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,40 +39,45 @@ public class UrlPublicationResolver implements PublicationResolver {
     private PublicationProvider publicationProvider;
     private boolean useCdDynamic;
     private boolean stripServletContextPath;
+
     /**
      * Gets the Publication TCMURI item id for the current request
      *
      * @return int representing the SDL Tridion Publication item id
      */
     @Override
-    public int getPublicationId () {
+    public int getPublicationId() {
         final HttpServletRequest request = HttpUtils.getCurrentRequest();
 
         if (this.useCdDynamic) {
-            LOG.debug("Using cd_dynamic_conf.xml to determine publication Id");
-            return publicationProvider.discoverPublicationByBaseUrl(HttpUtils.appendDefaultPageIfRequired(HttpUtils.getOriginalFullUrl(request,this.stripServletContextPath)));
+            LOG.debug("Using cd_dynamic_conf.xml (7) or the Dynamic Mappings retriever to determine publication Id");
+            return publicationProvider.discoverPublicationByBaseUrl(HttpUtils.appendDefaultPageIfRequired(HttpUtils
+                    .getOriginalFullUrl(request, this.stripServletContextPath)));
         } else {
-            // TODO: add possibility to discover publication Id when a binary URL comes in?
             LOG.debug("Determining Pub Id on page URL.");
-            return publicationProvider.discoverPublicationIdByPageUrlPath(HttpUtils.appendDefaultPageIfRequired(HttpUtils.getOriginalFullUrl(request,this.stripServletContextPath)));
+            return publicationProvider.discoverPublicationIdByPageUrlPath(HttpUtils.appendDefaultPageIfRequired
+                    (HttpUtils.getOriginalFullUrl(request, this.stripServletContextPath)));
         }
     }
 
     /**
      * Tries to discover the Publication Id for an images URl
+     *
      * @param imagesUrl the image URL path
      * @return int representing the SDL Tridion Publication item id
      */
 
     @Override
-    public int discoverPublicationIdByImagesUrl (final String imagesUrl) {
+    public int discoverPublicationIdByImagesUrl(final String imagesUrl) {
         final HttpServletRequest request = HttpUtils.getCurrentRequest();
         if (this.useCdDynamic) {
             LOG.debug("Using cd_dynamic_conf.xml to determine publication Id");
-            return publicationProvider.discoverPublicationByBaseUrl(HttpUtils.appendDefaultPageIfRequired(HttpUtils.getOriginalFullUrl(request,this.stripServletContextPath)));
+            return publicationProvider.discoverPublicationByBaseUrl(HttpUtils.appendDefaultPageIfRequired(HttpUtils
+                    .getOriginalFullUrl(request, this.stripServletContextPath)));
         } else {
-            LOG.debug("Determining Pub Id on Images URL: {}.",imagesUrl);
-            return publicationProvider.discoverPublicationByImagesUrl(HttpUtils.getOriginalFullUrl(request,this.stripServletContextPath));
+            LOG.debug("Determining Pub Id on Images URL: {}.", imagesUrl);
+            return publicationProvider.discoverPublicationByImagesUrl(HttpUtils.getOriginalFullUrl(request, this
+                    .stripServletContextPath));
         }
     }
 
@@ -82,17 +87,18 @@ public class UrlPublicationResolver implements PublicationResolver {
      * @return String representing the SDL Tridion Publication Url metadata property
      */
     @Override
-    public String getPublicationUrl () {
+    public String getPublicationUrl() {
         return publicationProvider.discoverPublicationUrl(getPublicationId());
     }
 
     /**
-     * Gets the Publication Path property as defined in Tridion Publication metadata corresponding to the current request
+     * Gets the Publication Path property as defined in Tridion Publication metadata corresponding to the current
+     * request
      *
      * @return String representing the SDL Tridion Publication Path metadata property
      */
     @Override
-    public String getPublicationPath () {
+    public String getPublicationPath() {
         return publicationProvider.discoverPublicationPath(getPublicationId());
     }
 
@@ -102,7 +108,7 @@ public class UrlPublicationResolver implements PublicationResolver {
      * @return String representing the SDL Tridion Images URL metadata property
      */
     @Override
-    public String getImagesUrl () {
+    public String getImagesUrl() {
         return publicationProvider.discoverImagesUrl(getPublicationId());
     }
 
@@ -112,7 +118,7 @@ public class UrlPublicationResolver implements PublicationResolver {
      * @return String representing the SDL Tridion Images Path metadata property
      */
     @Override
-    public String getImagesPath () {
+    public String getImagesPath() {
         return publicationProvider.discoverImagesPath(getPublicationId());
     }
 
@@ -123,7 +129,7 @@ public class UrlPublicationResolver implements PublicationResolver {
      * @return String representing the current Publication URL followed by the given URL
      */
     @Override
-    public String getLocalPageUrl (final String url) {
+    public String getLocalPageUrl(final String url) {
         if (StringUtils.isEmpty(url)) {
             return "";
         }
@@ -142,7 +148,7 @@ public class UrlPublicationResolver implements PublicationResolver {
      * @return String representing the current Publication URL followed by the given URL
      */
     @Override
-    public String getLocalBinaryUrl (final String url) {
+    public String getLocalBinaryUrl(final String url) {
         String binaryUrl = publicationProvider.discoverImagesUrl(getPublicationId());
         return url.replaceFirst(binaryUrl, "");
     }
@@ -153,19 +159,19 @@ public class UrlPublicationResolver implements PublicationResolver {
      * @return a publication descriptor
      */
     @Override
-    public PublicationDescriptor getPublicationDescriptor () {
+    public PublicationDescriptor getPublicationDescriptor() {
         return publicationProvider.getPublicationDescriptor(getPublicationId());
     }
 
-    public void setPublicationProvider (final PublicationProvider publicationProvider) {
+    public void setPublicationProvider(final PublicationProvider publicationProvider) {
         this.publicationProvider = publicationProvider;
     }
 
-    public void setUseCdDynamic (final String useCdDynamicValue) {
+    public void setUseCdDynamic(final String useCdDynamicValue) {
         this.useCdDynamic = Boolean.parseBoolean(useCdDynamicValue);
     }
 
-    public void setStripServletContextPath (final boolean stripServletContextPath) {
+    public void setStripServletContextPath(final boolean stripServletContextPath) {
         this.stripServletContextPath = stripServletContextPath;
     }
 }

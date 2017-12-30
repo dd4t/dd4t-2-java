@@ -27,31 +27,39 @@ import java.util.List;
  */
 public interface Keyword extends Item, HasMetadata {
 
-    String getDescription ();
+    boolean isRoot();
 
-    String getKey ();
+    void setIsRoot(boolean isRoot);
 
-    List<Keyword> getChildKeywords ();
+    boolean isAbstract();
 
-    boolean hasChildren ();
+    void setIsAbstract(boolean isAbstract);
 
-    List<Keyword> getParentKeywords ();
+    String getDescription();
 
-    boolean hasParents ();
+    String getKey();
 
-    List<TCMURI> getRelatedKeywords ();
+    List<Keyword> getChildKeywords();
 
-    boolean hasRelatedKeywords ();
+    boolean hasChildren();
 
-    String getPath ();
+    List<Keyword> getParentKeywords();
 
-    void setPath (String path);
+    boolean hasParents();
 
-    List<TCMURI> getClassifiedItems ();
+    List<TCMURI> getRelatedKeywords();
 
-    boolean hasClassifiedItems ();
+    boolean hasRelatedKeywords();
 
-    String getTaxonomyId ();
+    String getPath();
 
-    void setTaxonomyId (String taxonomyId);
+    void setPath(String path);
+
+    List<TCMURI> getClassifiedItems();
+
+    boolean hasClassifiedItems();
+
+    String getTaxonomyId();
+
+    void setTaxonomyId(String taxonomyId);
 }

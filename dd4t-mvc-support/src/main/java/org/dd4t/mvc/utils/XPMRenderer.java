@@ -27,23 +27,23 @@ public class XPMRenderer {
     private boolean enabled;
     private String cmsURL;
 
-    private XPMRenderer () {
+    private XPMRenderer() {
     }
 
-    public static XPMRenderer getInstance () {
+    public static XPMRenderer getInstance() {
         return INSTANCE;
     }
 
-    public static boolean isXPMEnabled () {
+    public static boolean isXPMEnabled() {
         return INSTANCE.enabled;
     }
 
-    public static boolean isXPMActive () {
+    public static boolean isXPMActive() {
         // for now we don't have a good server-side check if xpm editing is really active.
         return isXPMEnabled();
     }
 
-    public void init (final boolean enabled, final String cmsURL) {
+    public void init(final boolean enabled, final String cmsURL) {
         this.enabled = enabled;
         this.cmsURL = cmsURL;
     }
@@ -51,7 +51,7 @@ public class XPMRenderer {
     /**
      * Removes the type identifier from the id if present
      */
-    private static String stripTypeIdentifier (String componentId) {
+    private static String stripTypeIdentifier(String componentId) {
         if (componentId.endsWith("-16")) {
             return componentId.substring(0, componentId.length() - 3);
         } else {
@@ -67,14 +67,13 @@ public class XPMRenderer {
      * "IsRepositoryPublished": true
      * } -->
      */
-    public String componentPresentation (String componentId, DateTime lastModified, String componentTemplateId, boolean isDynamic) {
+    public String componentPresentation(String componentId, DateTime lastModified, String componentTemplateId,
+                                        boolean isDynamic) {
         if (isXPMEnabled()) {
-            return "<!-- Start Component Presentation: {\n" +
-                    "\"ComponentID\": \"" + stripTypeIdentifier(componentId) + "\",\n" +
-                    "\"ComponentModified\": \"" + getXMLDateAsString(lastModified) + "\",\n" +
-                    "\"ComponentTemplateID\": \"" + componentTemplateId + "\",\n" +
-                    "\"IsRepositoryPublished\": " + isDynamic + "\n" +
-                    "} -->";
+            return "<!-- Start Component Presentation: {\n" + "\"ComponentID\": \"" + stripTypeIdentifier
+                    (componentId) + "\",\n" + "\"ComponentModified\": \"" + getXMLDateAsString(lastModified) + "\"," +
+                    "\n" + "\"ComponentTemplateID\": \"" + componentTemplateId + "\",\n" +
+                    "\"IsRepositoryPublished\": " + isDynamic + "\n" + "} -->";
         }
         return "";
     }
@@ -93,16 +92,11 @@ public class XPMRenderer {
      * "maxOccurs" : 0
      * } -->
      */
-    public String region (final String title, Map<String, String> allowedComponentTypes, int minOccurs, int maxOccurs) {
+    public String region(final String title, Map<String, String> allowedComponentTypes, int minOccurs, int maxOccurs) {
         if (isXPMEnabled()) {
-            return "<!-- Start Region: {\n" +
-                    "\"title\": \"" + title + "\",\n" +
-                    "\"allowedComponentTypes\": " +
-                    formatAllowedComponentTypes(allowedComponentTypes) +
-                    ",\n" +
-                    "\"minOccurs\": " + minOccurs + ",\n" +
-                    "\"maxOccurs\": " + maxOccurs + "\n" +
-                    "} -->";
+            return "<!-- Start Region: {\n" + "\"title\": \"" + title + "\",\n" + "\"allowedComponentTypes\": " +
+                    formatAllowedComponentTypes(allowedComponentTypes) + ",\n" + "\"minOccurs\": " + minOccurs + "," +
+                    "\n" + "\"maxOccurs\": " + maxOccurs + "\n" + "} -->";
         }
 
         return "";
@@ -114,7 +108,7 @@ public class XPMRenderer {
      * "IsMultiValued": false
      * } -->
      */
-    public String componentField (String xPath, boolean multiValued, int index) {
+    public String componentField(String xPath, boolean multiValued, int index) {
         if (isXPMEnabled()) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<!-- Start Component Field: {\n");
@@ -144,26 +138,22 @@ public class XPMRenderer {
      * "PageModified": "2011-01-22T11:25:12",
      * "PageTemplateID": "tcm:2-374-128"
      * } -->
-     *
      */
-    public String initPage (String pageId, DateTime revisionDate, String pageTemplateId) {
+    public String initPage(String pageId, DateTime revisionDate, String pageTemplateId) {
         if (isXPMEnabled()) {
-            return "<!-- Page Settings: {\n" +
-                    "\"PageID\": \"" + pageId + "\",\n" +
-                    "\"PageModified\": \"" + getXMLDateAsString(revisionDate) + "\",\n" +
-                    "\"PageTemplateID\": \"" + pageTemplateId + "\"\n" +
-                    "} -->\n" +
-                    getTag();
+            return "<!-- Page Settings: {\n" + "\"PageID\": \"" + pageId + "\",\n" + "\"PageModified\": \"" +
+                    getXMLDateAsString(revisionDate) + "\",\n" + "\"PageTemplateID\": \"" + pageTemplateId + "\"\n" +
+                    "} -->\n" + getTag();
         }
         return "";
     }
 
     public String getTag() {
-        return "<script type=\"text/javascript\" id=\"tridion.siteedit\" language=\"javascript\" defer=\"defer\" src=\""+cmsURL+XPM_BOOTSTRAP_PATH+"\"></script>";
+        return "<script type=\"text/javascript\" id=\"tridion.siteedit\" language=\"javascript\" defer=\"defer\" " +
+                "src=\"" + cmsURL + XPM_BOOTSTRAP_PATH + "\"></script>";
     }
 
-    // TODO: enable option to lazy load
-    public String getTagLazyLoaded () {
+    public String getTagLazyLoaded() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("<script>\n");
         stringBuilder.append("(function(doc) {\n");
@@ -181,7 +171,7 @@ public class XPMRenderer {
 
     }
 
-    private String formatAllowedComponentTypes (Map<String, String> allowedComponentTypes) {
+    private String formatAllowedComponentTypes(Map<String, String> allowedComponentTypes) {
         final String format = "{ \"schema\": \"%s\", \"template\": \"%s\" }";
         if (null != allowedComponentTypes) {
             String[] allowed = new String[allowedComponentTypes.keySet().size()];
@@ -195,7 +185,7 @@ public class XPMRenderer {
         return "";
     }
 
-    public String getXMLDateAsString (DateTime date) {
+    public String getXMLDateAsString(DateTime date) {
         try {
             GregorianCalendar c = date.toGregorianCalendar();
             XMLGregorianCalendar xmlDate = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
@@ -209,12 +199,12 @@ public class XPMRenderer {
     }
 
     @Required
-    public void setEnabled (boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
     @Required
-    public void setCmsUrl (String cmsURL) {
+    public void setCmsUrl(String cmsURL) {
         this.cmsURL = cmsURL;
     }
 }

@@ -30,11 +30,11 @@ import javax.servlet.http.HttpServletRequest;
 public class BasicRequestContext implements RequestContext {
     private HttpServletRequest req;
 
-    public BasicRequestContext () {
+    public BasicRequestContext() {
         this.req = HttpUtils.getCurrentRequest();
     }
-    
-    public BasicRequestContext (HttpServletRequest req) {
+
+    public BasicRequestContext(HttpServletRequest req) {
         this.req = req;
     }
 
@@ -43,7 +43,7 @@ public class BasicRequestContext implements RequestContext {
         return req;
     }
 
-    public boolean isUserInRole (String role) {
+    public boolean isUserInRole(String role) {
         return req.isUserInRole(role);
     }
 }

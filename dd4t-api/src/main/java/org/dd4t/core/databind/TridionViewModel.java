@@ -25,31 +25,31 @@ import org.joda.time.DateTime;
  */
 public interface TridionViewModel extends BaseViewModel {
 
-    TCMURI getTcmUri ();
+    TCMURI getTcmUri();
 
-    void setTcmUri (TCMURI tcmUri);
+    void setTcmUri(TCMURI tcmUri);
 
-    TCMURI getTemplateUri ();
+    TCMURI getTemplateUri();
 
-    void setTemplateUri (TCMURI tcmUri);
+    void setTemplateUri(TCMURI tcmUri);
 
-    DateTime getLastModified ();
+    DateTime getLastModified();
 
-    void setLastModified (DateTime lastModified);
+    void setLastModified(DateTime lastModified);
 
-    DateTime getLastPublishDate ();
+    DateTime getLastPublishDate();
 
-    void setLastPublishDate (DateTime lastPublishDate);
+    void setLastPublishDate(DateTime lastPublishDate);
 
-    String getXPath (final String fieldName);
+    String getXPath(final String fieldName);
 
-    void addXpmEntry (final String fieldName, final String xpath, final boolean multiValued);
+    void addXpmEntry(final String fieldName, final String xpath, final boolean multiValued);
 
-    boolean setGenericComponentOnComponentPresentation ();
+    boolean setGenericComponentOnComponentPresentation();
 
-    boolean isDynamicCP ();
+    boolean isDynamicCP();
 
-    void setIsDynamicCP (final boolean dynamicCP);
+    void setIsDynamicCP(final boolean dynamicCP);
 
-    boolean isMultiValued (final String fieldName);
+    boolean isMultiValued(final String fieldName);
 }

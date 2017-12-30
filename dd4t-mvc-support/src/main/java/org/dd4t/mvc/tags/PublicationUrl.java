@@ -30,7 +30,7 @@ public class PublicationUrl {
 
     private static final Logger LOG = LoggerFactory.getLogger(PublicationUrl.class);
 
-    public static String getPublicationUrl () {
+    public static String getPublicationUrl() {
         String publicationUrl = PublicationResolverFactory.getPublicationResolver().getPublicationUrl();
         if (!StringUtils.isEmpty(publicationUrl)) {
             if (publicationUrl.endsWith("/") && publicationUrl.length() > 1) {

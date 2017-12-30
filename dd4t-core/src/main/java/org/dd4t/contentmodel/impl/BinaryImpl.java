@@ -19,39 +19,43 @@ package org.dd4t.contentmodel.impl;
 import org.dd4t.contentmodel.Binary;
 import org.dd4t.contentmodel.BinaryData;
 
-public class BinaryImpl extends BaseRepositoryLocalItem implements Binary {
+import java.io.Serializable;
+
+public class BinaryImpl extends BaseRepositoryLocalItem implements Binary, Serializable {
+
+    private static final long serialVersionUID = -8146902623407924554L;
 
     private BinaryData binaryData;
     private String mimeType;
     private String urlPath;
 
     @Override
-    public void setBinaryData (final BinaryData binaryData) {
+    public void setBinaryData(final BinaryData binaryData) {
         this.binaryData = binaryData;
     }
 
     @Override
-    public BinaryData getBinaryData () {
+    public BinaryData getBinaryData() {
         return this.binaryData;
     }
 
     @Override
-    public void setMimeType (final String mimeType) {
+    public void setMimeType(final String mimeType) {
         this.mimeType = mimeType;
     }
 
     @Override
-    public String getMimeType () {
+    public String getMimeType() {
         return this.mimeType;
     }
 
     @Override
-    public void setUrlPath (final String urlPath) {
+    public void setUrlPath(final String urlPath) {
         this.urlPath = urlPath;
     }
 
     @Override
-    public String getUrlPath () {
+    public String getUrlPath() {
         return this.urlPath;
     }
 }

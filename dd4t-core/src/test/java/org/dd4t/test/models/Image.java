@@ -12,102 +12,102 @@ import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
 @ViewModel
 public class Image extends TridionViewModelBase {
 
-    @ViewModelProperty(isMetadata = true)
+    @ViewModelProperty (isMetadata = true)
     private String focusPoint;
 
-    @ViewModelProperty(entityFieldName = "Url")
+    @ViewModelProperty (entityFieldName = "Url")
     private String url;
 
-    @ViewModelProperty(entityFieldName = "Height")
+    @ViewModelProperty (entityFieldName = "Height")
     private int height;
 
-    @ViewModelProperty(entityFieldName = "Width")
+    @ViewModelProperty (entityFieldName = "Width")
     private int width;
 
-    @ViewModelProperty(entityFieldName = "Size")
+    @ViewModelProperty (entityFieldName = "Size")
     private Integer size;
 
-    @ViewModelProperty(entityFieldName = "Alt")
+    @ViewModelProperty (entityFieldName = "Alt")
     private String alt;
 
-    @ViewModelProperty(entityFieldName = "MimeType")
+    @ViewModelProperty (entityFieldName = "MimeType")
     private String mimeType;
 
-    @ViewModelProperty(entityFieldName = "FileExtension")
+    @ViewModelProperty (entityFieldName = "FileExtension")
     private String fileExtension;
 
-    @ViewModelProperty(entityFieldName = "FileName")
+    @ViewModelProperty (entityFieldName = "FileName")
     private String fileName;
 
-    public String getFocusPoint () {
+    public String getFocusPoint() {
         return focusPoint;
     }
 
-    public void setFocusPoint (final String focusPoint) {
+    public void setFocusPoint(final String focusPoint) {
         this.focusPoint = focusPoint;
     }
 
-    public String getUrl () {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl (final String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
-    public int getHeight () {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight (final int height) {
+    public void setHeight(final int height) {
         this.height = height;
     }
 
-    public int getWidth () {
+    public int getWidth() {
         return width;
     }
 
-    public void setWidth (final int width) {
+    public void setWidth(final int width) {
         this.width = width;
     }
 
-    public Integer getSize () {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize (final Integer size) {
+    public void setSize(final Integer size) {
         this.size = size;
     }
 
-    public String getAlt () {
+    public String getAlt() {
         return alt;
     }
 
-    public void setAlt (final String alt) {
+    public void setAlt(final String alt) {
         this.alt = alt;
     }
 
-    public String getMimeType () {
+    public String getMimeType() {
         return mimeType;
     }
 
-    public void setMimeType (final String mimeType) {
+    public void setMimeType(final String mimeType) {
         this.mimeType = mimeType;
     }
 
-    public String getFileExtension () {
+    public String getFileExtension() {
         return fileExtension;
     }
 
-    public void setFileExtension (final String fileExtension) {
+    public void setFileExtension(final String fileExtension) {
         this.fileExtension = fileExtension;
     }
 
-    public String getFileName () {
+    public String getFileName() {
         return fileName;
     }
 
-    public void setFileName (final String fileName) {
+    public void setFileName(final String fileName) {
         this.fileName = fileName;
     }
 }

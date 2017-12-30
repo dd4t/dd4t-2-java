@@ -17,19 +17,19 @@ import java.util.Date;
  * @author R. Kempees
  */
 public interface ProviderResultItem<T> {
-	int getPublicationId();
-	
-	int getItemId();
+    int getPublicationId();
 
-    T getSourceContent ();
+    int getItemId();
 
-    void setContentSource (T source);
+    T getSourceContent();
 
-    DateTime getLastPublishDate ();
+    void setContentSource(T source);
 
-    void setLastPublishDate (Date lastPublishDate);
+    DateTime getLastPublishDate();
 
-    DateTime getRevisionDate ();
+    void setLastPublishDate(Date lastPublishDate);
 
-    void setRevisionDate (Date revisionDate);
+    DateTime getRevisionDate();
+
+    void setRevisionDate(Date revisionDate);
 }

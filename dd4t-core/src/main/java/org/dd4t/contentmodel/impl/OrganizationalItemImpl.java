@@ -17,21 +17,24 @@
 package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.dd4t.contentmodel.OrganizationalItem;
 import org.simpleframework.xml.Element;
 
-public class OrganizationalItemImpl extends BaseItem implements OrganizationalItem {
+import java.io.Serializable;
 
-	@Element(name = "publicationId")
+public class OrganizationalItemImpl extends BaseItem implements OrganizationalItem, Serializable {
+
+    private static final long serialVersionUID = -5021754937358512544L;
+
+    @Element (name = "publicationId")
     @JsonProperty ("PublicationId")
     private String publicationId;
 
-    public String getPublicationId () {
+    public String getPublicationId() {
         return publicationId;
     }
 
-    public void setPublicationId (String publicationId) {
+    public void setPublicationId(String publicationId) {
         this.publicationId = publicationId;
     }
 }

@@ -16,19 +16,19 @@ public class EmbeddedOne extends TridionViewModelBase implements GenericModelInt
     @ViewModelProperty
     private GenericModelInterface embeddableTwo;
 
-    public String getTestfieldOne () {
+    public String getTestfieldOne() {
         return testfieldOne;
     }
 
-    public void setTestfieldOne (final String testfieldOne) {
+    public void setTestfieldOne(final String testfieldOne) {
         this.testfieldOne = testfieldOne;
     }
 
-    public GenericModelInterface getEmbeddableTwo () {
+    public GenericModelInterface getEmbeddableTwo() {
         return embeddableTwo;
     }
 
-    public void setEmbeddableTwo (final GenericModelInterface embeddableTwo) {
+    public void setEmbeddableTwo(final GenericModelInterface embeddableTwo) {
         this.embeddableTwo = embeddableTwo;
     }
 }

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dd4t-parent</artifactId>
         <groupId>org.dd4t</groupId>
-        <version>2.1.0-beta</version>
+        <version>2.1.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -39,14 +39,17 @@
     </scm>
 
     <properties>
-        <tridion.build.version>8.1.0</tridion.build.version>
+        <tridion.build.version>[8.5.0,8.6.0)</tridion.build.version>
         <java-version>1.8</java-version>
+
         <antlr.version>2.7.7</antlr.version>
         <aopalliance.version>1.0</aopalliance.version>
         <commons-codec.version>1.9</commons-codec.version>
         <commons-dbcp-version>1.4</commons-dbcp-version>
+        <commons-lang3.version>3.4</commons-lang3.version>
         <commons-pool-version>1.6</commons-pool-version>
         <dom4j.version>1.6.1</dom4j.version>
+        <ehcache3.version>3.3.1</ehcache3.version>
         <ehcache.jcache.version>1.0.1</ehcache.jcache.version>
         <gson.version>2.3.1</gson.version>
         <guava.version>18.0</guava.version>
@@ -72,14 +75,6 @@
         <dependencies>
             <dependency>
                 <groupId>org.dd4t</groupId>
-                <artifactId>dd4t-bom</artifactId>
-                <version>${project.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.dd4t</groupId>
                 <artifactId>dd4t-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -98,113 +93,75 @@
                 <artifactId>dd4t-providers</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-
+            <dependency>
+                <groupId>org.dd4t</groupId>
+                <artifactId>dd4t-mvc-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
 
             <!-- Web 8 CIL dependencies -->
-            <!--content-ambient-client-8.1.0-1218.jar-->
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-ambient-client</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
-            <!--content-ambient-model-8.1.0-1218.jar-->
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-ambient-model</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-api</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-broker</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-client-api</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-compatible</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-core</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-dynamic</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-linking</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-model</artifactId>
-                <version>${tridion.web8.oss.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.sdl</groupId>
-                <artifactId>odata_api</artifactId>
-                <version>${sdl.odata.client.version}</version>
-            </dependency>
-            <!--odata_client_api-2.0.0-1212.jar-->
-            <dependency>
-                <groupId>com.sdl</groupId>
-                <artifactId>odata_client_api</artifactId>
-                <version>${sdl.odata.client.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sdl</groupId>
-                <artifactId>odata_client</artifactId>
-                <version>${sdl.odata.client.version}</version>
-            </dependency>
-
-
-            <!--odata_edm-2.0.0-1212.jar-->
-            <dependency>
-                <groupId>com.sdl</groupId>
-                <artifactId>odata_edm</artifactId>
-                <version>${sdl.odata.client.version}</version>
-            </dependency>
-            <!--odata_parser-2.0.0-1212.jar-->
-            <dependency>
-                <groupId>com.sdl</groupId>
-                <artifactId>odata_parser</artifactId>
-                <version>${sdl.odata.client.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.sdl</groupId>
-                <artifactId>odata_renderer</artifactId>
-                <version>${sdl.odata.client.version}</version>
-            </dependency>
-            <!--web-ambient-api-8.1.0-1219.jar-->
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>web-ambient-api</artifactId>
-                <version>8.1.1-1005</version>
+                <version>${tridion.build.version}</version>
             </dependency>
-            <!--web-oauth-common-8.1.0-1219.jar-->
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>web-oauth-common</artifactId>
-                <version>8.1.1-1005</version>
+                <version>${tridion.build.version}</version>
             </dependency>
-            <!--scala-library-2.10.5.jar-->
             <dependency>
                 <groupId>org.scala-lang</groupId>
                 <artifactId>scala-library</artifactId>
@@ -221,82 +178,82 @@
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_ambient</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_broker</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_cache</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_common_config_api</artifactId>
-                <version>${tridion.web8.common.config.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_common_config_legacy</artifactId>
-                <version>${tridion.web8.common.config.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_common_config</artifactId>
-                <version>${tridion.web8.common.config.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_common_util</artifactId>
-                <version>${tridion.web8.common.config.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_core</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_datalayer</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_discovery</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_dynamic</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_linking</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tridion</groupId>
                 <artifactId>cd_model</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>discovery-client</artifactId>
-                <version>${tridion.web8.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>discovery-client-lightweight</artifactId>
-                <version>${tridion.web8.discovery.client.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>discovery-common</artifactId>
-                <version>${tridion.web8.discovery.client.version}</version>
+                <version>${tridion.build.version}</version>
             </dependency>
 
             <!-- Third party dependencies -->
@@ -348,10 +305,9 @@
 
             <dependency>
                 <groupId>org.ehcache</groupId>
-                <artifactId>jcache</artifactId>
-                <version>${ehcache.jcache.version}</version>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache3.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.vs.ezlicrun</groupId>
                 <artifactId>easylicense</artifactId>
@@ -409,6 +365,11 @@
                 <version>${jaxb-api.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>joda-time</groupId>
@@ -420,6 +381,11 @@
                 <groupId>com.sun.xml.bind</groupId>
                 <artifactId>jaxb-impl</artifactId>
                 <version>${jaxb-impl.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${jcl-over-slf4j.version}</version>
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
@@ -498,6 +464,23 @@
                 <version>${spring.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.jms</groupId>
+                <artifactId>jms-api</artifactId>
+                <scope>provided</scope>
+                <version>${javax.jms.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>

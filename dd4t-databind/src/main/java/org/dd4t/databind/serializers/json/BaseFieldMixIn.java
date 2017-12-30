@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// TODO: move
 package org.dd4t.databind.serializers.json;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -25,10 +24,7 @@ import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
  *
  * @author R. Kempees
  */
-@JsonTypeInfo (
-        use = JsonTypeInfo.Id.CUSTOM,
-        include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
-        property = "FieldType",
+@JsonTypeInfo (use = JsonTypeInfo.Id.CUSTOM, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "FieldType",
         visible = true)
 @JsonTypeIdResolver (TridionFieldTypeIdResolver.class)
 public class BaseFieldMixIn {

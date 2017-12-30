@@ -19,7 +19,6 @@ package org.dd4t.core.request;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * TODO: update comment - CWA is sooo old ;)
  * Bean Interface describes the request which is given to CWA for retrieval. It will at the
  * minimum contain a reference to the actual servletrequest (with references to request parameters,
  * headers, etc), but is here mostly to be expanded in implementations.
@@ -32,5 +31,5 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 public interface RequestContext {
-	HttpServletRequest getServletRequest ();
+    HttpServletRequest getServletRequest();
 }

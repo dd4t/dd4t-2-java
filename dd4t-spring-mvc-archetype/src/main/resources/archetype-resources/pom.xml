@@ -58,7 +58,7 @@
         <resteasy.version>3.0.8.Final</resteasy.version>
 
         <slf4j.version>1.6.4</slf4j.version>
-        <spring.version>3.2.0.RELEASE</spring.version>
+        <spring.version>3.2.18.RELEASE</spring.version>
 
         <urlrewritefilter.version>4.0.3</urlrewritefilter.version>
         <woodstox.version>4.4.1</woodstox.version>
@@ -364,6 +364,11 @@
             Caching configuration. For JMS,
             use this dependency.
         -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client</artifactId>

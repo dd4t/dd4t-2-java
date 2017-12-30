@@ -178,7 +178,7 @@
 
         Make sure to set the brokerURL, userName and password properties in dd4t.properties,
         as well as the JMS topic in the listener config
--->
+
 
     <bean id="cacheMessageListener" class="JMSCacheMessageListener"/>
     <bean id="jmsExceptionListener" class="JMSExceptionListener"/>
@@ -197,5 +197,5 @@
                             acknowledge="auto">
         <jms:listener destination="${jms.topicName}" ref="cacheMessageListener" method="onMessage"/>
     </jms:listener-container>
-
+    -->
 </beans>

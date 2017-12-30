@@ -46,21 +46,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java-version>1.7</java-version>
-
+        <sonar.version>3.4.0.905</sonar.version>
 
         <activation.version>1.1.1</activation.version>
         <activemq.version>5.10.0</activemq.version>
         <aspectj.version>1.8.1</aspectj.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-io.version>2.4</commons-io.version>
-        <!-- Web 8: 3.4 -->
-        <commons-lang3.version>3.3.2</commons-lang3.version>
-
-        <!-- Versions which do differ for each Tridion version -->
-
-        <!-- Web 8: 1.9 -->
-        <commons-codec.version>1.8</commons-codec.version>
-
         <easylicense.version>2.5</easylicense.version>
         <easymock.version>3.2</easymock.version>
         <el-impl.version>2.2</el-impl.version>
@@ -69,10 +61,6 @@
         <ehcache.jcache.version>1.0.1</ehcache.jcache.version>
         <fast-classpath-scanner.version>2.4.7</fast-classpath-scanner.version>
         <gson.version>2.3.1</gson.version>
-
-        <!-- Web 8: 18.0 -->
-        <guava.version>15.0</guava.version>
-
         <httpcomponents.version>4.3.3</httpcomponents.version>
         <jackson.version>2.6.4</jackson.version>
         <javax.jms.version>1.1-rev-1</javax.jms.version>
@@ -87,29 +75,12 @@
         <jstl.version>1.2</jstl.version>
         <junit.version>4.11</junit.version>
         <resteasy.version>3.0.8.Final</resteasy.version>
-
-
         <scala.library.version>2.10.5</scala.library.version>
-        <sdl.odata.client.version>2.0.5</sdl.odata.client.version>
-
-        <!-- Versions which do differ for each Tridion version -->
-        <spring.version>3.2.8.RELEASE</spring.version>
-        <logback.version>1.0.13</logback.version>
-        <slf4j.version>1.6.4</slf4j.version>
-        <!--2013SP1: <slf4j.version>1.6.4</slf4j.version>-->
-        <!--2013SP1: <logback.version>1.0.0</logback.version>-->
-
-        <tridion.web7.version>7.1.0</tridion.web7.version>
-        <tridion.web8.version>8.1.0</tridion.web8.version>
-        <tridion.web8.oss.version>8.1.1-1008</tridion.web8.oss.version>
-        <tridion.web8.common.config.version>8.1.1-1002</tridion.web8.common.config.version>
-        <tridion.web8.discovery.client.version>8.1.1-1009</tridion.web8.discovery.client.version>
-
+        <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
         <urlrewritefilter.version>4.0.3</urlrewritefilter.version>
         <woodstox.version>4.4.1</woodstox.version>
         <xml-apis.version>1.4.01</xml-apis.version>
     </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -121,6 +92,11 @@
                     <source>${java-version}</source>
                     <target>${java-version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -145,39 +121,25 @@
         2. mvn clean deploy -Prelease-central
         3. mvn versions:set -DnewVersion=2.0.2-SNAPSHOT
     -->
+
+    <modules>
+        <module>dd4t-bom</module>
+        <module>dd4t-bom-2013SP1</module>
+        <module>dd4t-bom-web8</module>
+        <module>dd4t-api</module>
+        <module>dd4t-caching</module>
+        <module>dd4t-core</module>
+        <module>dd4t-compatibility</module>
+        <module>dd4t-databind</module>
+        <module>dd4t-mvc-support</module>
+        <module>dd4t-thymeleaf-support</module>
+        <module>dd4t-providers-common</module>
+        <module>dd4t-providers</module>
+        <module>dd4t-providers-web8</module>
+        <module>dd4t-test-spring-web</module>
+        <module>dd4t-example-site</module>
+    </modules>
     <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>dd4t-bom</module>
-                <module>dd4t-bom-2013SP1</module>
-                <module>dd4t-bom-web8</module>
-                <module>dd4t-api</module>
-                <module>dd4t-caching</module>
-                <module>dd4t-core</module>
-                <module>dd4t-compatibility</module>
-                <module>dd4t-databind</module>
-                <module>dd4t-mvc-support</module>
-                <module>dd4t-thymeleaf-support</module>
-                <module>dd4t-providers-common</module>
-                <module>dd4t-providers</module>
-                <module>dd4t-providers-web8</module>
-                <module>dd4t-test-spring-web</module>
-                <module>dd4t-example-site</module>
-            </modules>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.sonarsource.scanner.maven</groupId>
-                        <artifactId>sonar-maven-plugin</artifactId>
-                        <version>3.4.0.905</version>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>release-central</id>
             <distributionManagement>

@@ -105,13 +105,5 @@
             <artifactId>cd_model</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--
-                <dependency>
-                    <groupId>com.tridion</groupId>
-                    <artifactId>cd_preview_content_common</artifactId>
-
-                    <version>8.1.1-1008</version>
-                    <scope>provided</scope>
-                </dependency> -->
     </dependencies>
 </project>

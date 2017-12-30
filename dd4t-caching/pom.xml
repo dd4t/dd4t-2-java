@@ -28,6 +28,53 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <profile>
+            <id>cd-7.1.0</id>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.dd4t</groupId>
+                        <artifactId>dd4t-bom-2013SP1</artifactId>
+                        <version>${project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>web8</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.dd4t</groupId>
+                        <artifactId>dd4t-bom-web8</artifactId>
+                        <version>${project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>web8-inproc</id>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.dd4t</groupId>
+                        <artifactId>dd4t-bom-web8</artifactId>
+                        <version>${project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
@@ -44,9 +91,7 @@
             <groupId>javax.jms</groupId>
             <artifactId>jms-api</artifactId>
             <scope>provided</scope>
-            <version>${javax.jms.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client</artifactId>
@@ -64,7 +109,6 @@
         <dependency>
             <groupId>com.tridion</groupId>
             <artifactId>cd_cache</artifactId>
-            <version>${tridion.web7.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -87,13 +131,6 @@
         <dependency>
             <groupId>javax.cache</groupId>
             <artifactId>cache-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- TODO: add to pom!-->
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>jcache</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

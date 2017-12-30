@@ -47,17 +47,14 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
     private static final DynamicMappingsRetriever DYNAMIC_MAPPINGS_RETRIEVER = new DynamicMappingsRetrieverImpl();
     private static final DynamicMetaRetriever DYNAMIC_META_RETRIEVER = new DynamicMetaRetrieverImpl();
 
-    //TODO: Document and add caching
-
     /**
-     * Uses cd_dynamic to resolve publication Ids
+     * Uses DynamicMappingsRetrieverImpl to resolve publication Ids
      *
      * @param fullUrl the full url, including the host name
      * @return a publiction Id
      */
     @Override
     public int discoverPublicationByBaseUrl(final String fullUrl) {
-
         PublicationMapping publicationMapping = null;
         try {
             publicationMapping = DYNAMIC_MAPPINGS_RETRIEVER.getPublicationMapping(fullUrl);
@@ -90,14 +87,15 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
                     if (pageMeta != null) {
                         result = pageMeta.getPublicationId();
                         LOG.debug("Publication Id for URL: {}, is {}", url, result);
+                        cacheElement.setPayload(result);
+                        cacheProvider.storeInItemCache(key, cacheElement);
+                        cacheElement.setExpired(false);
+                        LOG.debug("Stored Publication Id with key: {} in cache", key);
                     } else {
                         LOG.warn("Could not resolve publication Id for URL: {}", url);
                     }
 
-                    cacheElement.setPayload(result);
-                    cacheProvider.storeInItemCache(key, cacheElement);
-                    cacheElement.setExpired(false);
-                    LOG.debug("Stored Publication Id with key: {} in cache", key);
+
                 } else {
                     LOG.debug("Fetched a Publication Id with key: {} from cache", key);
                     result = cacheElement.getPayload();

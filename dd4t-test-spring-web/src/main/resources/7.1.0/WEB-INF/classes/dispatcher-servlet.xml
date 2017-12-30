@@ -73,8 +73,12 @@
     </bean>
 
     <!-- DD4T Provider beans -->
-    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCacheProvider"/>
-
+    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCacheProvider">
+        <property name="enabled" value="${cache.enabled}" />
+        <property name="cacheTTL" value="${cache.ttl}" />
+        <property name="cacheDependencyTTL" value="${cache.dependency.ttl}" />
+        <property name="expiredTTL" value="${cache.expired.ttl}" />
+    </bean>
     <bean id="binaryProvider" class="org.dd4t.providers.impl.BrokerBinaryProvider">
         <property name="contentIsCompressed" value="true"/>
         <property name="cacheProvider" ref="cacheProvider"/>

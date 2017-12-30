@@ -76,14 +76,14 @@ public class BrokerPublicationProvider extends AbstractPublicationProvider imple
                     final PageMeta pageMeta = loadPageMetaByConcreteFactory(url);
                     if (pageMeta != null) {
                         result = pageMeta.getPublicationId();
+                        cacheElement.setPayload(result);
+                        cacheProvider.storeInItemCache(key, cacheElement);
+                        cacheElement.setExpired(false);
                         LOG.debug("Publication Id for URL: {}, is {}", url, result);
                     } else {
                         LOG.warn("Could not resolve publication Id for URL: {}", url);
                     }
 
-                    cacheElement.setPayload(result);
-                    cacheProvider.storeInItemCache(key, cacheElement);
-                    cacheElement.setExpired(false);
                     LOG.debug("Stored Publication Id with key: {} in cache", key);
                 } else {
                     LOG.debug("Fetched a Publication Id with key: {} from cache", key);

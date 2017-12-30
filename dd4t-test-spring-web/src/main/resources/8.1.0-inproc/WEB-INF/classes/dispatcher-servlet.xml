@@ -23,6 +23,8 @@
     <!-- Configure me: change this to the base-package where your overridden controllers are -->
     <context:component-scan base-package="org.dd4t.test.web.controller" annotation-config="true"/>
 
+    <bean id="springApplicationContext" class="org.dd4t.mvc.utils.ApplicationContextProvider"/>
+
     <!--
         DD4T Controllers
         If you use yor own controllers, change the class names here
@@ -72,7 +74,9 @@
     </bean>
 
     <!-- DD4T Provider beans -->
-    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCacheProvider"/>
+    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCache3Provider">
+        <property name="enabled" value="${cache.enabled}" />
+    </bean>
 
     <bean id="binaryProvider" class="org.dd4t.providers.impl.BrokerBinaryProvider">
         <property name="contentIsCompressed" value="true"/>
@@ -102,22 +106,18 @@
     <bean id="linkResolver" class="org.dd4t.core.resolvers.impl.DefaultLinkResolver"/>
 
     <!-- DD4T Factories -->
-    <bean id="pageFactory" class="org.dd4t.core.factories.impl.PageFactoryImpl"
-          factory-method="getInstance">
+    <bean id="pageFactory" class="org.dd4t.core.factories.impl.PageFactoryImpl">
         <property name="pageProvider" ref="pageProvider"/>
         <property name="cacheProvider" ref="cacheProvider"/>
-        <property name="requestContextClass" value="org.dd4t.core.util.HttpRequestContext"/>
         <property name="processors">
             <list>
                 <ref bean="linkResolverProcessor"/>
             </list>
         </property>
     </bean>
-    <bean id="componentPresentationFactory" class="org.dd4t.core.factories.impl.ComponentPresentationFactoryImpl"
-          factory-method="getInstance">
+    <bean id="componentPresentationFactory" class="org.dd4t.core.factories.impl.ComponentPresentationFactoryImpl">
         <property name="componentPresentationProvider" ref="componentPresentationProvider"/>
         <property name="cacheProvider" ref="cacheProvider"/>
-        <property name="requestContextClass" value="org.dd4t.core.util.HttpRequestContext"/>
         <property name="processors">
             <list>
                 <ref bean="linkResolverProcessor"/>
@@ -125,28 +125,24 @@
         </property>
     </bean>
 
-    <bean id="binaryFactory" class="org.dd4t.core.factories.impl.BinaryFactoryImpl" factory-method="getInstance">
+    <bean id="binaryFactory" class="org.dd4t.core.factories.impl.BinaryFactoryImpl">
         <property name="binaryProvider" ref="binaryProvider"/>
         <property name="cacheProvider" ref="cacheProvider"/>
-        <property name="requestContextClass" value="org.dd4t.core.util.HttpRequestContext"/>
     </bean>
 
     <bean id="serializer" class="org.dd4t.core.serializers.impl.json.JSONSerializer"/>
-    <bean id="serializerFactory" class="org.dd4t.core.serializers.impl.SerializerFactory" factory-method="getInstance">
-        <property name="serializer" ref="serializer"/>
-    </bean>
 
     <!-- Taxonomy Stuff -->
     <bean id="taxonomyProvider" class="org.dd4t.providers.impl.BrokerTaxonomyProvider"/>
 
-    <bean id="taxonomyFactory" class="org.dd4t.core.factories.impl.TaxonomyFactoryImpl" factory-method="getInstance">
+    <bean id="taxonomyFactory" class="org.dd4t.core.factories.impl.TaxonomyFactoryImpl">
         <property name="taxonomyProvider" ref="taxonomyProvider"/>
         <property name="cacheProvider" ref="cacheProvider"/>
     </bean>
 
     <!-- Databind stuff.-->
     <bean id="modelConverter" class="org.dd4t.databind.builder.json.JsonModelConverter"/>
-    <bean id="dataBinder" class="org.dd4t.databind.builder.json.JsonDataBinder" factory-method="getInstance">
+    <bean id="dataBinder" class="org.dd4t.databind.builder.json.JsonDataBinder">
         <!-- Set this value to your own models package root -->
         <property name="viewModelPackageRoot" value="${databind.viewmodels.rootpackage}"/>
         <property name="viewModelMetaKeyName" value="${databind.viewmodels.ct.metadata.viewnamekey}"/>

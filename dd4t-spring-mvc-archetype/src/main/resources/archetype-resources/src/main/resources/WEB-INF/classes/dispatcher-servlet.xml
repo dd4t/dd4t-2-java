@@ -14,33 +14,31 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list merge="true">
-                <value>classpath:dd4t.properties</value>
+                <value>classpath:WEB-INF/classes/dd4t.properties</value>
             </list>
         </property>
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="ignoreResourceNotFound" value="true"/>
     </bean>
-    <!-- Configure me: change this to the base-package where your overridden controllers are -->
-    <context:component-scan base-package="org.dd4t.test.web.controller" annotation-config="true"/>
 
+    <!-- Change this to the base-package where your overridden controllers are -->
+    <context:component-scan base-package="${package}.controllers" annotation-config="true"/>
+
+    <!-- Static access to spring context through a util class -->
     <bean id="springApplicationContext" class="org.dd4t.mvc.utils.ApplicationContextProvider"/>
 
-    <!--
-        DD4T Controllers
-        If you use yor own controllers, change the class names here
-    -->
-    <bean id="pageController" class="org.dd4t.test.web.controller.SpringPageController">
+    <!-- DD4T Controllers -->
+    <bean id="pageController" class="${package}.controllers.PageController">
         <property name="pageViewPath" value="pages/"/>
         <property name="publicationResolver" ref="publicationResolver"/>
         <property name="pageFactory" ref="pageFactory"/>
     </bean>
 
-    <bean id="componentPresentationController"
-          class="org.dd4t.test.web.controller.SpringComponentPresentationController">
+    <bean id="componentPresentationController" class="${package}.controllers.ComponentPresentationController">
         <property name="componentViewPath" value="components/"/>
     </bean>
 
-    <bean id="binaryController" class="org.dd4t.test.web.controller.SpringBinaryController">
+    <bean id="binaryController" class="${package}.controllers.BinaryController">
         <property name="binaryRootFolder" value="/media"/>
     </bean>
 
@@ -64,7 +62,6 @@
     <bean id="publicationResolverFactory" factory-method="getInstance"
           class="org.dd4t.mvc.utils.PublicationResolverFactory">
         <property name="publicationResolver" ref="publicationResolver"/>
-
     </bean>
 
     <!-- Factory Processor Beans -->
@@ -73,10 +70,16 @@
         <property name="runPhase" value="AFTER_CACHING"/>
     </bean>
 
-    <!-- DD4T Provider beans -->>
+    <bean id="richTextWithLinksResolver" class="org.dd4t.core.processors.impl.RichTextWithLinksResolver">
+        <property name="runPhase" value="AFTER_CACHING"/>
+    </bean>
 
-    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCache3Provider">
+    <!-- DD4T Provider beans -->
+    <bean id="cacheProvider" class="org.dd4t.caching.providers.EHCacheProvider">
         <property name="enabled" value="${cache.enabled}" />
+        <property name="cacheTTL" value="${cache.ttl}" />
+        <property name="cacheDependencyTTL" value="${cache.dependency.ttl}" />
+        <property name="expiredTTL" value="${cache.expired.ttl}" />
     </bean>
 
     <bean id="binaryProvider" class="org.dd4t.providers.impl.BrokerBinaryProvider">
@@ -97,7 +100,6 @@
     <bean id="linkProvider" class="org.dd4t.providers.impl.BrokerLinkProvider">
         <property name="contentIsCompressed" value="true"/>
     </bean>
-
 
     <bean id="publicationProvider" class="org.dd4t.providers.impl.BrokerPublicationProvider">
         <property name="publicationDescriptor" value="org.dd4t.contentmodel.impl.PublicationDescriptorImpl"/>
@@ -121,6 +123,7 @@
         <property name="cacheProvider" ref="cacheProvider"/>
         <property name="processors">
             <list>
+                <ref bean="richTextWithLinksResolver"/>
                 <ref bean="linkResolverProcessor"/>
             </list>
         </property>
@@ -175,12 +178,12 @@
 
         Make sure to set the brokerURL, userName and password properties in dd4t.properties,
         as well as the JMS topic in the listener config
-    -->
+-->
 
-    <bean id="cacheMessageListener" class="org.dd4t.caching.jms.impl.JMSCacheMessageListener"/>
-    <bean id="jmsExceptionListener" class="org.dd4t.caching.jms.impl.JMSExceptionListener"/>
-    <bean id="jmsCacheMonitor" class="org.dd4t.caching.jms.impl.JMSCacheMonitor"/>
-    <bean id="jmsTransportListener" class="org.dd4t.caching.jms.impl.JMSTransportListener"/>
+    <bean id="cacheMessageListener" class="JMSCacheMessageListener"/>
+    <bean id="jmsExceptionListener" class="JMSExceptionListener"/>
+    <bean id="jmsCacheMonitor" class="JMSCacheMonitor"/>
+    <bean id="jmsTransportListener" class="JMSTransportListener"/>
 
     <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <property name="brokerURL" value="${jms.brokerUrl}"/>
@@ -194,4 +197,5 @@
                             acknowledge="auto">
         <jms:listener destination="${jms.topicName}" ref="cacheMessageListener" method="onMessage"/>
     </jms:listener-container>
+
 </beans>

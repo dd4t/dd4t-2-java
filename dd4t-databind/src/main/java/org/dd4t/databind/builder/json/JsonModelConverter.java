@@ -26,6 +26,7 @@ import org.dd4t.contentmodel.FieldType;
 import org.dd4t.core.databind.BaseViewModel;
 import org.dd4t.core.databind.ModelConverter;
 import org.dd4t.core.databind.TridionViewModel;
+import org.dd4t.core.exceptions.ItemNotFoundException;
 import org.dd4t.core.exceptions.SerializationException;
 import org.dd4t.databind.annotations.ViewModel;
 import org.dd4t.databind.builder.AbstractModelConverter;
@@ -46,6 +47,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import static org.dd4t.databind.util.DataBindConstants.ID;
+import static org.dd4t.databind.util.DataBindConstants.LINKED_COMPONENT_VALUES_NODE;
+import static org.dd4t.databind.util.DataBindConstants.MULTIMEDIA;
+import static org.dd4t.databind.util.DataBindConstants.URL;
+import static org.dd4t.databind.util.DataBindConstants.VALUES_NODE;
+
 /**
  * JsonModelConverter.
  *
@@ -57,7 +64,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
     private Class<? extends org.dd4t.contentmodel.Field> concreteFieldImpl;
 
-    @Resource
+    @Resource(name = "dataBinder")
     protected JsonDataBinder databinder;
 
     @Override
@@ -106,8 +113,6 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         }
 
         buildModelProperties(model, rawJsonData, isRootComponent, contentFields, metadataFields, componentType);
-
-
         return model;
     }
 
@@ -118,42 +123,66 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
         try {
             for (Map.Entry<String, Object> entry : modelProperties.entrySet()) {
+
                 final String fieldName = entry.getKey();
                 LOG.debug("Key:{}", fieldName);
 
                 ModelFieldMapping m = (ModelFieldMapping) entry.getValue();
 
-                String fieldKey;
-                fieldKey = getFieldKeyForModelProperty(fieldName, m);
+                if (m.getViewModelProperty().isComponentLinkUrl() && isRootComponent) {
+                    processComponentUrlField(model, rawJsonData, m);
 
-                boolean isEmbedabble = false;
-                if (
-                        (!rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) && !isRootComponent) ||
-                        (rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) &&
-                                (FieldType.findByValue(rawJsonData.get(DataBindConstants.FIELD_TYPE_KEY)
-                                        .intValue()) == FieldType.EMBEDDED))
+                } else {
 
-                        ) {
-                    isEmbedabble = true;
-                }
-
-                if (componentType == Component.ComponentType.NORMAL || componentType == Component.ComponentType
-                        .UNKNOWN || m.getViewModelProperty().isMetadata()) {
-                    final JsonNode currentNode = getJsonNodeToParse(fieldKey, rawJsonData, isRootComponent,
-                            isEmbedabble, contentFields, metadataFields, m);
-                    // Since we are now now going from modelproperty > fetch data, the data might actually be null
-                    if (currentNode != null) {
-                        this.buildField(model, fieldName, currentNode, m);
-
-                    }
-                } else if (componentType == Component.ComponentType.MULTIMEDIA) {
-                    if (contentFields.has(fieldName)) {
-                        this.buildMultimediaField(model, fieldName, contentFields.get(fieldName), m);
-                    }
+                    processFieldMapping(model, rawJsonData, isRootComponent, contentFields, metadataFields,
+                            componentType, fieldName, m);
                 }
             }
         } catch (IllegalAccessException | IOException e) {
             LOG.error("Error setting field!", e);
+        }
+    }
+
+    private <T extends BaseViewModel> void processComponentUrlField(final T model, final JsonNode rawJsonData, final ModelFieldMapping m) throws SerializationException, IllegalAccessException {
+        final Field urlField = m.getField();
+        urlField.setAccessible(true);
+        String componentId = rawJsonData.get(ID).textValue();
+        String resolved = "";
+
+        try {
+            resolved = getLinkResolver().resolve(componentId);
+        } catch (ItemNotFoundException e) {
+            LOG.error("Could not resolve a link to: " + componentId, e);
+        }
+
+        urlField.set(model, resolved);
+    }
+
+    private <T extends BaseViewModel> void processFieldMapping(final T model, final JsonNode rawJsonData, final
+    boolean isRootComponent, final JsonNode contentFields, final JsonNode metadataFields, final Component
+            .ComponentType componentType, final String fieldName, final ModelFieldMapping m) throws IllegalAccessException, SerializationException, IOException {
+        String fieldKey;
+        fieldKey = getFieldKeyForModelProperty(fieldName, m);
+
+        boolean isEmbedabble = false;
+        if ((!rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) && !isRootComponent) || (rawJsonData.has(DataBindConstants.FIELD_TYPE_KEY) && (FieldType.findByValue(rawJsonData.get(DataBindConstants.FIELD_TYPE_KEY).intValue()) == FieldType.EMBEDDED))
+
+
+                ) {
+            isEmbedabble = true;
+        }
+
+        if (componentType == Component.ComponentType.NORMAL || componentType == Component.ComponentType.UNKNOWN || m.getViewModelProperty().isMetadata()) {
+            final JsonNode currentNode = getJsonNodeToParse(fieldKey, rawJsonData, isRootComponent, isEmbedabble, contentFields, metadataFields, m);
+            // Since we are now now going from modelproperty > fetch data, the data might actually be null
+            if (currentNode != null) {
+                this.buildField(model, fieldName, currentNode, m);
+
+            }
+        } else if (componentType == Component.ComponentType.MULTIMEDIA) {
+            if (contentFields.has(fieldName)) {
+                this.buildMultimediaField(model, fieldName, contentFields.get(fieldName), m);
+            }
         }
     }
 
@@ -195,9 +224,6 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         return null;
     }
 
-    // TODO: we shouldnt need to have a separate method for this. The Json should be
-    // constructed in such a way that it's 1:1 mappable, meaning a FieldType has to be there
-
     private <T extends BaseViewModel> void buildMultimediaField(final T model, final String fieldName, final JsonNode
             currentField, final ModelFieldMapping modelFieldMapping) throws IllegalAccessException {
         final Field modelField = modelFieldMapping.getField();
@@ -232,14 +258,10 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
                 .class.isAssignableFrom(fieldTypeOfFieldToSet);
 
         final List<JsonNode> nodeList = new ArrayList<>();
-        if (tridionDataFieldType.equals(FieldType.COMPONENTLINK) || tridionDataFieldType.equals(FieldType
+        if (tridionDataFieldType.equals(FieldType.COMPONENTLINK)
+                || tridionDataFieldType.equals(FieldType
                 .MULTIMEDIALINK)) {
-
-//            if (modelFieldMapping.getViewModelProperty().isLinkResolving) {
-//                LOG.debug("Resolving link for a component link or multimedialink field. ");
-//            } else {
-                fillLinkedComponentValues(currentField, nodeList);
-//            }
+            processLinkedFields(model, currentField, modelFieldMapping, modelField, tridionDataFieldType, nodeList);
         } else if (tridionDataFieldType == FieldType.EMBEDDED && !modelFieldIsRegularEmbeddedType) {
 
             handleEmbeddedContent(currentField, nodeList);
@@ -268,6 +290,40 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         setXPathForXpm(model, fieldName, currentField, modelField);
 
         deserializeAndBuildModels(model, fieldName, modelField, tridionDataFieldType, nodeList);
+    }
+
+    private <T extends BaseViewModel> void processLinkedFields(final T model, final JsonNode currentField, final ModelFieldMapping modelFieldMapping, final Field modelField, final FieldType tridionDataFieldType, final List<JsonNode> nodeList) throws SerializationException, IllegalAccessException {
+        if (modelFieldMapping.getViewModelProperty().resolveLinkForComponentLinkField()
+                && modelField.getType().getName().equalsIgnoreCase(String.class.getName())) {
+            LOG.debug("Resolving link for a component link or multimedialink field. ");
+
+            if (tridionDataFieldType.equals(FieldType.COMPONENTLINK)) {
+
+                if (currentField.has(VALUES_NODE) && currentField.get(VALUES_NODE).hasNonNull(0)) {
+                    String componentId = currentField.get(VALUES_NODE).get(0).textValue();
+                    String resolved = "";
+                    try {
+                        resolved = getLinkResolver().resolve(componentId);
+                    } catch (ItemNotFoundException e) {
+                        LOG.error("Could not resolve link for: " + componentId, e);
+                    }
+                    modelField.set(model, resolved);
+                }
+            } else if (tridionDataFieldType.equals(FieldType.MULTIMEDIALINK)) {
+
+                if (currentField.has(LINKED_COMPONENT_VALUES_NODE)
+                        && currentField.get(LINKED_COMPONENT_VALUES_NODE).hasNonNull(0)) {
+
+                    JsonNode multiMediaNode = currentField.get(LINKED_COMPONENT_VALUES_NODE).get(0);
+
+                    if (multiMediaNode.hasNonNull(MULTIMEDIA)) {
+                        modelField.set(model, multiMediaNode.get(MULTIMEDIA).get(URL).textValue());
+                    }
+                }
+            }
+        } else {
+            fillLinkedComponentValues(currentField, nodeList);
+        }
     }
 
     private <T extends BaseViewModel> void setXPathForXpm(final T model, final String fieldName, final JsonNode
@@ -479,8 +535,6 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         model.setLastPublishDate(JsonUtils.getDateFromField(DataBindConstants.LAST_PUBLISHED_DATE, rawComponent));
         model.setLastModified(JsonUtils.getDateFromField(DataBindConstants.LAST_MODIFIED_DATE, rawComponent));
         model.setTcmUri(JsonUtils.getTcmUriFromField(DataBindConstants.ID, rawComponent));
-
-//        model.getModelProperties()
     }
 
 

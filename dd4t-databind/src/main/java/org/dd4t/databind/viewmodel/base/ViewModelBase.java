@@ -83,6 +83,10 @@ public abstract class ViewModelBase implements BaseViewModel {
                 } else {
                     viewModelPropertyName = f.getName();
                 }
+
+                if (viewModelProperty.resolveLinkForComponentLinkField()) {
+                    viewModelPropertyName += "__url";
+                }
                 this.modelProperties.put(viewModelPropertyName, new ModelFieldMapping(viewModelProperty, f));
             }
         }

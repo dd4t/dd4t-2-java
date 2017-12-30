@@ -38,5 +38,7 @@ public @interface ViewModelProperty {
 
     boolean isMetadata() default false;
 
-    
+    boolean resolveLinkForComponentLinkField() default false;
+
+    boolean isComponentLinkUrl() default false;
 }

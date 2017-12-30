@@ -12,6 +12,12 @@
     <bean id="modelConverter" class="org.dd4t.databind.builder.json.JsonModelConverter"/>
     <bean id="serializer" class="org.dd4t.core.serializers.impl.json.JSONSerializer"/>
 
+    <bean id="cacheProvider" class="org.dd4t.test.mocks.MockCacheProvider" />
+
+    <bean id="linkProvider" class="org.dd4t.test.mocks.MockLinkProvider" />
+
+    <bean id="linkResolver" class="org.dd4t.core.resolvers.impl.DefaultLinkResolver"/>
+
     <bean id="databindFactory" class="org.dd4t.databind.DataBindFactory" factory-method="createInstance">
         <constructor-arg ref="dataBinder"/>
     </bean>

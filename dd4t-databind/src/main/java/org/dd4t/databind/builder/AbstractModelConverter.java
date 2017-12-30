@@ -23,11 +23,13 @@ import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.contentmodel.FieldType;
 import org.dd4t.contentmodel.Multimedia;
 import org.dd4t.core.databind.BaseViewModel;
+import org.dd4t.core.resolvers.LinkResolver;
 import org.dd4t.databind.util.TypeUtils;
 import org.dd4t.databind.viewmodel.base.ModelFieldMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,9 @@ import java.util.List;
  */
 public abstract class AbstractModelConverter {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractModelConverter.class);
+
+    @Resource(name = "linkResolver")
+    private LinkResolver linkResolver;
 
     protected static String getFieldKeyForModelProperty(final String fieldName, final ModelFieldMapping m) {
         final String fieldKey;
@@ -142,5 +147,13 @@ public abstract class AbstractModelConverter {
         } else {
             LOG.debug("No value(s) found!");
         }
+    }
+
+    public LinkResolver getLinkResolver() {
+        return linkResolver;
+    }
+
+    public void setLinkResolver(final LinkResolver linkResolver) {
+        this.linkResolver = linkResolver;
     }
 }

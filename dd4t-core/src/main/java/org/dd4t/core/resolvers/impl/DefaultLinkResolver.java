@@ -54,6 +54,7 @@ public class DefaultLinkResolver implements LinkResolver {
     private LinkProvider linkProvider;
     @Resource
     private PayloadCacheProvider cacheProvider;
+
     private Map<String, String> schemaToUrlMappings;
     private String schemaKey;
     private boolean encodeUrl = true;

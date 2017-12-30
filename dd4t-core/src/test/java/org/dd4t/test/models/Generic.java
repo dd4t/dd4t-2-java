@@ -3,7 +3,6 @@ package org.dd4t.test.models;
 import org.dd4t.contentmodel.Keyword;
 import org.dd4t.databind.annotations.ViewModel;
 import org.dd4t.databind.annotations.ViewModelProperty;
-import org.dd4t.databind.viewmodel.base.TridionViewModelBase;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -15,7 +14,10 @@ import java.util.List;
  */
 
 @ViewModel (viewModelNames = {"generic-content"}, rootElementNames = {"Generic"}, setComponentObject = true)
-public class Generic extends TridionViewModelBase {
+public class Generic extends AbstractModelClass {
+
+    @ViewModelProperty(isComponentLinkUrl = true)
+    private String urlForThisComponent;
 
     @ViewModelProperty
     private String heading;
@@ -39,8 +41,15 @@ public class Generic extends TridionViewModelBase {
     @ViewModelProperty (entityFieldName = "multimedialink")
     private Image multimedia;
 
+    @ViewModelProperty (entityFieldName = "multimedialink", resolveLinkForComponentLinkField = true)
+    private String multimediaUrl;
+
     @ViewModelProperty (entityFieldName = "componentlink")
     private AbstractModelClass componentLink;
+
+
+    @ViewModelProperty(entityFieldName = "componentlink", resolveLinkForComponentLinkField = true)
+    private String componentLinkUrl;
 
     @ViewModelProperty
     List<EmbeddedOne> embedded;
@@ -100,6 +109,14 @@ public class Generic extends TridionViewModelBase {
         this.multimedia = multimedia;
     }
 
+    public String getMultimediaUrl() {
+        return multimediaUrl;
+    }
+
+    public void setMultimediaUrl(final String multimediaUrl) {
+        this.multimediaUrl = multimediaUrl;
+    }
+
     public AbstractModelClass getComponentLink() {
         return componentLink;
     }
@@ -108,6 +125,13 @@ public class Generic extends TridionViewModelBase {
         this.componentLink = componentLink;
     }
 
+    public String getComponentLinkUrl() {
+        return componentLinkUrl;
+    }
+
+    public void setComponentLinkUrl(final String componentLinkUrl) {
+        this.componentLinkUrl = componentLinkUrl;
+    }
 
     public List<EmbeddedOne> getEmbedded() {
         return embedded;
@@ -125,4 +149,11 @@ public class Generic extends TridionViewModelBase {
         this.keyword = keyword;
     }
 
+    public String getUrlForThisComponent() {
+        return urlForThisComponent;
+    }
+
+    public void setUrlForThisComponent(final String urlForThisComponent) {
+        this.urlForThisComponent = urlForThisComponent;
+    }
 }

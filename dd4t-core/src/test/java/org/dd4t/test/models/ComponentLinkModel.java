@@ -1,5 +1,6 @@
 package org.dd4t.test.models;
 
+import org.dd4t.databind.annotations.ViewModel;
 import org.dd4t.databind.annotations.ViewModelProperty;
 
 /**
@@ -7,7 +8,7 @@ import org.dd4t.databind.annotations.ViewModelProperty;
  *
  * @author R. Kempees
  */
-//@ViewModel (viewModelNames = {"generic-content"}, rootElementNames = {"Generic"}, setComponentObject = true)
+@ViewModel (viewModelNames = {"generic-content"}, rootElementNames = {""}, setComponentObject = true)
 public class ComponentLinkModel extends AbstractModelClass {
 
     @ViewModelProperty

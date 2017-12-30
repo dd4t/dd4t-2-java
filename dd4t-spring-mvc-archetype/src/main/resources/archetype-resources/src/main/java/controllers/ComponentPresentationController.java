@@ -17,17 +17,14 @@
  * limitations under the License.
  */
 
-        package ${package}.controllers;
+package ${package}.controllers;
 
-
-        import org.dd4t.mvc.controllers.AbstractComponentPresentationController;
-        import org.springframework.web.bind.annotation.PathVariable;
-
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.RequestMethod;
-
-        import javax.servlet.http.HttpServletRequest;
+import org.dd4t.mvc.controllers.AbstractComponentPresentationController;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * dd4t-2

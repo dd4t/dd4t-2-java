@@ -17,25 +17,26 @@
  * limitations under the License.
  */
 
-        package ${package}.controllers;
+package ${package}.controllers;
 
-        import org.dd4t.core.exceptions.ItemNotFoundException;
-        import org.dd4t.mvc.controllers.AbstractBinaryController;
+import org.dd4t.core.exceptions.ItemNotFoundException;
+import org.dd4t.mvc.controllers.AbstractBinaryController;
 
-        import org.springframework.ui.Model;
-        import org.springframework.web.bind.annotation.RequestMapping;
-        import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
 
-        import javax.servlet.http.HttpServletRequest;
-        import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * dd4t-2
  *
  * @author R. Kempees
  */
-@RequestMapping (value = {"**/*.gif", "**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.pdf", "**/*.vcf", "**/*.swf", "**/*" +
-        ".zip", "**/*.xls", "**/*.xlsx"})
+@RequestMapping (value = {"**/*.gif", "**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.pdf", "**/*.vcf", "**/*.swf", "**/*"
+        + ".zip", "**/*.xls", "**/*.xlsx"})
 public class BinaryController extends AbstractBinaryController {
     @Override
     @RequestMapping (method = {RequestMethod.GET, RequestMethod.HEAD})

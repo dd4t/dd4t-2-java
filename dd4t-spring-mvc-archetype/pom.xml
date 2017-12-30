@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.dd4t</groupId>
-    <artifactId>dd4t-tridion-archetype</artifactId>
-    <version>1.6-SNAPSHOT</version>
+    <artifactId>dd4t-spring-mvc-archetype</artifactId>
+    <version>1.6.2-SNAPSHOT</version>
     <packaging>maven-archetype</packaging>
 
-    <name>dd4t-tridion-archetype</name>
-    <description>DD4T Spring MVC Archetype for Maven</description>
+    <name>dd4t-spring-mvc-archetype</name>
+    <description>DD4T Spring MVC Archetype for Maven for Tridion 2013</description>
 
     <url>https://github.com/dd4t</url>
 

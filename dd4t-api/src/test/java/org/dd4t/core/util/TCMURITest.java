@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.text.ParseException;
 
+import static org.dd4t.core.util.TCMURI.Namespace.ISH;
+import static org.dd4t.core.util.TCMURI.Namespace.TCM;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -73,8 +75,8 @@ public class TCMURITest {
             new TCMURI(uri);
             fail("Exception expected");
         } catch (ParseException e) {
-            assertThat(e.getMessage(), is(String.format("URI string %s does not start with %s", uri, TCMURI
-                    .URI_NAMESPACE)));
+            assertThat(e.getMessage(), is(String.format("URI string %s does not start with %s or %s", uri,
+                    TCM.getValue(), ISH.getValue())));
         }
     }
 
@@ -140,7 +142,7 @@ public class TCMURITest {
         assertThat(tcmUri.getVersion(), is(VERSION));
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void throws_exception_when_long_can_not_be_converted_to_int() {
         TCMURI.safeLongToInt(Long.MAX_VALUE);
         TCMURI.safeLongToInt(Long.MIN_VALUE);
@@ -195,5 +197,31 @@ public class TCMURITest {
     @Test
     public void convert_safely_long_to_int() {
         assertThat(TCMURI.safeLongToInt(Integer.MAX_VALUE), is(Integer.MAX_VALUE));
+    }
+
+    @Test(expected = ParseException.class)
+    public void testCreateIncorrectTCMURI() throws ParseException {
+        final String incorrectUri = "incorrect:33-4f-zz";
+        new TCMURI(incorrectUri);
+    }
+
+    @Test
+    public void testIsValid() {
+        final String tcmUri = String.format("tcm:%s-%s-%s", PUBLICATION_ID, ITEM_ID, ITEM_TYPE);
+        final String ishUri = String.format("ish:%s-%s-%s", PUBLICATION_ID, ITEM_ID, ITEM_TYPE);
+        final String incorrectUri = "incorrect:33-4f-zz";
+
+        assertThat(TCMURI.isValid(tcmUri), is(true));
+        assertThat(TCMURI.isValid(ishUri), is(true));
+        assertThat(TCMURI.isValid(incorrectUri), is(false));
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        final String tcmUri = String.format("tcm:%s-%s-%s", PUBLICATION_ID, ITEM_ID, ITEM_TYPE);
+        final String ishUri = String.format("ish:%s-%s-%s", PUBLICATION_ID, ITEM_ID, ITEM_TYPE);
+
+        assertEquals("tcm:12-14-5", new TCMURI(tcmUri).toString());
+        assertEquals("ish:12-14-5", new TCMURI(ishUri).toString());
     }
 }

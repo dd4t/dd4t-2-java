@@ -50,11 +50,11 @@ public abstract class AbstractEHCacheProvider implements PayloadCacheProvider, C
         return String.format(DEPENDENT_KEY_FORMAT, publicationId, itemId);
     }
 
-    protected boolean doCheckForPreview () {
+    public boolean doCheckForPreview () {
         return checkForPreview;
     }
 
-    protected void setCheckForPreview (boolean breakOnPreview) {
+    public void setCheckForPreview (boolean breakOnPreview) {
         this.checkForPreview = breakOnPreview;
     }
 

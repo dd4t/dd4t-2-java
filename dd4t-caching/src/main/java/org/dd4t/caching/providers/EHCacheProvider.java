@@ -46,15 +46,6 @@ public class EHCacheProvider extends AbstractEHCacheProvider implements PayloadC
     private int expiredTTL = 299;
     private int cacheDependencyTTL = 299;
     private int cacheTTL = 3599;
-    private boolean checkForPreview = false;
-
-    public boolean doCheckForPreview() {
-        return checkForPreview;
-    }
-
-    public void setCheckForPreview(boolean breakOnPreview) {
-        this.checkForPreview = breakOnPreview;
-    }
 
     /*
      * Getters and setters for cache TTL's

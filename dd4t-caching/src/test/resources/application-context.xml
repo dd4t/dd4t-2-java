@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="cacheMessageListener" class="org.dd4t.caching.jms.impl.JMSCacheMessageListener"/>
+    <bean id="jmsExceptionListener" class="org.dd4t.caching.jms.impl.JMSExceptionListener"/>
+    <bean id="jmsCacheMonitor" class="org.dd4t.caching.jms.impl.JMSCacheMonitor"/>
+    <bean id="jmsTransportListener" class="org.dd4t.caching.jms.impl.JMSTransportListener"/>
+</beans>

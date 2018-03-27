@@ -156,7 +156,6 @@ public interface Component extends RepositoryLocalItem {
 
             return UNKNOWN;
         }
-
         public static ComponentType findByName(String name) {
             try {
                 return ComponentType.valueOf(name.toUpperCase());

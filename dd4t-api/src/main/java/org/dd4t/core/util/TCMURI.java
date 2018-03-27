@@ -21,8 +21,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static org.dd4t.core.util.TCMURI.Namespace.ISH;
+import static org.dd4t.core.util.TCMURI.Namespace.TCM;
+import static org.dd4t.core.util.TCMURI.Namespace.getNamespaceFor;
 
 public class TCMURI implements Serializable {
 
@@ -33,6 +40,7 @@ public class TCMURI implements Serializable {
     protected int itemId;
     protected int pubId;
     protected int version;
+    private Namespace namespace;
 
     public TCMURI(String uri) throws ParseException {
         this(new Builder(uri));
@@ -50,15 +58,20 @@ public class TCMURI implements Serializable {
         this(new Builder(publicationId, itemId, itemType).version(version));
     }
 
+    public TCMURI(Namespace namespace, int publicationId, int itemId, int itemType, int version) {
+        this(new Builder(publicationId, itemId, itemType).version(version).namespace(namespace));
+    }
+
     private TCMURI(Builder builder) {
         this.itemType = builder.itemType;
         this.itemId = builder.itemId;
         this.pubId = builder.pubId;
         this.version = builder.version;
+        this.namespace = builder.namespace;
     }
 
     public static boolean isValid(String tcmUri) {
-        return tcmUri != null && tcmUri.startsWith(URI_NAMESPACE);
+        return tcmUri != null && getNamespaceFor(tcmUri.split(":")[0]) != null;
     }
 
     protected void load(String uriString) throws ParseException {
@@ -67,6 +80,7 @@ public class TCMURI implements Serializable {
         this.itemId = builder.itemId;
         this.pubId = builder.pubId;
         this.version = builder.version;
+        this.namespace = builder.namespace;
     }
 
     public static int safeLongToInt(long l) {
@@ -78,7 +92,7 @@ public class TCMURI implements Serializable {
 
     @Override
     public String toString() {
-        return URI_NAMESPACE + this.pubId + SEPARATOR + this.itemId + SEPARATOR + this.itemType;
+        return namespace.getValue() + ":" + this.pubId + SEPARATOR + this.itemId + SEPARATOR + this.itemType;
     }
 
     public int getItemType() {
@@ -98,14 +112,15 @@ public class TCMURI implements Serializable {
     }
 
     public static class Builder {
-        private static final Pattern PATTERN = Pattern.compile("^tcm:(?<pubId>\\d+)-(?<itemId>\\d+)(-" +
-                "(?<itemType>\\d+))?(-v(?<version>\\d+))?$");
+        private static final Pattern PATTERN = Pattern.compile("^(?<namespace>(tcm|ish){1}):(?<pubId>\\d+)-" +
+                "(?<itemId>\\d+)(-(?<itemType>\\d+))?(-v(?<version>\\d+))?$");
         private static final Logger LOG = LoggerFactory.getLogger(Builder.class);
 
         private int pubId;
         private int itemId;
         private int itemType = 16;
         private int version = -1;
+        private Namespace namespace = TCM;
 
         /**
          * Defaults to ItemType component
@@ -144,14 +159,19 @@ public class TCMURI implements Serializable {
             return this;
         }
 
+        public Builder namespace(Namespace namespace) {
+            this.namespace = namespace;
+            return this;
+        }
+
         private static void validatePatternOf(String uri) {
             if (uri == null) {
                 throw new IllegalArgumentException("Invalid TCMURI String, string cannot be null");
             }
 
-            if (!uri.startsWith(URI_NAMESPACE)) {
-                throw new IllegalArgumentException(String.format("URI string %s does not start with %s", uri,
-                        URI_NAMESPACE));
+            if (!uri.startsWith(TCM.getValue()) && !uri.startsWith(ISH.getValue())) {
+                throw new IllegalArgumentException(String.format("URI string %s does not start with %s or %s", uri,
+                        TCM.getValue(), ISH.getValue()));
             }
         }
 
@@ -162,6 +182,7 @@ public class TCMURI implements Serializable {
                 throw new IllegalArgumentException(String.format("URI %s does not match the pattern", uri));
             }
 
+            this.namespace = Namespace.getNamespaceFor(m.group("namespace"));
             this.pubId = Integer.parseInt(m.group("pubId"));
             this.itemId = Integer.parseInt(m.group("itemId"));
 
@@ -176,6 +197,35 @@ public class TCMURI implements Serializable {
 
         public TCMURI create() {
             return new TCMURI(this);
+        }
+    }
+
+    public enum Namespace {
+        TCM("tcm"),
+        ISH("ish");
+
+        private String value;
+
+        private static final Map<String, Namespace> namespaces = Collections.unmodifiableMap(initialize());
+
+        private static Map<String, Namespace> initialize() {
+            Map<String, Namespace> result = new HashMap<>();
+            for (Namespace n : Namespace.values()) {
+                result.put(n.getValue(), n);
+            }
+            return result;
+        }
+
+        Namespace(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public static Namespace getNamespaceFor(String value) {
+            return namespaces.get(value);
         }
     }
 }

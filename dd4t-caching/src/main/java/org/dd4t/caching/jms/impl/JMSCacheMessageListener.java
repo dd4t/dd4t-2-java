@@ -28,6 +28,8 @@ import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import java.io.Serializable;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+
 /**
  * @author Mihai Cadariu
  */
@@ -38,6 +40,23 @@ public class JMSCacheMessageListener implements MessageListener {
     protected CacheInvalidator cacheInvalidator;
     @Resource
     private JMSCacheMonitor monitor;
+
+    private boolean tridionIsNamespaceAware;
+
+    public JMSCacheMessageListener() {
+        tridionIsNamespaceAware = checkNamespaceAware();
+    }
+
+    protected boolean checkNamespaceAware() {
+        try {
+            Class.forName("com.tridion.util.NamespacePrefixWrapper", false, this.getClass().getClassLoader());
+            LOG.info("This tridion version is namespace aware (Tridion version is 8.5+)");
+            return true;
+        } catch (ClassNotFoundException e) {
+            LOG.info("This tridion version is not namespace aware (Tridion version is < 8.5)");
+        }
+        return false;
+    }
 
     public void setMonitor(JMSCacheMonitor monitor) {
         this.monitor = monitor;
@@ -51,7 +70,7 @@ public class JMSCacheMessageListener implements MessageListener {
                 case CacheEvent.INVALIDATE:
                     LOG.debug("Invalidate " + event);
                     Serializable key = event.getKey();
-                    cacheInvalidator.invalidate(key.toString());
+                    cacheInvalidator.invalidate(stripNamespaceIfRequired(key.toString()));
                     monitor.setMQServerStatusUp();
                     break;
 
@@ -63,6 +82,13 @@ public class JMSCacheMessageListener implements MessageListener {
                     break;
             }
         }
+    }
+
+    protected String stripNamespaceIfRequired(String key) {
+        if (tridionIsNamespaceAware && isNotEmpty(key) && key.indexOf(":") > 0) {
+            return key.substring(key.indexOf(":") + 1);
+        }
+        return key;
     }
 
     private CacheEvent getCacheEvent(Message message) {

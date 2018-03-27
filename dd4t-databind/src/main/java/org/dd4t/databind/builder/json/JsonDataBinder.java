@@ -18,10 +18,16 @@ package org.dd4t.databind.builder.json;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.BeanDescription;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.module.afterburner.AfterburnerModule;
@@ -31,6 +37,7 @@ import org.dd4t.contentmodel.Component;
 import org.dd4t.contentmodel.ComponentPresentation;
 import org.dd4t.contentmodel.ComponentTemplate;
 import org.dd4t.contentmodel.Field;
+import org.dd4t.contentmodel.FieldType;
 import org.dd4t.contentmodel.Page;
 import org.dd4t.core.databind.BaseViewModel;
 import org.dd4t.core.databind.DataBinder;
@@ -67,7 +74,6 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
         GENERIC_MAPPER.configure(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS, true);
         GENERIC_MAPPER.registerModule(new JodaModule());
         GENERIC_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-
     }
 
     public JsonDataBinder () {
@@ -245,7 +251,9 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
                 .concreteComponentTemplateImpl, this.concreteComponentImpl, this);
         final SimpleModule module = new SimpleModule("ComponentPresentationDeserializerModule", new Version(1, 0, 0,
                 "RELEASE", "org.dd4t", "dd4t-databind"));
+
         module.addDeserializer(ComponentPresentation.class, componentPresentationDeserializer);
+        module.setDeserializerModifier(getEnumDeserializer());
 
         GENERIC_MAPPER.registerModule(module);
         GENERIC_MAPPER.registerModule(new AfterburnerModule());
@@ -253,6 +261,42 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
 
         LOG.debug("Mapper configured for: {} and {}", this.concreteComponentPresentationImpl.toString(), this
                 .concreteComponentTemplateImpl.toString());
+    }
+
+    private BeanDeserializerModifier getEnumDeserializer() {
+        return new BeanDeserializerModifier() {
+            @Override
+            public JsonDeserializer<Enum> modifyEnumDeserializer(DeserializationConfig config,
+                                                                 final JavaType type,
+                                                                 BeanDescription beanDesc,
+                                                                 final JsonDeserializer<?> deserializer) {
+                return new JsonDeserializer<Enum>() {
+                    @Override
+                    public Enum deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+
+                        Class<? extends Enum> rawClass = (Class<Enum<?>>) type.getRawClass();
+                        String value = jp.getValueAsString();
+                        if (rawClass.getCanonicalName().equalsIgnoreCase("org.dd4t.contentmodel.Component.ComponentType")) {
+
+                            if (StringUtils.isNumeric(value)) {
+                                return Component.ComponentType.findByValue(Integer.parseInt(value));
+                            } else {
+                                return Component.ComponentType.findByName(value.toUpperCase());
+                            }
+                        }
+
+                        if (rawClass.getCanonicalName().equalsIgnoreCase("org.dd4t.contentmodel.FieldType")) {
+                            if (StringUtils.isNumeric(value)) {
+                                return FieldType.findByValue(Integer.parseInt(value));
+                            } else {
+                                return FieldType.findByName(value);
+                            }
+                        }
+                        return Enum.valueOf(rawClass, jp.getValueAsString());
+                    }
+                };
+            }
+        };
     }
 
     @Override

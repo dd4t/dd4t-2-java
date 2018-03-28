@@ -73,7 +73,7 @@ public class FieldSetImpl implements FieldSet, Serializable {
 
         try {
             // The basefield annotations will map the fields to concrete types
-            BaseField b = JsonDataBinder.getGenericMapper().readValue(embeddedField.toString(), BaseField.class);
+            BaseField b = JsonDataBinder.getGenericMapper().treeToValue(embeddedField, BaseField.class);
             fieldSet.put(fieldKey, b);
         } catch (IOException e) {
             LOG.error("Error deserializing FieldSet.", e);

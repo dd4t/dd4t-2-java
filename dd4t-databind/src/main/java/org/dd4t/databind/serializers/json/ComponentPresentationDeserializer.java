@@ -88,7 +88,7 @@ public class ComponentPresentationDeserializer extends StdDeserializer<Component
             final Map.Entry<String, JsonNode> element = fields.next();
             final String key = element.getKey();
 
-            LOG.trace(element.getKey() + "  " + element.getValue().toString());
+            LOG.trace("{} {}", element.getKey(), element.getValue());
 
             if (key.equalsIgnoreCase(DataBindConstants.COMPONENT_NODE_NAME)) {
                 LOG.debug("Fishing out Component Data");

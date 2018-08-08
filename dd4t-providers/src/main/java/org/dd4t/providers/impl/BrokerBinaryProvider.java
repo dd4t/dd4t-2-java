@@ -103,7 +103,8 @@ public class BrokerBinaryProvider extends BaseBrokerProvider implements BinaryPr
             try {
                 contentDAO = (BinaryContentDAO) StorageManagerFactory.getDAO(binaryUri.getPublicationId(),
                         StorageTypeMapping.BINARY_CONTENT);
-                content = contentDAO.findByPrimaryKey(binaryUri.getPublicationId(), binaryUri.getItemId(), null);
+                content = contentDAO.findByPrimaryKey(binaryUri.getPublicationId(), binaryUri.getItemId(), binaryVariant.getVariantId());
+
             } catch (StorageException e) {
                 LOG.error(e.getMessage(), e);
             }

@@ -49,7 +49,7 @@
         <hibernate-annotations.version>4.0.5.Final</hibernate-annotations.version>
         <hibernate.version>4.3.9.Final</hibernate.version>
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
-        <jackson.version>2.6.4</jackson.version>
+        <jackson.version>2.9.7</jackson.version>
         <jandex.version>1.1.0.Final</jandex.version>
         <jaxb-api.version>2.1</jaxb-api.version>
         <jaxb-impl.version>2.1.12</jaxb-impl.version>

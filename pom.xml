@@ -49,7 +49,7 @@
         <sonar.version>3.4.0.905</sonar.version>
 
         <activation.version>1.1.1</activation.version>
-        <activemq.version>5.10.0</activemq.version>
+        <activemq.version>5.15.7</activemq.version>
         <aspectj.version>1.8.1</aspectj.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-io.version>2.4</commons-io.version>

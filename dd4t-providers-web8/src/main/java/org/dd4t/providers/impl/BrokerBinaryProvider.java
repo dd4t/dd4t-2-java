@@ -25,7 +25,6 @@ import com.sdl.web.api.meta.WebComponentMetaFactoryImpl;
 import com.tridion.data.BinaryData;
 import com.tridion.meta.BinaryMeta;
 import com.tridion.meta.ComponentMeta;
-import org.apache.commons.lang3.StringUtils;
 import org.dd4t.contentmodel.Binary;
 import org.dd4t.contentmodel.impl.BinaryDataImpl;
 import org.dd4t.contentmodel.impl.BinaryImpl;
@@ -43,6 +42,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 /**
  * Provides access to Binaries stored in the Content Delivery database through the Web 8
@@ -69,6 +70,7 @@ public class BrokerBinaryProvider extends BaseBrokerProvider implements BinaryPr
     public Binary getBinaryByURL(final String url, final int publication) throws ItemNotFoundException,
             SerializationException {
         final BinaryMeta binaryMeta = getBinaryMetaByURL(url, publication);
+
         TCMURI binaryUri = new TCMURI(binaryMeta.getPublicationId(), (int) binaryMeta.getId(), 16);
         return getBinary(binaryUri, binaryMeta);
     }
@@ -85,8 +87,17 @@ public class BrokerBinaryProvider extends BaseBrokerProvider implements BinaryPr
         binary.setLastPublishedDate(getLastPublishDate(binaryUri.toString()));
 
         // TODO: binary.setMetadata(binaryMeta.getCustomMeta().getChildren());
+        String variantId = binaryMeta.getVariantId();
         final BinaryDataImpl binaryDataBytes = new BinaryDataImpl();
-        binaryDataBytes.setBytes(getBinaryContentById(binaryUri.getItemId(), binaryUri.getPublicationId()));
+
+        if (isEmpty(variantId)) {
+            binaryDataBytes.setBytes(getBinaryContentById(binaryUri.getItemId(), binaryUri.getPublicationId()));
+        } else {
+            binaryDataBytes.setBytes(getBinaryContentByIdAndVariantId(
+                    binaryUri.getItemId(), binaryUri.getPublicationId(), variantId));
+        }
+
+
         binary.setBinaryData(binaryDataBytes);
         return binary;
     }
@@ -106,6 +117,33 @@ public class BrokerBinaryProvider extends BaseBrokerProvider implements BinaryPr
 
         if (binaryData == null || binaryData.getDataSize() == 0) {
             throw new ItemNotFoundException("Unable to find binary content by id: tcm:" + publication + "-" + id);
+        }
+
+        try {
+            return binaryData.getBytes().clone();
+        } catch (IOException e) {
+            // TODO: wrap in provider exception
+            throw new ItemNotFoundException(e);
+        }
+    }
+
+    /**
+     * Retrieves the byte array content of a Tridion binary based on its TCM item id and publication id.
+     *
+     * TODO: interface and rework the pre Web 8 provider.
+     *
+     * @param id          int representing the item id
+     * @param publication int representing the publication id
+     * @return byte[] the byte array of the binary content
+     * @throws ItemNotFoundException if the item identified by id and publication was not found
+     */
+    public byte[] getBinaryContentByIdAndVariantId(int id, int publication, String variantId) throws ItemNotFoundException {
+
+        final BinaryData binaryData = BINARY_CONTENT_RETRIEVER.getBinary(publication, id, variantId);
+
+        if (binaryData == null || binaryData.getDataSize() == 0) {
+            throw new ItemNotFoundException("Unable to find binary content by id: tcm:" + publication + "-" + id +
+            ", with variant Id: " + variantId);
         }
 
         try {
@@ -152,7 +190,7 @@ public class BrokerBinaryProvider extends BaseBrokerProvider implements BinaryPr
     public BinaryData getBinaryDataById(int id, int publication, String variantId) throws ItemNotFoundException {
         final BinaryData binaryData;
 
-        if (StringUtils.isEmpty(variantId)) {
+        if (isEmpty(variantId)) {
             binaryData = BINARY_CONTENT_RETRIEVER.getBinary(publication, id);
         } else {
             binaryData = BINARY_CONTENT_RETRIEVER.getBinary(publication, id, variantId);

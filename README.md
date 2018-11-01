@@ -1,7 +1,7 @@
 dd4t-2-java
 ======
 
- - Current stable version: **2.1.0**
+ - Current stable version: **2.1.6**
  - Maven Central: [org.dd4t](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.dd4t%22)
  - Current stable archetype version:
  
@@ -259,5 +259,10 @@ In addition to dd4t-2's native dependencies, your web application and embedded T
  - https://raw.githubusercontent.com/dd4t/dd4t-2-java/release/dd4t-example-site/pom.xml
  - https://raw.githubusercontent.com/dd4t/dd4t-2-java/develop/spring-mvc-archetype/src/main/resources/archetype-resources/pom.xml
  
+## Note on ActiveMQ 5.12+
+
+Note: if you use JMS invalidation with ActiveMQ, you need to whitelist packages which can be serialized. This is done by adding the following Java startup parameter to wherever you are using this:
+
+	-Dorg.apache.activemq.SERIALIZABLE_PACKAGES=com.tridion.cache,org.apache.activemq,com.thoughtworks.xstream
 
 

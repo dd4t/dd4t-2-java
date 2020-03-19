@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dd4t-parent</artifactId>
         <groupId>org.dd4t</groupId>
-        <version>2.1.6-SNAPSHOT</version>
+        <version>2.2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <name>${project.groupId}:${project.artifactId}</name>
@@ -75,7 +75,7 @@
             </dependency>
             <dependency>
                 <groupId>org.dd4t</groupId>
-                <artifactId>dd4t-bom-2013SP1</artifactId>
+                <artifactId>dd4t-bom-tridion9</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -108,38 +108,38 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_broker</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-api-broker</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_cache</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-cache</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_core</artifactId>
+            <groupId>com.sdl.delivery</groupId>
+            <artifactId>udp-core</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_datalayer</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-datalayer</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_linking</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-api-linking</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_model</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-model</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_dynamic</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-api-dynamic</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dd4t-bom-web8</artifactId>
+    <artifactId>dd4t-bom-tridion9</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Providers for fetching Tridion content. For embedded usage.</description>
     <url>https://github.com/dd4t</url>
@@ -25,8 +25,8 @@
     <developers>
 
         <developer>
-            <name>Raimond Kempees</name>
-            <email>kempees@radagio.com</email>
+            <name>Quirijn Slings</name>
+            <email>quirijn.slings@trivident.com</email>
             <organization>DD4T</organization>
             <organizationUrl>https://github.com/dd4t</organizationUrl>
         </developer>
@@ -39,7 +39,7 @@
     </scm>
 
     <properties>
-        <tridion.build.version>[8.5.0,8.6.0)</tridion.build.version>
+        <tridion.build.version>[11.0.0,11.1.0)</tridion.build.version>
         <java-version>1.8</java-version>
 
         <antlr.version>2.7.7</antlr.version>
@@ -100,7 +100,7 @@
             </dependency>
 
 
-            <!-- Web 8 CIL dependencies -->
+            <!-- CIL dependencies -->
             <dependency>
                 <groupId>com.sdl.web</groupId>
                 <artifactId>content-ambient-client</artifactId>
@@ -169,90 +169,91 @@
             </dependency>
 
 
-            <!-- Web 8 in process dependencies as coming from the installation folder -->
+            <!-- In process dependencies as coming from the installation folder -->
             <dependency>
                 <groupId>javax.cache</groupId>
                 <artifactId>cache-api</artifactId>
                 <version>${javax.cache-api.version}</version>
             </dependency>
+            <!-- not found in tridion 9 -->
+            <!--<dependency>-->
+            <!--<groupId>com.tridion</groupId>-->
+            <!--<artifactId>cd_ambient</artifactId>-->
+            <!--<version>${tridion.build.version}</version>-->
+            <!--</dependency>-->
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_ambient</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-api-broker</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_broker</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-cache</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_cache</artifactId>
+                <groupId>com.sdl.delivery</groupId>
+                <artifactId>udp-common-config</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_common_config_api</artifactId>
+                <groupId>com.sdl.delivery</groupId>
+                <artifactId>udp-common-config-api</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_common_config_legacy</artifactId>
+                <groupId>com.sdl.delivery</groupId>
+                <artifactId>udp-common-config-legacy</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_common_config</artifactId>
+                <groupId>com.sdl.delivery</groupId>
+                <artifactId>udp-common-util</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_common_util</artifactId>
+                <groupId>com.sdl.delivery</groupId>
+                <artifactId>udp-core</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_core</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-datalayer</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_datalayer</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-discovery</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_discovery</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-discovery-client</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_dynamic</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-discovery-client-lightweight</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_linking</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-discovery-common</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.tridion</groupId>
-                <artifactId>cd_model</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-api-dynamic</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sdl.web</groupId>
-                <artifactId>discovery-client</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-api-linking</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sdl.web</groupId>
-                <artifactId>discovery-client-lightweight</artifactId>
-                <version>${tridion.build.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sdl.web</groupId>
-                <artifactId>discovery-common</artifactId>
+                <groupId>com.tridion.contentdelivery</groupId>
+                <artifactId>udp-model</artifactId>
                 <version>${tridion.build.version}</version>
             </dependency>
 

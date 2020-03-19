@@ -5,7 +5,7 @@
     <parent>
         <artifactId>dd4t-parent</artifactId>
         <groupId>org.dd4t</groupId>
-        <version>2.1.6-SNAPSHOT</version>
+        <version>2.2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -45,9 +45,6 @@
         </profile>
         <profile>
             <id>web8</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <dependencyManagement>
                 <dependencies>
                     <dependency>
@@ -67,6 +64,23 @@
                     <dependency>
                         <groupId>org.dd4t</groupId>
                         <artifactId>dd4t-bom-web8</artifactId>
+                        <version>${project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>tridion9-inproc</id>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.dd4t</groupId>
+                        <artifactId>dd4t-bom-tridion9</artifactId>
                         <version>${project.version}</version>
                         <type>pom</type>
                         <scope>import</scope>
@@ -107,8 +121,8 @@
              normal providers project.
         -->
         <dependency>
-            <groupId>com.tridion</groupId>
-            <artifactId>cd_cache</artifactId>
+            <groupId>com.tridion.contentdelivery</groupId>
+            <artifactId>udp-cache</artifactId>
             <scope>provided</scope>
         </dependency>
 

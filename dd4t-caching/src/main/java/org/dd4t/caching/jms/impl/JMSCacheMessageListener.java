@@ -48,14 +48,17 @@ public class JMSCacheMessageListener implements MessageListener {
     }
 
     protected boolean checkNamespaceAware() {
-        try {
-            Class.forName("com.tridion.util.NamespacePrefixWrapper", false, this.getClass().getClassLoader());
-            LOG.info("This tridion version is namespace aware (Tridion version is 8.5+)");
-            return true;
-        } catch (ClassNotFoundException e) {
-            LOG.info("This tridion version is not namespace aware (Tridion version is < 8.5)");
-        }
-        return false;
+        // note: this version is intended for Tridion 9 and higher, which is always namespace aware
+        // we can therefore do without this slow check (Quirijn, 18-03-2020)
+        return true;
+//        try {
+//            Class.forName("com.tridion.util.NamespacePrefixWrapper", false, this.getClass().getClassLoader());
+//            LOG.info("This tridion version is namespace aware (Tridion version is 8.5+)");
+//            return true;
+//        } catch (ClassNotFoundException e) {
+//            LOG.info("This tridion version is not namespace aware (Tridion version is < 8.5)");
+//        }
+//        return false;
     }
 
     public void setMonitor(JMSCacheMonitor monitor) {
@@ -66,7 +69,7 @@ public class JMSCacheMessageListener implements MessageListener {
     public void onMessage(Message message) {
         CacheEvent event = getCacheEvent(message);
         if (event != null) {
-            switch (event.getType()) {
+            switch (event.getEventType()) {
                 case CacheEvent.INVALIDATE:
                     LOG.debug("Invalidate " + event);
                     Serializable key = event.getKey();

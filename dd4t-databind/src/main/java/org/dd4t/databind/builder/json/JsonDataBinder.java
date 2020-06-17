@@ -74,6 +74,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
         GENERIC_MAPPER.configure(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS, true);
         GENERIC_MAPPER.registerModule(new JodaModule());
         GENERIC_MAPPER.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        GENERIC_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public JsonDataBinder () {

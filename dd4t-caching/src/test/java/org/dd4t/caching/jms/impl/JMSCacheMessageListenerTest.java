@@ -33,7 +33,7 @@ public class JMSCacheMessageListenerTest {
         JMSCacheMessageListener messageListener = (JMSCacheMessageListener) applicationContext.getBean
                 ("cacheMessageListener");
         assertNotNull(messageListener);
-        assertEquals("233:2222:64", messageListener.stripNamespaceIfRequired(key));
+        assertEquals("1:233:2222:64", messageListener.stripNamespaceIfRequired(key));
 
     }
 }

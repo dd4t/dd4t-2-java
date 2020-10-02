@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.FieldSet;
@@ -33,6 +34,7 @@ import java.util.Map;
  *
  * @author Quirijn Slings, Raimond Kempees
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseItem implements Item, Serializable {
     @Element (name = "id")
     @JsonProperty ("Id")

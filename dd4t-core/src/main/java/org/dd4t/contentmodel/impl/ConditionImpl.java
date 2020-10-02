@@ -1,5 +1,6 @@
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import org.dd4t.contentmodel.Condition;
@@ -12,6 +13,7 @@ import java.io.Serializable;
  *
  * @author R. Kempees
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConditionImpl implements Condition, Serializable {
 
     private static final long serialVersionUID = 7601871582992096158L;

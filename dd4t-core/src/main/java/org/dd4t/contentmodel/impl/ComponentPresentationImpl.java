@@ -18,6 +18,7 @@ package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -41,6 +42,7 @@ import java.util.Map;
  * @author bjornl, rai, sdl
  */
 @JsonAutoDetect (getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ComponentPresentationImpl implements ComponentPresentation, Serializable {
 
     private static final long serialVersionUID = -7971393961257030293L;

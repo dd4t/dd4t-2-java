@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.dd4t.contentmodel.PublicationDescriptor;
 
 import java.io.Serializable;
@@ -25,6 +26,7 @@ import java.io.Serializable;
  *
  * @author Q. Slings, R. Kempees
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PublicationDescriptorImpl implements PublicationDescriptor, Serializable {
 
     private static final long serialVersionUID = 2510439538856123282L;

@@ -159,6 +159,7 @@ public class EHCache3Provider extends AbstractEHCacheProvider implements Payload
             LOG.error("Detected undeclared null payload on element with key " + key + " at insert time!",
                     exToLogToHaveStacktraceWhoCausedIt);
             cacheElement.setNull(true);
+            //@ToDo probably bug!
             cacheElement.setExpired(true);
         }
 

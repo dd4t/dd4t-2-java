@@ -219,5 +219,4 @@ public class ComponentPresentationImpl implements ComponentPresentation, Seriali
         this.extensionData = extensionData;
     }
 
-
 }

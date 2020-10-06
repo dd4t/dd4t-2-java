@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.Embedded;
@@ -28,6 +29,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EmbeddedField extends BaseField implements Field, Embedded, Serializable {
 
     private static final long serialVersionUID = 3993512514972222517L;

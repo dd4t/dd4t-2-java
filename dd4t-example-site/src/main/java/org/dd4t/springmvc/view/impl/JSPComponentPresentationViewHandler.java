@@ -22,7 +22,6 @@ import org.dd4t.springmvc.view.BaseJSPViewHandler;
 
 public class JSPComponentPresentationViewHandler extends BaseJSPViewHandler<ComponentPresentation> {
     public JSPComponentPresentationViewHandler() {
-
         super();
         setModelKey(Constants.COMPONENT_PRESENTATION_KEY);
     }

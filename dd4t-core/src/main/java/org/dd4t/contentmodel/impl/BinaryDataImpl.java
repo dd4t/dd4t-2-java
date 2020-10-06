@@ -16,12 +16,14 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.dd4t.contentmodel.BinaryData;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BinaryDataImpl implements BinaryData, Serializable {
 
     private static final long serialVersionUID = 1267561342466889726L;

@@ -16,12 +16,14 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.StructureGroup;
 import org.simpleframework.xml.Element;
 
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StructureGroupImpl extends BaseItem implements StructureGroup, Serializable {
 
     private static final long serialVersionUID = -7707818877330687914L;

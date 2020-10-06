@@ -22,7 +22,6 @@ import org.dd4t.springmvc.view.BaseJSPViewHandler;
 @Deprecated
 public class JSPComponentViewHandler extends BaseJSPViewHandler<Component> {
     public JSPComponentViewHandler() {
-
         super();
         setModelKey(Constants.COMPONENT_KEY);
     }

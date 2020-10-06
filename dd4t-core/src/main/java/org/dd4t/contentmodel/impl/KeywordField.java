@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldType;
@@ -25,6 +26,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeywordField extends BaseField implements Field, Serializable {
 
     private static final long serialVersionUID = 5239810268909419707L;

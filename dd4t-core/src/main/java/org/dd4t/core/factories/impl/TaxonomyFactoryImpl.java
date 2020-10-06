@@ -162,7 +162,7 @@ public class TaxonomyFactoryImpl extends BaseFactory implements TaxonomyFactory 
                         throw new IOException("Taxonomy with uri: " + taxonomyURI + " not found.");
                     } catch (ParseException | SerializationException e) {
                         LOG.error(NOT_FOUND_ERROR_MESSAGE, taxonomyURI, e);
-                        throw new IOException(e);
+                        throw new IOException("Could not parse taxonomy with uri: " + taxonomyURI, e);
                     }
                 } else {
                     LOG.debug("Return taxonomy with uri: {} and schema: {} from cache", taxonomyURI, schemaURI);

@@ -29,9 +29,9 @@ import java.io.Serializable;
  * @author Mihai Cadariu
  */
 public class CacheElementImpl<T> implements CacheElement<T>, Serializable {
-    private boolean isExpired;
-    private boolean isNull;
-    private T payload;
+    private volatile boolean isExpired;
+    private volatile boolean isNull;
+    private volatile T payload;
     private String dependentKey;
 
     public CacheElementImpl(T payload) {

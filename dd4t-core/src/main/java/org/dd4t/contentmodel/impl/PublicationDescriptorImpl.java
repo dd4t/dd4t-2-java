@@ -39,9 +39,9 @@ public class PublicationDescriptorImpl implements PublicationDescriptor, Seriali
     private String publicationUrl;
     private String publicationPath;
 
-    public PublicationDescriptorImpl(final int id, final String key, final String title, final String multimediaPath,
-                                     final String multimediaUrl, final String publicationUrl, final String
-                                             publicationPath) {
+    public PublicationDescriptorImpl(final int id, final String key, final String title,
+                                     final String multimediaPath, final String multimediaUrl,
+                                     final String publicationUrl, final String publicationPath) {
         this.id = id;
         this.key = key;
         this.title = title;
@@ -52,7 +52,6 @@ public class PublicationDescriptorImpl implements PublicationDescriptor, Seriali
     }
 
     public PublicationDescriptorImpl() {
-        // allow manual setting.
     }
 
     @Override

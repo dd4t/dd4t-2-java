@@ -18,6 +18,7 @@ package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @JsonIdentityInfo (generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class KeywordImpl extends BaseItem implements Keyword, Serializable {
 
     private static final long serialVersionUID = 8833174360196363889L;

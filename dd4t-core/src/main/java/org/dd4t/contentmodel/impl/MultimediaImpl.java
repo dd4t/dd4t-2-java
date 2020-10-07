@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.BinaryData;
 import org.dd4t.contentmodel.Component;
@@ -26,6 +27,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MultimediaImpl extends BaseField implements Multimedia, Serializable {
 
     private static final long serialVersionUID = 9123738616565718821L;

@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.HasMetadata;
 import org.dd4t.contentmodel.PageTemplate;
@@ -23,6 +24,7 @@ import org.simpleframework.xml.Element;
 
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PageTemplateImpl extends BaseRepositoryLocalItem implements PageTemplate, HasMetadata, Serializable {
 
     private static final long serialVersionUID = -5960304953992709902L;

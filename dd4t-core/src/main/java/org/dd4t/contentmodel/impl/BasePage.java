@@ -16,6 +16,9 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BasePage extends BaseRepositoryLocalItem {
 
 }

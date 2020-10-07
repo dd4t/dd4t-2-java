@@ -16,13 +16,14 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldType;
 
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class XhtmlField extends TextField implements Field, Serializable {
-
 
     private static final long serialVersionUID = 7923330087589129664L;
 

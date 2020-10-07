@@ -22,7 +22,6 @@ import org.dd4t.springmvc.view.BaseJSPViewHandler;
 
 public class JSPPageViewHandler extends BaseJSPViewHandler<Component> {
     public JSPPageViewHandler() {
-
         super();
         setModelKey(Constants.PAGE_MODEL_KEY);
     }

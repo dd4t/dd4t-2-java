@@ -16,6 +16,7 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.dd4t.contentmodel.Field;
 import org.dd4t.contentmodel.FieldType;
 
@@ -23,6 +24,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class NumericField extends BaseField implements Field, Serializable {
 
     private static final long serialVersionUID = 7071862600858380674L;

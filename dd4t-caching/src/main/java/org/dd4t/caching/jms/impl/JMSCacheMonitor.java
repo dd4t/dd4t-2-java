@@ -66,8 +66,6 @@ public class JMSCacheMonitor {
 
     @PostConstruct
     public void init() {
-        LOG.debug("Create new instance");
-
         LOG.debug("Using Monitor interval (or cache refresh time when JMS is down) = {} seconds",
                 monitorServiceInterval, monitorServiceInterval / 1000);
         thread = new Thread(monitor);

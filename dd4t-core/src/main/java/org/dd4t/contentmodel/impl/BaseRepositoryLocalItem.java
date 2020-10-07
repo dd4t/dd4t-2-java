@@ -17,6 +17,7 @@
 package org.dd4t.contentmodel.impl;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.dd4t.contentmodel.Category;
@@ -40,6 +41,7 @@ import java.util.Map;
  * @author bjornl
  */
 @JsonAutoDetect (getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class BaseRepositoryLocalItem extends BaseItem implements RepositoryLocalItem {
     @Element (name = "revisionDate", required = false)
     @JsonProperty ("RevisionDate")

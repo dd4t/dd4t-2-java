@@ -16,21 +16,20 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.dd4t.contentmodel.Publication;
 
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PublicationImpl extends BaseItem implements Publication, Serializable {
-
 
     private static final long serialVersionUID = -8593904509879801004L;
 
     public PublicationImpl() {
-        super();
     }
 
     public PublicationImpl(String id) {
-        super();
         this.setId(id);
     }
 }

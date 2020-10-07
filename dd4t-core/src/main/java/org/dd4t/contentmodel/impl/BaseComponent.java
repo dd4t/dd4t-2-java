@@ -16,8 +16,11 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseComponent extends BaseRepositoryLocalItem implements Serializable {
 
     private static final long serialVersionUID = 2569847608745170385L;

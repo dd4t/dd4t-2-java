@@ -39,7 +39,6 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
     private BinaryProvider binaryProvider;
 
     public BinaryFactoryImpl() {
-        LOG.debug("Create new instance");
     }
 
     /**
@@ -73,7 +72,7 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
                         cacheElement.setPayload(null);
                         cacheProvider.storeInItemCache(tcmUri, cacheElement);
                         cacheElement.setExpired(true);
-                        throw new ItemNotFoundException(e);
+                        throw new ItemNotFoundException("Invalid binary url " + tcmUri, e);
                     }
                 } else {
                     LOG.debug("Return a binary with uri: {} from cache", tcmUri);
@@ -85,7 +84,7 @@ public class BinaryFactoryImpl extends BaseFactory implements BinaryFactory {
             binary = cacheElement.getPayload();
 
             if (binary == null) {
-                throw new ItemNotFoundException("Found nullreference for binary in cache.");
+                throw new ItemNotFoundException("Found nullreference for binary in cache. Uri: " + tcmUri);
             }
         }
 

@@ -16,12 +16,14 @@
 
 package org.dd4t.contentmodel.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.dd4t.contentmodel.Schema;
 import org.simpleframework.xml.Element;
 
 import java.io.Serializable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SchemaImpl extends BaseRepositoryLocalItem implements Schema, Serializable {
 
     private static final long serialVersionUID = 6906233835226254898L;

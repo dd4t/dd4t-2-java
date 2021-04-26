@@ -35,7 +35,7 @@
         <activemq.version>5.13.0</activemq.version>
         <aspectj.version>1.8.1</aspectj.version>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <commons-io.version>2.4</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <commons-codec.version>1.8</commons-codec.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <easymock.version>3.2</easymock.version>

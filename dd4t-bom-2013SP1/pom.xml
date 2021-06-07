@@ -52,7 +52,7 @@
         <hibernate.version>4.0.1.Final</hibernate.version>
         <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
         <json-smart-version>1.1.1</json-smart-version>
-        <logback.version>1.0.13</logback.version>
+        <logback.version>1.2.0</logback.version>
         <slf4j.version>1.6.4</slf4j.version>
         <spring.version>3.2.18.RELEASE</spring.version>
         <sqljdbc4-version>4.0.0</sqljdbc4-version>

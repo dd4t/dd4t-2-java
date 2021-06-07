@@ -47,7 +47,7 @@
         <jackson.version>2.9.7</jackson.version>
         <javax.jms.version>1.1-rev-1</javax.jms.version>
         <javax.servlet-api.version>3.0.1</javax.servlet-api.version>
-        <logback.version>1.0.13</logback.version>
+        <logback.version>1.2.0</logback.version>
         <jetty-util.version>6.1.26</jetty-util.version>
         <javax.validation.version>1.1.0.Final</javax.validation.version>
 

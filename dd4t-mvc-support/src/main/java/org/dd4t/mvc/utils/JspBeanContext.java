@@ -17,7 +17,6 @@
 package org.dd4t.mvc.utils;
 
 import org.dd4t.core.util.HttpUtils;
-import org.springframework.lang.Nullable;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -68,9 +67,8 @@ public final class JspBeanContext {
      * @see org.springframework.web.context.ContextLoader#getCurrentWebApplicationContext()
      * @since 4.2.1
      */
-    @Nullable
     public static WebApplicationContext findWebApplicationContext(HttpServletRequest request,
-                                                                  @Nullable ServletContext servletContext) {
+                                                                  ServletContext servletContext) {
 
         WebApplicationContext webApplicationContext =
                 (WebApplicationContext) request.getAttribute(DispatcherServlet.WEB_APPLICATION_CONTEXT_ATTRIBUTE);

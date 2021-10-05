@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>dd4t-bom-tridion-9</artifactId>
+    <name>${project.groupId}:${project.artifactId}</name>
 
     <licenses>
         <license>

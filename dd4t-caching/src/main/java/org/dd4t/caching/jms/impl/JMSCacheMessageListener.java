@@ -27,6 +27,8 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -66,7 +68,7 @@ public class JMSCacheMessageListener implements MessageListener {
     public void onMessage(Message message) {
         CacheEvent event = getCacheEvent(message);
         if (event != null) {
-            switch (event.getType()) {
+            switch (getCacheEventType(event)) {
                 case CacheEvent.INVALIDATE:
                     LOG.debug("Invalidate " + event);
                     Serializable key = event.getKey();
@@ -111,6 +113,41 @@ public class JMSCacheMessageListener implements MessageListener {
         }
 
         return event;
+    }
+
+    /**
+     * in Tridion 9 the CacheEvent changed a method name.
+     *
+     * @param event the CacheEvent
+     * @return CacheEvent if found.
+     */
+    private static int getCacheEventType(CacheEvent event) {
+
+        Method getEventTypeMethod = null;
+
+        try {
+            getEventTypeMethod = event.getClass().getMethod("getEventType");
+        } catch (NoSuchMethodException e) {
+            LOG.trace("We're in 11.5");
+        }
+
+        if (getEventTypeMethod == null) {
+            try {
+                getEventTypeMethod = event.getClass().getMethod("getType");
+            } catch (NoSuchMethodException e) {
+                LOG.trace("We're in 6.x, 7.1, 8.X");
+            }
+        }
+
+        if (getEventTypeMethod != null) {
+            try {
+                return (int) getEventTypeMethod.invoke(event);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                LOG.error("Could not process CacheEvent", e);
+            }
+        }
+        LOG.error("Method not found on CacheEvent.");
+        return -1;
     }
 
     /**

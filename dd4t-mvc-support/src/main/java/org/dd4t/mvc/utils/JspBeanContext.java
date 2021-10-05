@@ -38,6 +38,6 @@ public final class JspBeanContext {
     }
 
     private static WebApplicationContext getWebApplicationContext() {
-        return RequestContextUtils.getWebApplicationContext(HttpUtils.getCurrentRequest());
+        return RequestContextUtils.findWebApplicationContext(HttpUtils.getCurrentRequest());
     }
 }

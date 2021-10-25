@@ -10,12 +10,6 @@
 
         <persistence directory="${user.home}/cachedir"/>
     -->
-    <cache alias="defaultCache">
-        <expiry>
-            <ttl unit="seconds">3600</ttl>
-        </expiry>
-        <heap unit="entries">10000</heap>
-    </cache>
 
     <cache alias="DD4T-Objects">
         <key-type>java.lang.String</key-type>

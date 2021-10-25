@@ -79,17 +79,17 @@
     </bean>
 
     <bean id="binaryProvider" class="org.dd4t.providers.impl.BrokerBinaryProvider">
-        <property name="contentIsCompressed" value="true"/>
+        <property name="contentIsCompressed" value="false"/>
         <property name="cacheProvider" ref="cacheProvider"/>
     </bean>
 
     <bean id="componentPresentationProvider" class="org.dd4t.providers.impl.BrokerComponentPresentationProvider">
-        <property name="contentIsCompressed" value="true"/>
+        <property name="contentIsCompressed" value="false"/>
         <property name="cacheProvider" ref="cacheProvider"/>
     </bean>
 
     <bean id="pageProvider" class="org.dd4t.providers.impl.BrokerPageProvider">
-        <property name="contentIsCompressed" value="true"/>
+        <property name="contentIsCompressed" value="false"/>
         <property name="cacheProvider" ref="cacheProvider"/>
     </bean>
 

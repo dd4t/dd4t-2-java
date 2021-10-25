@@ -46,31 +46,6 @@
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <sonar.version>3.4.0.905</sonar.version>
-
-        <!--
-
-
-                <aspectj.version>1.8.1</aspectj.version>
-                <commons-collections.version>3.2.2</commons-collections.version>
-                <easylicense.version>2.5</easylicense.version>
-                <easymock.version>3.2</easymock.version>
-                <el-impl.version>2.2</el-impl.version>
-                <ehcache.jcache.version>1.0.1</ehcache.jcache.version>
-                <gson.version>2.3.1</gson.version>
-                <httpcomponents.version>4.3.3</httpcomponents.version>
-
-
-
-                <jetty-util.version>6.1.26</jetty-util.version>
-                <javax.validation.version>1.1.0.Final</javax.validation.version>
-                <jcl-over-slf4j.version>1.6.4</jcl-over-slf4j.version>
-                <joda-time.version>2.8.2</joda-time.version>
-                <resteasy.version>3.0.8.Final</resteasy.version>
-                <scala.library.version>2.10.5</scala.library.version>
-                <urlrewritefilter.version>4.0.3</urlrewritefilter.version>
-                <woodstox.version>4.4.1</woodstox.version>
-                <xml-apis.version>1.4.01</xml-apis.version>
-        -->
     </properties>
     <build>
         <plugins>

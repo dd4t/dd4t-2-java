@@ -359,9 +359,6 @@
         <profile>
             <!-- The CIL / CIS dependencies -->
             <id>web8</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <java-version>1.8</java-version>
                 <resources-directory>8.1.0</resources-directory>
@@ -372,7 +369,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>2.5.1</version>
+                        <version>${maven-compiler-plugin.version}</version>
                         <inherited>true</inherited>
                         <configuration>
                             <source>${java-version}</source>
@@ -443,7 +440,7 @@
             <dependencies>
                 <dependency>
                     <groupId>org.dd4t</groupId>
-                    <artifactId>dd4t-providers-web8</artifactId>
+                    <artifactId>dd4t-providers-odata</artifactId>
                     <version>${project.version}</version>
                 </dependency>
 
@@ -488,8 +485,6 @@
                     <groupId>commons-io</groupId>
                     <artifactId>commons-io</artifactId>
                 </dependency>
-
-
                 <dependency>
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-lang3</artifactId>
@@ -1002,6 +997,321 @@
                 <dependency>
                     <groupId>com.microsoft.sqlserver</groupId>
                     <artifactId>sqljdbc4</artifactId>
+                </dependency>
+
+                <!-- used for JMS listening. Remove if not used -->
+                <dependency>
+                    <groupId>org.apache.activemq</groupId>
+                    <artifactId>activemq-client</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <!-- The Tridion 9 CIL / CIS dependencies -->
+            <id>tridion-9-odata</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <java-version>11</java-version>
+                <resources-directory>11.5.0</resources-directory>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>${maven-compiler-plugin.version}</version>
+                        <inherited>true</inherited>
+                        <configuration>
+                            <source>${java-version}</source>
+                            <target>${java-version}</target>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>2.4</version>
+                        <configuration>
+                            <archiveClasses>true</archiveClasses>
+                            <webResources>
+                                <resource>
+                                    <directory>src/main/resources/${resources-directory}/WEB-INF</directory>
+                                    <targetPath>WEB-INF</targetPath>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <include>**/**</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <filtering>true</filtering>
+                                    <directory>webapp/</directory>
+                                    <includes>
+                                        <include>**/**</include>
+                                    </includes>
+                                </resource>
+
+                            </webResources>
+                            <webXml>webapp/WEB-INF/web.xml</webXml>
+                            <failOnMissingWebXml>true</failOnMissingWebXml>
+                            <includeEmptyDirectories>true</includeEmptyDirectories>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>default-war</id>
+                                <phase>none</phase>
+                            </execution>
+                            <execution>
+                                <id>war-exploded</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>exploded</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>custom-war</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>war</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.dd4t</groupId>
+                        <artifactId>dd4t-bom-tridion-9</artifactId>
+                        <version>${project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.dd4t</groupId>
+                    <artifactId>dd4t-providers-odata</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+
+                <dependency>
+                    <groupId>javax.cache</groupId>
+                    <artifactId>cache-api</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-adf-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-adf-client</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-adf</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-api-broker</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-api-compatible</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-api-dynamic</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-api-linking</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cil-tags</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cis-adf-model</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cis-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cis-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cis-model</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-cache</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-common-config</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-common-config-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-common-config-legacy</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-common-spring-util</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-common-util</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-core-license</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-data-model-compatible</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-discovery-client-lightweight</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-discovery-common</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-oauth-common</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.sdl.delivery</groupId>
+                    <artifactId>udp-storage-api</artifactId>
+                </dependency>
+
+
+                <dependency>
+                    <groupId>commons-codec</groupId>
+                    <artifactId>commons-codec</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-lang3</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>com.google.code.gson</groupId>
+                    <artifactId>gson</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.module</groupId>
+                    <artifactId>jackson-module-afterburner</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>jcl-over-slf4j</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-library</artifactId>
+                </dependency>
+
+
+
+                <!--
+                weird dependency on which everything else crashes if not present
+                -->
+
+                <dependency>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                    <version>1.1</version>
+                </dependency>
+
+                <!-- Further required DD4T dependencies, differing versions for each Tridion version -->
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jms</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-web</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </dependency>
+
+                <dependency>
+                    <groupId>org.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
                 </dependency>
 
                 <!-- used for JMS listening. Remove if not used -->

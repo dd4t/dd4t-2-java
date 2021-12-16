@@ -75,9 +75,6 @@
         </profile>
         <profile>
             <id>web8</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <dependencyManagement>
                 <dependencies>
                     <dependency>
@@ -97,6 +94,23 @@
                     <dependency>
                         <groupId>org.dd4t</groupId>
                         <artifactId>dd4t-bom-web8</artifactId>
+                        <version>${project.version}</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+        <profile>
+            <id>tridion-9-odata</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.dd4t</groupId>
+                        <artifactId>dd4t-bom-tridion-9</artifactId>
                         <version>${project.version}</version>
                         <type>pom</type>
                         <scope>import</scope>

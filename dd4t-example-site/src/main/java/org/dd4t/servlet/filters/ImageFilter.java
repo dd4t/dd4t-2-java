@@ -150,7 +150,7 @@ public class ImageFilter implements Filter {
                             .BINARY_CONTENT);
 
                     BinaryContent content = dao.findByPrimaryKey(meta.getPublicationId(), meta.getItemId(), variant
-                            .getBinaryVariantId().getVariantId());
+                            .getVariantId());
 
                     FileOutputStream fos = null;
                     try {

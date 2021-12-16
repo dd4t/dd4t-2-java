@@ -103,6 +103,10 @@
         <appender-ref ref="rollingSpringLog"/>
         <appender-ref ref="stdout"/>
     </logger>
+    <logger name="org.ehcache" level="${log.level}" additivity="false">
+        <appender-ref ref="rollingEHCacheLog"/>
+        <appender-ref ref="stdout"/>
+    </logger>
     <logger name="net.sf.ehcache" level="${log.level}" additivity="false">
         <appender-ref ref="rollingEHCacheLog"/>
         <appender-ref ref="stdout"/>
@@ -111,7 +115,7 @@
         <appender-ref ref="rollingDd4tLog"/>
         <appender-ref ref="stdout"/>
     </logger>
-    <logger name="org.apache.activemq" level="TRACE" additivity="false">
+    <logger name="org.apache.activemq" level="ERROR" additivity="false">
         <appender-ref ref="stdout"/>
         <appender-ref ref="rollingJMSLog"/>
     </logger>

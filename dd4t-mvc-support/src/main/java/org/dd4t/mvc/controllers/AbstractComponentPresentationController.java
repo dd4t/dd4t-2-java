@@ -36,11 +36,11 @@ import java.text.ParseException;
 
 /**
  * dd4t-2
- * <p/>
+ * 
  * Extend this class in your own web project for default functionality.
- * <p/>
+ * 
  * Do not add stuff here, as this will be loaded as library only.
- * <p/>
+ * 
  * Important Note: concrete implementing classes will need to add the
  * {@literal @RequestMapping} annotations!
  */

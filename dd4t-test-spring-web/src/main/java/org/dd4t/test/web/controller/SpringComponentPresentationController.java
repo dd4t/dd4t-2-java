@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * SpringComponentPresentationController.
- * <p/>
+ * 
  * Example controller to load DCPs. Extend as needed.
  *
  * @author R. Kempees

@@ -119,7 +119,7 @@ public final class HttpUtils {
 
     /**
      * Returns the most likely IP-address of the client, no guarantee though.
-     * <p/>
+     * 
      * If the client is behind a proxy it should be the 1st ip address in the
      * HTTP_X_FORWARDED_FOR header if not we use the REMOTE_ADDR header
      */
@@ -141,7 +141,7 @@ public final class HttpUtils {
 
     /**
      * Checking for local ip addresses, e.g.
-     * <p/>
+     * 
      * <pre>
      *     10.x.x.x
      *     172.[16-31].x.x

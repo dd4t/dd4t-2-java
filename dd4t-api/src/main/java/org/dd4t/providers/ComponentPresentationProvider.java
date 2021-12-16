@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * Dynamic Component Presentation Provider.
- * <p/>
+ * 
  * Note that this class is NOT used when fetching pages with static Component Presentations!
  */
 public interface ComponentPresentationProvider {
@@ -31,7 +31,7 @@ public interface ComponentPresentationProvider {
     /**
      * Retrieves content of a Dynamic Component Presentation by looking up its componentId and publicationId.
      * A templateId is not provided, so the DCP with the highest linking priority is retrieved.
-     * <p/>
+     * 
      * <b>Note: This method performs significantly slower than getDynamicComponentPresentation(int, int, int)!
      * Do provide a templateId!</b>
      *
@@ -61,7 +61,7 @@ public interface ComponentPresentationProvider {
     /**
      * Retrieves content of a Dynamic Component Presentation by looking up its componentId and publicationId.
      * A templateId is not provided, so the DCP with the highest linking priority is retrieved.
-     * <p/>
+     * 
      * <b>Note: This method performs significantly slower than getDynamicComponentPresentation(int, int, int)!
      * Do provide a templateId!</b>
      *

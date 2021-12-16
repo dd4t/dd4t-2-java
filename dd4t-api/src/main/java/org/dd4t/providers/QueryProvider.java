@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * QueryProvider. Interface for doing Broker look ups.
  * Currently provides only the basic stuff.
- * <p/>
+ * 
  *
  * @author R. Kempees
  */
@@ -34,7 +34,7 @@ public interface QueryProvider {
     /**
      * Retrieves content of a Dynamic Component Presentation by looking up its locale and keyValueMap
      * The returned content can for instance represent multiple Component Strings separated by |.
-     * <p/>
+     * 
      * The KeyValueMap can hold 0 or more CUSTOM_META criteria
      *
      * @param locale      String representing the locale to be queried, for e.g.: en_gb
@@ -50,10 +50,10 @@ public interface QueryProvider {
      * Retrieves content of a Dynamic Component Presentation by doing a Broker Query
      * based on Schema Criteria. If the templateId is set, only components published
      * with that templateId are returned.
-     * <p/>
+     * 
      * Note that doing a direct Broker query is significantly
      * faster than using the TaxonomyProvider.
-     * <p/>
+     * 
      * The returned content can for instance represent multiple Component Strings separated by |.
      *
      * @param locale     The locale, to be translated to a publication Id
@@ -71,10 +71,10 @@ public interface QueryProvider {
      * Retrieves content of a Dynamic Component Presentation by doing an AND Broker Query
      * based on Schema and Keyword Criteria. If the templateId is set, only components published
      * with that templateId are returned.
-     * <p/>
+     * 
      * Note that doing a direct Broker query is significantly
      * faster than using the TaxonomyProvider.
-     * <p/>
+     * 
      * The returned content can for instance represent multiple Component Strings separated by |.
      *
      * @param locale     The locale, to be translated to a publication Id

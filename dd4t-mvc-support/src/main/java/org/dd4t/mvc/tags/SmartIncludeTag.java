@@ -38,19 +38,19 @@ import java.net.URL;
 /**
  * SmartInclude Tag. JSP Tag which takes a 'page' parameter to include in the
  * current JSP page.
- * <p/>
+ * 
  * If the page is not found in the given path and the page attribute on the tag does not start
  * with a slash, the tag logic will
  * search the parent paths one by one until a match is found. Existence will first be
  * checked whether this is the case, in order to prevent heavy loading.
- * <p/>
+ * 
  * Since include pages are published through Tridion, the DD4T PageFactory is used.
  * This also means that full DD4T rendering is initiated.
- * <p/>
+ * 
  * Important note: if the to be included page uses the same view as the 'parent' page,
  * Spring MVC will throw an error, because of the danger of having circular view inclusions,
  * and thus infinite loops. Therefore, a different view must always be used.
- * <p/>
+ * 
  * Usage <t:smartInclude page="/includetest.html"/>
  *
  * @author R. Kempees

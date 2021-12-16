@@ -29,7 +29,7 @@ import java.util.Map;
 
 /**
  * Base class for all tridion items
- * <p/>
+ * 
  * Note: The latest DD4T version has uppercase start characters in elements.
  *
  * @author Quirijn Slings, Raimond Kempees

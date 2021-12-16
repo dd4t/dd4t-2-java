@@ -1283,35 +1283,35 @@
                                                             <xsd:enumeration value="NONE">
                                                                 <xsd:annotation>
                                                                     <xsd:documentation>
-                                                                        <p/>
+
                                                                     </xsd:documentation>
                                                                 </xsd:annotation>
                                                             </xsd:enumeration>
                                                             <xsd:enumeration value="READ_UNCOMMITTED">
                                                                 <xsd:annotation>
                                                                     <xsd:documentation>
-                                                                        <p/>
+
                                                                     </xsd:documentation>
                                                                 </xsd:annotation>
                                                             </xsd:enumeration>
                                                             <xsd:enumeration value="READ_COMMITTED">
                                                                 <xsd:annotation>
                                                                     <xsd:documentation>
-                                                                        <p/>
+
                                                                     </xsd:documentation>
                                                                 </xsd:annotation>
                                                             </xsd:enumeration>
                                                             <xsd:enumeration value="REPEATABLE_READ">
                                                                 <xsd:annotation>
                                                                     <xsd:documentation>
-                                                                        <p/>
+
                                                                     </xsd:documentation>
                                                                 </xsd:annotation>
                                                             </xsd:enumeration>
                                                             <xsd:enumeration value="SERIALIZABLE">
                                                                 <xsd:annotation>
                                                                     <xsd:documentation>
-                                                                        <p/>
+
                                                                     </xsd:documentation>
                                                                 </xsd:annotation>
                                                             </xsd:enumeration>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This configuration supports placeholders for properties in ${placeholderValue} format.
+For example: <ServiceConfig CacheEnabled="${cacheEnabled}" ConnectionTimeout="${connectionTimeout}"
+                            CacheExpirationDuration="${cacheExpirationDuration}"
+                            CacheProviderClass="${cacheProviderClass}">
+                            ...
+             </ServiceConfig>
+To override the default cache behaviour, define a CacheUri within the ServiceConfig element.
+For example: CacheUri="ehcache-context.xml".
+-->
+<ServiceConfig CacheEnabled="true"
+               ConnectionTimeout="10000" CacheExpirationDuration="600" ServiceAvailabilityCheck="true"
+               CacheProviderClass="com.sdl.web.client.cache.GeneralCacheProvider"
+               CacheConnectionTimeout="10000"
+               CheckVersionCompatibility="false"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="schemas/cd_client_conf.xsd">
+
+    <DiscoveryService ServiceUri="http://localhost:8082/discovery.svc"/>
+    <!--<TokenService ClientId="cduser" ClientSecret="CDUserP@ssw0rd"/>-->
+    <TokenService ClientId="cduser" ClientSecret="${cduserpassword:-encrypted:o/cgCBwmULeOyUZghFaKJA==}"/>
+</ServiceConfig>
+
+<!--
+Configuration sample for using Distributed Caching with Redis.
+Please update following fields:
+    CacheUri - in case of Redis is set to Redis host name with port number;
+    CacheClientId - should be the same for a bunch of CIL's which meant to be one environment;
+    CachePassword - distributed cache password. Do not use this field if Redis is used without password;
+    CacheCompressionThreshold - distributed cache specific option. Sets the threshold value which defines
+        whether compression should be used for serialized key/value;
+    CacheRedisPoolMaxTotal - Redis max size of connection pool;
+    CacheRedisPoolTestWhileIdle - Redis cache specific option which defines whether client should
+        ping Redis while client is idle;
+-->
+<!--
+<ServiceConfig CacheEnabled="true" CacheUri="localhost:6379"
+               ConnectionTimeout="10000" CacheExpirationDuration="600" ServiceAvailabilityCheck="true"
+               CacheProviderClass="com.sdl.web.client.cache.distributed.RedisCacheProvider"
+               CacheConnectionTimeout="10000"
+               CacheClientId="defaultCacheClientId"
+               CachePassword="encrypted:HzfQh9wYwAKShDxCm4DnnBnysAz9PtbDMFXMbPszSVY="
+               CacheCompressionThreshold="1000"
+               CacheRedisPoolMaxTotal="200"
+               CacheRedisPoolTestWhileIdle="false"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="schemas/cd_client_conf.xsd">
+
+<DiscoveryService ServiceUri="http://localhost:8082/discovery.svc"/>
+<TokenService ClientId="cduser" ClientSecret="encrypted:o/cgCBwmULeOyUZghFaKJA=="/>
+</ServiceConfig>
+-->
+<!--
+Configuration sample for using XO query service.
+Please update following fields:
+    QueryService - only required if not using Discovery Service;
+    QueryClient - defines the client. For embedded client configuration please use:
+        <QueryClient Class="com.sdl.tridion.xo.query.client.embedded.EmbeddedQueryClient" Embedded="true" />
+        Default client is RESTful query client.
+
+<ServiceConfig Version="10.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="schemas/xo-search-conf.xsd"
+               ConnectionTimeout="${indexconnectiontimeout:-10000}"
+               ReadTimeout="${indexreadtimeout:-30000}"
+               WriteTimeout="${indexwritetimeout:-30000}"
+               MaxIdleConnections="${indexmaxidleconnections:-30}">
+
+    <QueryService ServiceUri="${queryserviceurl:-http://localhost:8094/query.svc/v1/query}"/>
+    <QueryClient Class="com.sdl.tridion.xo.query.client.rest.RestQueryClient" />
+
+    <DiscoveryService ServiceUri="${discoveryurl:-http://localhost:8082/discovery.svc}"/>
+    <TokenService ClientId="${clientid:-cduser}" ClientSecret="${clientsecret:-encrypted:o/cgCBwmULeOyUZghFaKJA==}"/>
+</ServiceConfig>
+-->

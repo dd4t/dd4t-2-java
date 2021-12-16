@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:element name="ServiceConfig" id="cd_client_confN10001">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="DiscoveryService" minOccurs="1" maxOccurs="1" id="cd_client_confN10011">
+                    <xsd:annotation>
+                        <xsd:documentation>Configuration for Discovery Service.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="ServiceUri" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The discovery-service url.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="TokenService" minOccurs="1" maxOccurs="1" id="cd_client_confN10012">
+                    <xsd:annotation>
+                        <xsd:documentation>Configuration specific to Token Service.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="ClientId" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The client id needed for token service.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="ClientSecret" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The secret needed for token service.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="TokenProvider" type="xsd:string" use="optional">
+                            <xsd:annotation>
+                                <xsd:documentation>Reference to custom OAuth Token Provider implementation.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="ContextService" minOccurs="0" maxOccurs="1" id="cd_client_confN10013">
+                    <xsd:annotation>
+                        <xsd:documentation>Optional ContextService URI.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="ServiceUri" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The context-service url.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="ContentService" minOccurs="0" maxOccurs="1" id="cd_client_confN10014">
+                    <xsd:annotation>
+                        <xsd:documentation>Optional ContentService URI.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="ServiceUri" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The content-service url.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="PreviewService" minOccurs="0" maxOccurs="1" id="cd_client_confN10015">
+                    <xsd:annotation>
+                        <xsd:documentation>Optional PreviewService URI.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="ServiceUri" type="xsd:string" use="optional">
+                            <xsd:annotation>
+                                <xsd:documentation>The service uri.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="MachineName" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The machine name.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="FileLocation" type="xsd:string" use="optional">
+                            <xsd:annotation>
+                                <xsd:documentation>The storage location to be used for the filesystem based
+                                    operations.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="DefaultFileSystem" type="xsd:boolean" use="optional">
+                            <xsd:annotation>
+                                <xsd:documentation>Tells if the file structure of the fileSystem storage will be the
+                                    default one.
+                                </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="UGCService" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>Configuration for UGC Service.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:attribute name="ServiceUri" type="xsd:string" use="required">
+                            <xsd:annotation>
+                                <xsd:documentation>The ugc-service url.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:attribute>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="ConnectionTimeout" type="xsd:int" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>The connection timeout.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheEnabled" type="xsd:boolean" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>If caching of the resources should be allowed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheExpirationDuration" type="xsd:int" use="required">
+                <xsd:annotation>
+                    <xsd:documentation>The duration of the cache.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheUri" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>The cache configuration file location.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ServiceAvailabilityCheck" type="xsd:boolean" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Check if service is available before invalidating the cache.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheProviderClass" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>If distributed caching of the resources should be allowed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheConnectionTimeout" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Cache connection timeout. Used for connections to distributed cache.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheClientId" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Distributed caching client id.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CachePassword" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Distributed cache password for redis storage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheCompressionThreshold" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Distributed cache compression threshold option. Sets the threshold value which defines whether
+                        compression should be used for serialized key/value.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheRedisPoolMaxTotal" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Redis max size of connection pool for Redis cache.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CacheRedisPoolTestWhileIdle" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Redis cache specific option which defines whether client should ping Redis while client is idle.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ResolveCapability" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Specific capability the client will be initialized with.
+                        If no resolve capability is specified then client will trigger ContentServiceCapability.
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ServiceProxyHostName" type="xsd:string" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Service proxy host name.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ServiceProxyPort" type="xsd:int" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Service proxy port.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="CheckVersionCompatibility" type="xsd:boolean" use="optional">
+                <xsd:annotation>
+                    <xsd:documentation>Check for client and service version compatibility. Defaults to false.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:attribute>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

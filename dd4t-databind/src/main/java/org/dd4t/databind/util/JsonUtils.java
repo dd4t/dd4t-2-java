@@ -91,6 +91,6 @@ public class JsonUtils {
             return null;
         }
 
-        return DateUtils.convertStringToDate(dateNode);
+        return DateUtils.convertStringWithOffsetToDate(dateNode);
     }
 }

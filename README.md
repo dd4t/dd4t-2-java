@@ -1,12 +1,12 @@
 dd4t-2-java
 ======
 
- - Current stable version: **2.1.8**
+ - Current stable version: **2.1.9**
  - Maven Central: [org.dd4t](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.dd4t%22)
 
 ## Changelog
 
-### 2.1.8
+### 2.1.8+
 
 - Tridion 9.5 compatibility
 - dd4t-providers-web8 **renamed** to dd4t-providers-odata to better reflect Tridion 9.5 support.

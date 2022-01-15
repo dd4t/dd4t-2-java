@@ -32,6 +32,8 @@ import org.springframework.util.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -78,10 +80,24 @@ public class DataBindFactoryTest {
     }
 
     @Test
+    public void testDcpDeserializationWithUtcDate() throws URISyntaxException, IOException, SerializationException {
+        DataBinder databinder = applicationContext.getBean(DataBinder.class);
+
+        String dcp =
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcp-utc-date.json").toURI()));
+        Assert.notNull(dcp);
+        ComponentPresentation componentPresentation = databinder.buildComponentPresentation(dcp,
+                ComponentPresentation.class);
+        Assert.notNull(componentPresentation, "DCP cannot be bound");
+
+    }
+
+    @Test
     public void testDcpDeserialization() throws URISyntaxException, IOException, SerializationException {
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
 
-        String dcp = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcpanimal.json").toURI()));
+        String dcp =
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcp.json").toURI()));
         Assert.notNull(dcp);
         ComponentPresentation componentPresentation = databinder.buildComponentPresentation(dcp,
                 ComponentPresentation.class);
@@ -139,6 +155,16 @@ public class DataBindFactoryTest {
                 ComponentPresentation.class);
 
         assertNotNull(componentPresentation);
+    }
+
+    @Test
+    public void testUtcDateConversion() throws URISyntaxException, IOException, SerializationException {
+        String page = Files.readString(
+                Paths.get(ClassLoader.getSystemResource("dd4t221json-utc-date.json").toURI()));
+        DataBinder dataBinder = applicationContext.getBean(DataBinder.class);
+        Page deserializedPage = dataBinder.buildPage(page, PageImpl.class);
+        Assert.notNull(deserializedPage, "page cannot be bound");
+
     }
 
 

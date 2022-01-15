@@ -87,6 +87,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
             return GENERIC_MAPPER.readValue(source, aClass);
         } catch (IOException e) {
             LOG.error(DataBindConstants.MESSAGE_ERROR_DESERIALIZING, e);
+            LOG.trace("Could not deserialize Page:" + source + " into " + aClass);
             throw new SerializationException(e);
         }
     }
@@ -98,6 +99,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
             return GENERIC_MAPPER.readValue(source, componentPresentationClass);
         } catch (IOException e) {
             LOG.error(DataBindConstants.MESSAGE_ERROR_DESERIALIZING, e);
+            LOG.trace("Could not deserialize CP:" + source + " into " + componentPresentationClass);
             throw new SerializationException(e);
         }
     }
@@ -155,6 +157,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
 
         } catch (IOException e) {
             LOG.error(DataBindConstants.MESSAGE_ERROR_DESERIALIZING, e);
+            LOG.trace("Could not build Component:" + source + " into " + aClass);
             throw new SerializationException(e);
         }
     }

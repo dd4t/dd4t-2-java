@@ -54,7 +54,7 @@
         <gson.version>2.8.6</gson.version>
         <guava.version>30.1.1-jre</guava.version>
         <hibernate-commons-annotations.version>5.1.0.Final</hibernate-commons-annotations.version>
-        <hibernate-core.version>5.4.12.Final</hibernate-core.version>
+        <hibernate-core.version>5.4.24.Final</hibernate-core.version>
         <istack-commons-runtime.version>3.0.11</istack-commons-runtime.version>
         <jackson.version>2.10.5</jackson.version>
         <jackson-databind.version>2.10.5.1</jackson-databind.version>

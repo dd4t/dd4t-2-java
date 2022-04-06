@@ -24,6 +24,7 @@ import org.dd4t.contentmodel.Embedded;
 import org.dd4t.contentmodel.FieldSet;
 import org.dd4t.contentmodel.FieldType;
 import org.dd4t.core.databind.BaseViewModel;
+import org.dd4t.core.databind.DataBinder;
 import org.dd4t.core.databind.ModelConverter;
 import org.dd4t.core.databind.TridionViewModel;
 import org.dd4t.core.exceptions.ItemNotFoundException;
@@ -36,6 +37,7 @@ import org.dd4t.databind.util.TypeUtils;
 import org.dd4t.databind.viewmodel.base.ModelFieldMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -64,8 +66,10 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
     private Class<? extends org.dd4t.contentmodel.Field> concreteFieldImpl;
 
-    @Resource(name = "dataBinder")
-    protected JsonDataBinder databinder;
+    @Resource
+    private ApplicationContext applicationContext;
+
+    private JsonDataBinder databinder;
 
     @Override
     public <T extends BaseViewModel> T convertSource(final Object data, final T model) throws SerializationException {
@@ -78,7 +82,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
         JsonNode rawJsonData = (JsonNode) data;
 
         LOG.debug("Conversion start.");
-        this.concreteFieldImpl = databinder.getConcreteFieldImpl();
+        this.concreteFieldImpl = getDatabinder().getConcreteFieldImpl();
         if (model instanceof TridionViewModel) {
             LOG.debug("We have a Tridion view model. Setting additional properties");
             setTridionProperties((TridionViewModel) model, rawJsonData);
@@ -346,7 +350,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
             final Type parametrizedType = TypeUtils.getRuntimeTypeOfTypeParameter(modelField.getGenericType());
             LOG.debug("Interface check: " + TypeUtils.classIsViewModel((Class<?>) parametrizedType));
 
-            if (TypeUtils.classIsViewModel((Class<?>) parametrizedType) || databinder.classHasViewModelDerivatives((
+            if (TypeUtils.classIsViewModel((Class<?>) parametrizedType) || getDatabinder().classHasViewModelDerivatives((
                     (Class<?>) parametrizedType).getCanonicalName())) {
                 for (JsonNode node : nodeList) {
 
@@ -368,7 +372,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
                 }
             }
 
-        } else if (TypeUtils.classIsViewModel(modelField.getType()) || databinder.classHasViewModelDerivatives
+        } else if (TypeUtils.classIsViewModel(modelField.getType()) || getDatabinder().classHasViewModelDerivatives
                 (modelField.getType().getCanonicalName())) {
             final Class<T> modelClassToUse = (Class<T>) modelField.getType();
             checkTypeAndBuildModel(model, fieldName, nodeList.get(0), modelField, modelClassToUse);
@@ -462,7 +466,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
             if (StringUtils.isNotEmpty(rootElementName)) {
                 // attempt get a concrete class for this interface
 
-                final Class<? extends BaseViewModel> concreteClass = databinder.getConcreteModel(modelClassToUse
+                final Class<? extends BaseViewModel> concreteClass = getDatabinder().getConcreteModel(modelClassToUse
                         .getCanonicalName(), rootElementName);
                 if (concreteClass == null) {
                     LOG.error("Attempt to find a concrete model class for interface or abstract class: {} failed " +
@@ -486,7 +490,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
     }
 
     private String getRootElementNameFromComponentOrEmbeddedField(final JsonNode currentField) {
-        final String rootElementName = databinder.getRootElementName(currentField);
+        final String rootElementName = getDatabinder().getRootElementName(currentField);
 
         if (StringUtils.isNotEmpty(rootElementName)) {
             return rootElementName;
@@ -506,7 +510,7 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
     private <T extends BaseViewModel> BaseViewModel getBaseViewModel(final JsonNode currentField, final Class<T>
             modelClassToUse) throws SerializationException {
-        final BaseViewModel strongModel = databinder.buildModel(currentField, modelClassToUse, "");
+        final BaseViewModel strongModel = getDatabinder().buildModel(currentField, modelClassToUse, "");
         final ViewModel viewModelParameters = modelClassToUse.getAnnotation(ViewModel.class);
         if (viewModelParameters.setRawData()) {
             strongModel.setRawData(currentField.toString());
@@ -520,7 +524,8 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
         if (currentField.has(DataBindConstants.COMPONENT_TYPE)) {
             LOG.debug("Building a linked Component or Multimedia component");
-            final Component component = databinder.buildComponent(currentField, databinder.getConcreteComponentImpl());
+            final Component component = getDatabinder().buildComponent(currentField,
+                    getDatabinder().getConcreteComponentImpl());
             setFieldValue(model, f, component, fieldType);
         } else {
             final org.dd4t.contentmodel.Field renderedField = JsonUtils.renderComponentField(currentField, this
@@ -539,7 +544,11 @@ public class JsonModelConverter extends AbstractModelConverter implements ModelC
 
 
     public JsonDataBinder getDatabinder() {
-        return databinder;
+
+        if (this.databinder == null) {
+            this.databinder = (JsonDataBinder) applicationContext.getBean("dataBinder", DataBinder.class);
+        }
+        return this.databinder;
     }
 
     public void setDatabinder(JsonDataBinder databinder) {

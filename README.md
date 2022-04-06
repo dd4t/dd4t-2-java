@@ -1,10 +1,15 @@
 dd4t-2-java
 ======
 
- - Current stable version: **2.1.9**
+ - Current stable version: **2.1.11**
  - Maven Central: [org.dd4t](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22org.dd4t%22)
 
 ## Changelog
+
+### 2.1.11+
+- Upgraded to Spring 5.3.18
+- To prevent a circular dependency issue in this Spring version, remove the following property from your bean configuration for `<bean id="dataBinder"`:
+  - ` <property name="converter" ref="modelConverter"/> `
 
 ### 2.1.8+
 

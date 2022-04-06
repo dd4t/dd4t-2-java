@@ -78,9 +78,6 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
         GENERIC_MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    public JsonDataBinder () {
-    }
-
     @Override
     public <T extends Page> T buildPage(final String source, final Class<T> aClass) throws SerializationException {
         try {
@@ -229,7 +226,7 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
             }
 
             LOG.debug("Building model {}", concreteModel.getClass().toString());
-            return this.converter.convertSource(source, concreteModel);
+            return this.getModelConverter().convertSource(source, concreteModel);
         } catch (InstantiationException | IllegalAccessException | ParseException e) {
             LOG.error(e.getLocalizedMessage(), e);
         }
@@ -241,7 +238,6 @@ public class JsonDataBinder extends BaseDataBinder implements DataBinder {
     }
 
     @PostConstruct
-    @Override
     public void init() {
 
         this.configureMapper();

@@ -41,6 +41,11 @@
         <appender-ref ref="stdout"/>
     </logger>
 
+    <logger name="org.springframework" level="OFF" additivity="false">
+        <appender-ref ref="rollingDeserializerLog"/>
+        <appender-ref ref="stdout"/>
+    </logger>
+
     <root level="${log.level}">
         <appender-ref ref="rollingDeserializerLog"/>
         <appender-ref ref="stdout"/>

@@ -32,6 +32,7 @@ import org.springframework.util.Assert;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -48,6 +49,9 @@ public class DataBindFactoryTest {
     @BeforeClass
     public static void setUp() throws Exception {
         applicationContext = new ClassPathXmlApplicationContext("application-context.xml");
+        Class<ApplicationContext> klass = ApplicationContext.class;
+        URL location = klass.getResource('/' + klass.getName().replace('.', '/') + ".class");
+        System.out.println("Application Context jar: " + location);
     }
 
     @Test

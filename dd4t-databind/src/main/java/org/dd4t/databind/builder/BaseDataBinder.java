@@ -30,8 +30,9 @@ import org.dd4t.databind.annotations.ViewModel;
 import org.dd4t.databind.util.DataBindConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,8 +59,10 @@ public abstract class BaseDataBinder {
     protected static final ConcurrentMap<String, List<Class<? extends BaseViewModel>>> ABSTRACT_OR_INTERFACE_MODELS =
             new ConcurrentHashMap<>();
 
+    @Resource
+    private ApplicationContext applicationContext;
 
-    protected ModelConverter converter;
+    protected ModelConverter modelConverter;
     protected String viewModelMetaKeyName;
     protected String viewModelPackageRoot;
     protected boolean renderDefaultComponentModelsOnly;
@@ -81,10 +84,6 @@ public abstract class BaseDataBinder {
 
     public void setConcreteComponentImpl(final Class<? extends Component> concreteComponentImpl) {
         this.concreteComponentImpl = concreteComponentImpl;
-    }
-
-    public void setConverter(final ModelConverter converter) {
-        this.converter = converter;
     }
 
     public void setViewModelMetaKeyName(final String viewModelMetaKeyName) {
@@ -133,10 +132,6 @@ public abstract class BaseDataBinder {
 
     public boolean renderDefaultComponentsIfNoModelFound() {
         return renderDefaultComponentsIfNoModelFound;
-    }
-
-    public ModelConverter getConverter() {
-        return converter;
     }
 
     public String getViewModelMetaKeyName() {
@@ -196,9 +191,6 @@ public abstract class BaseDataBinder {
 
     }
 
-    @PostConstruct
-    protected abstract void init();
-
     protected void checkViewModelConfiguration() {
         if (StringUtils.isEmpty(viewModelMetaKeyName)) {
             this.viewModelMetaKeyName = DataBindConstants.VIEW_MODEL_DEFAULT_META_KEY;
@@ -226,6 +218,18 @@ public abstract class BaseDataBinder {
             processClass(classInfoEntry.getValue());
         }
         LOG.info("Init: Done scanning view models.");
+    }
+
+    public ModelConverter getModelConverter() {
+
+        if (this.modelConverter == null) {
+            this.modelConverter = applicationContext.getBean(ModelConverter.class);
+        }
+        return modelConverter;
+    }
+
+    public void setModelConverter(ModelConverter modelConverter) {
+        this.modelConverter = modelConverter;
     }
 
     private void processClass(final ClassInfo classInfo) {

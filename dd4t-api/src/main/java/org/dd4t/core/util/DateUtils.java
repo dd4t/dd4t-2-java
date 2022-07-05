@@ -28,8 +28,8 @@ public class DateUtils {
 
     private static final String DATE_PATTERN_WITH_OFFSET = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER_WITH_OFFSET = DateTimeFormat.forPattern
-            (DATE_PATTERN_WITH_OFFSET);
+    private static final DateTimeFormatter DATE_TIME_FORMATTER_WITH_OFFSET =
+            DateTimeFormat.forPattern(DATE_PATTERN_WITH_OFFSET);
 
 
     private DateUtils() {
@@ -62,17 +62,36 @@ public class DateUtils {
      * @return the Joda DateTime
      */
     public static DateTime convertStringToDate(String date) {
+        if (date.endsWith("Z")) {
+
+            if (hasMilliSeconds(date)) {
+                return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date);
+            }
+            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date.replace("Z", ".000Z"));
+        }
+
+
         if (date.length() > 19) {
             return DATE_TIME_FORMATTER.parseDateTime(date);
         } else {
+
+
             return DATE_TIME_FORMATTER.parseDateTime(date + ".000");
         }
     }
 
     public static DateTime convertStringWithOffsetToDate(String date) {
         if (date.endsWith("Z")) {
-            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date);
+            if (hasMilliSeconds(date)) {
+                return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date);
+            }
+            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date.replace("Z", ".000Z"));
         }
         return convertStringToDate(date);
     }
+
+    private static boolean hasMilliSeconds(String date) {
+        return date.contains(".");
+    }
+
 }

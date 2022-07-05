@@ -33,10 +33,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -59,16 +61,17 @@ public class DataBindFactoryTest {
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
 
         String page = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()));
-        Page deserializedPage = databinder.buildPage(CompressionUtils.decompressGZip(CompressionUtils.decodeBase64
-                (page)), PageImpl.class);
+        Page deserializedPage =
+                databinder.buildPage(CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(page)),
+                        PageImpl.class);
         Assert.notNull(deserializedPage, "page cannot be bound");
         Assert.hasLength(deserializedPage.getTitle(), "page has no valid title");
     }
 
     @Test
     public void testExtensionDataBindFactory() throws SerializationException, URISyntaxException, IOException {
-        String page = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("extensiondatapage.json")
-                .toURI()));
+        String page =
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("extensiondatapage.json").toURI()));
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
         Page deserializedPage = databinder.buildPage(page, PageImpl.class);
         Assert.notNull(deserializedPage, "page cannot be bound");
@@ -88,10 +91,43 @@ public class DataBindFactoryTest {
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
 
         String dcp =
-                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcp-utc-date.json").toURI()));
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcp-utc-date.json").toURI()),
+                        StandardCharsets.UTF_8);
         Assert.notNull(dcp);
-        ComponentPresentation componentPresentation = databinder.buildComponentPresentation(dcp,
-                ComponentPresentation.class);
+        ComponentPresentation componentPresentation =
+                databinder.buildComponentPresentation(dcp, ComponentPresentation.class);
+        Assert.notNull(componentPresentation, "DCP cannot be bound");
+
+    }
+
+    @Test
+    public void testDcpDeserializationWithUtcDateMetaField() throws URISyntaxException, IOException,
+            SerializationException {
+        DataBinder databinder = applicationContext.getBean(DataBinder.class);
+
+        String dcp =
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("json.json").toURI()),
+                        StandardCharsets.UTF_8);
+        Assert.notNull(dcp);
+        ComponentPresentation componentPresentation =
+                databinder.buildComponentPresentation(dcp, ComponentPresentation.class);
+
+        Component component =
+                (Component) componentPresentation.getComponent().getContent().get("mc").getValues().get(0);
+
+        FieldSet fieldSet = (FieldSet) component.getContent().get("sl").getValues().get(0);
+
+        Component categoryComponent = (Component) fieldSet.getContent().get("il").getValues().get(0);
+
+
+        List<Object> dateList = categoryComponent.getCategories().get(0).getKeywords().get(0).getMetadata().get(
+                "dateTest").getValues();
+
+
+        assertEquals(dateList.get(0).toString(), "2022-12-31T10:00:00.124+01:00");
+        assertEquals(dateList.get(1).toString(), "2022-12-31T10:00:00.000+01:00");
+        assertEquals(dateList.get(2).toString(), "2022-12-31T09:00:00.000+01:00");
+        assertEquals(dateList.get(3).toString(), "2022-12-31T09:00:00.124+01:00");
         Assert.notNull(componentPresentation, "DCP cannot be bound");
 
     }
@@ -100,24 +136,27 @@ public class DataBindFactoryTest {
     public void testDcpDeserialization() throws URISyntaxException, IOException, SerializationException {
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
 
-        String dcp =
-                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcp.json").toURI()));
+        String dcp = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("testdcp.json").toURI()),
+                StandardCharsets.UTF_8);
         Assert.notNull(dcp);
-        ComponentPresentation componentPresentation = databinder.buildComponentPresentation(dcp,
-                ComponentPresentation.class);
+        ComponentPresentation componentPresentation =
+                databinder.buildComponentPresentation(dcp, ComponentPresentation.class);
         Assert.notNull(componentPresentation, "DCP cannot be bound");
 
     }
 
     @Test
     public void testEmbeddedSerialization() throws URISyntaxException, SerializationException, IOException {
-        String page = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json").toURI()));
+        String page =
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("fulltestencoded.json").toURI()));
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
-        Page deserializedPage = databinder.buildPage(CompressionUtils.decompressGZip(CompressionUtils.decodeBase64
-                (page)), PageImpl.class);
+        Page deserializedPage =
+                databinder.buildPage(CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(page)),
+                        PageImpl.class);
         assertNotNull(deserializedPage);
-        EmbeddedField field = (EmbeddedField) deserializedPage.getComponentPresentations().get(0).getComponent()
-                .getContent().get("embeddedTest");
+        EmbeddedField field =
+                (EmbeddedField) deserializedPage.getComponentPresentations().get(0).getComponent().getContent()
+                        .get("embeddedTest");
 
         String serialized = JsonDataBinder.getGenericMapper().writeValueAsString(field);
 
@@ -135,8 +174,8 @@ public class DataBindFactoryTest {
     public void testStaticDataBindFactory() throws SerializationException, URISyntaxException, IOException {
 
 
-        String page = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64
-                (FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()))));
+        String page = CompressionUtils.decompressGZip(CompressionUtils.decodeBase64(
+                FileUtils.readFileToString(new File(ClassLoader.getSystemResource("test.json").toURI()))));
         DataBinder databinder = applicationContext.getBean(DataBinder.class);
         Page deserializedPage = databinder.buildPage(page, PageImpl.class);
         Assert.notNull(deserializedPage, "page cannot be bound");
@@ -155,16 +194,15 @@ public class DataBindFactoryTest {
         String dcp = FileUtils.readFileToString(new File(ClassLoader.getSystemResource("newitem.json").toURI()));
         DataBinder dataBinder = applicationContext.getBean(DataBinder.class);
 
-        ComponentPresentation componentPresentation = dataBinder.buildComponentPresentation(dcp,
-                ComponentPresentation.class);
+        ComponentPresentation componentPresentation =
+                dataBinder.buildComponentPresentation(dcp, ComponentPresentation.class);
 
         assertNotNull(componentPresentation);
     }
 
     @Test
     public void testUtcDateConversion() throws URISyntaxException, IOException, SerializationException {
-        String page = Files.readString(
-                Paths.get(ClassLoader.getSystemResource("dd4t221json-utc-date.json").toURI()));
+        String page = Files.readString(Paths.get(ClassLoader.getSystemResource("dd4t221json-utc-date.json").toURI()));
         DataBinder dataBinder = applicationContext.getBean(DataBinder.class);
         Page deserializedPage = dataBinder.buildPage(page, PageImpl.class);
         Assert.notNull(deserializedPage, "page cannot be bound");
@@ -173,7 +211,8 @@ public class DataBindFactoryTest {
 
 
     @Test
-    public void testManualPageCreationSerialization() throws JsonProcessingException, SerializationException, NoSuchFieldException, IllegalAccessException {
+    public void testManualPageCreationSerialization()
+            throws JsonProcessingException, SerializationException, NoSuchFieldException, IllegalAccessException {
         //given
         PageImpl page = new PageImpl();
 
@@ -219,8 +258,9 @@ public class DataBindFactoryTest {
         PageImpl afterSerializationPage = dataBinder.buildPage(asString, PageImpl.class);
 
         assertNotNull(afterSerializationPage);
-        FieldSetImpl embedded = (FieldSetImpl) afterSerializationPage
-                .getComponentPresentations().get(0).getComponent().getContent().get("articleBody").getValues().get(0);
+        FieldSetImpl embedded =
+                (FieldSetImpl) afterSerializationPage.getComponentPresentations().get(0).getComponent().getContent()
+                        .get("articleBody").getValues().get(0);
         assertNotNull(embedded);
         assertEquals("Subheading 1", embedded.getFieldSet().get("subheading").getValues().get(0));
     }
@@ -238,7 +278,7 @@ public class DataBindFactoryTest {
     private void assertInnerFields(String asString) {
         assertTrue("Should contain articleBody in: " + asString, asString.contains("articleBody"));
         assertTrue("Should contain subheading in : " + asString, asString.contains("subheading"));
-        assertTrue("Should contain embedded text value Subheading 1 in: " + asString, asString.contains("Subheading "
-                + "1"));
+        assertTrue("Should contain embedded text value Subheading 1 in: " + asString,
+                asString.contains("Subheading " + "1"));
     }
 }

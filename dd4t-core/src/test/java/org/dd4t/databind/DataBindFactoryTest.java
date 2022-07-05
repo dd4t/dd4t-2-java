@@ -124,10 +124,10 @@ public class DataBindFactoryTest {
                 "dateTest").getValues();
 
 
-        assertEquals(dateList.get(0).toString(), "2022-12-31T10:00:00.124+01:00");
-        assertEquals(dateList.get(1).toString(), "2022-12-31T10:00:00.000+01:00");
-        assertEquals(dateList.get(2).toString(), "2022-12-31T09:00:00.000+01:00");
-        assertEquals(dateList.get(3).toString(), "2022-12-31T09:00:00.124+01:00");
+        assertEquals("2022-12-31T09:00:00.124Z", dateList.get(0).toString());
+        assertEquals("2022-12-31T09:00:00.000Z", dateList.get(1).toString());
+        assertEquals("2022-12-31T09:00:00.000+01:00", dateList.get(2).toString());
+        assertEquals("2022-12-31T09:00:00.124+01:00", dateList.get(3).toString());
         Assert.notNull(componentPresentation, "DCP cannot be bound");
 
     }

@@ -17,6 +17,7 @@
 package org.dd4t.core.util;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -65,9 +66,9 @@ public class DateUtils {
         if (date.endsWith("Z")) {
 
             if (hasMilliSeconds(date)) {
-                return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date);
+                return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date).withZone(DateTimeZone.UTC);
             }
-            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date.replace("Z", ".000Z"));
+            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date.replace("Z", ".000Z")).withZone(DateTimeZone.UTC);
         }
 
 
@@ -83,9 +84,9 @@ public class DateUtils {
     public static DateTime convertStringWithOffsetToDate(String date) {
         if (date.endsWith("Z")) {
             if (hasMilliSeconds(date)) {
-                return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date);
+                return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date).withZone(DateTimeZone.UTC);
             }
-            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date.replace("Z", ".000Z"));
+            return DATE_TIME_FORMATTER_WITH_OFFSET.parseDateTime(date.replace("Z", ".000Z")).withZone(DateTimeZone.UTC);
         }
         return convertStringToDate(date);
     }

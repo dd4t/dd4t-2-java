@@ -1,0 +1,258 @@
+{
+  "Component": {
+    "LastPublishedDate": "0001-01-01T00:00:00",
+    "RevisionDate": "2021-12-09T09:39:14Z",
+    "Schema": {
+      "Folder": {
+        "PublicationId": "tcm:0-634-1",
+        "Id": "tcm:634-18103-2",
+        "Title": "Schemas"
+      },
+      "RootElementName": "Content",
+      "Publication": {
+        "Id": "tcm:0-634-1",
+        "Title": "zzz"
+      },
+      "Id": "tcm:634-806897-8",
+      "Title": "zzz"
+    },
+    "Fields": {
+      "mc": {
+        "Name": "mc",
+        "Values": ["tcm:634-826830"],
+        "NumericValues": [],
+        "DateTimeValues": [],
+        "LinkedComponentValues": [
+          {
+            "LastPublishedDate": "0001-01-01T00:00:00",
+            "RevisionDate": "2021-10-20T13:50:06.843Z",
+            "Schema": {
+              "Folder": {
+                "PublicationId": "tcm:0-634-1",
+                "Id": "tcm:634-18103-2",
+                "Title": " Schemas"
+              },
+              "RootElementName": "ExternalLink",
+              "Publication": {
+                "Id": "tcm:0-634-1",
+                "Title": "zzz"
+              },
+              "Id": "tcm:634-809381-8",
+              "Title": "zzz"
+            },
+            "Fields": {
+              "sl": {
+                "Name": "sl",
+                "Values": [],
+                "NumericValues": [],
+                "DateTimeValues": [],
+                "LinkedComponentValues": [],
+                "EmbeddedValues": [
+                  {
+                    "il": {
+                      "Name": "il",
+                      "Values": ["tcm:634-795275"],
+                      "NumericValues": [],
+                      "DateTimeValues": [],
+                      "LinkedComponentValues": [
+                        {
+                          "LastPublishedDate": "0001-01-01T00:00:00",
+                          "RevisionDate": "2020-08-05T16:10:04.52Z",
+                          "Schema": {
+                            "Folder": {
+                              "PublicationId": "tcm:0-634-1",
+                              "Id": "tcm:634-18103-2",
+                              "Title": "Schemas"
+                            },
+                            "RootElementName": "HtmlMeta",
+                            "Publication": {
+                              "Id": "tcm:0-634-1",
+                              "Title": "zzz"
+                            },
+                            "Id": "tcm:634-70286-8",
+                            "Title": "Meta"
+                          },
+                          "Fields": {
+                            "title": {
+                              "Name": "title",
+                              "Values": ["Overview"],
+                              "NumericValues": [],
+                              "DateTimeValues": [],
+                              "LinkedComponentValues": [],
+                              "FieldType": 0,
+                              "XPath": "tcm:Content/custom:HtmlMeta/custom:title",
+                              "KeywordValues": []
+                            }
+                          },
+                          "MetadataFields": {},
+                          "ComponentType": 1,
+                          "Folder": {
+                            "PublicationId": "tcm:0-634-1",
+                            "Id": "tcm:634-1443499-2",
+                            "Title": "1 - Overview"
+                          },
+                          "Categories": [
+                            {
+                              "Keywords": [
+                                {
+                                  "IsRoot": false,
+                                  "IsAbstract": false,
+                                  "Description": "descriptionTest",
+                                  "Key": "test",
+                                  "TaxonomyId": "tcm:634-1395305-512",
+                                  "Path": "\\test\\test",
+                                  "RelatedKeywords": [],
+                                  "ParentKeywords": [],
+                                  "MetadataFields": {
+                                    "dateTest": {
+                                      "Name": "dateTest",
+                                      "Values": [],
+                                      "NumericValues": [],
+                                      "DateTimeValues": [
+                                        "2022-12-31T09:00:00.124Z",
+                                        "2022-12-31T09:00:00Z",
+                                        "2022-12-31T09:00:00",
+                                        "2022-12-31T09:00:00.124"
+                                      ],
+                                      "LinkedComponentValues": [],
+                                      "FieldType": 9,
+                                      "XPath": "tcm:Content/custom:dateTest/custom:dateTest",
+                                      "KeywordValues": []
+                                    }
+                                  },
+                                  "Id": "tcm:634-706169-1024",
+                                  "Title": "test"
+                                }
+                              ],
+                              "Id": "tcm:634-1395305-512",
+                              "Title": "test"
+                            },
+                            {
+                              "Keywords": [],
+                              "Id": "tcm:634-1395306-512",
+                              "Title": "test"
+                            },
+                            {
+                              "Keywords": [],
+                              "Id": "tcm:634-18091-512",
+                              "Title": "test"
+                            }
+                          ],
+                          "Version": 15,
+                          "Publication": {
+                            "Id": "tcm:0-634-1",
+                            "Title": "zzz"
+                          },
+                          "OwningPublication": {
+                            "Id": "tcm:0-371-1",
+                            "Title": "zzz"
+                          },
+                          "Id": "tcm:634-795275",
+                          "Title": "Overview"
+                        }
+                      ],
+                      "FieldType": 6,
+                      "XPath": "tcm:Content/custom:ExternalLink/custom:sl[1]/custom:il",
+                      "KeywordValues": []
+                    }
+                  }
+                ],
+                "EmbeddedSchema": {
+                  "Folder": {
+                    "PublicationId": "tcm:0-634-1",
+                    "Id": "tcm:634-18101-2",
+                    "Title": "Embedded Schemas"
+                  },
+                  "RootElementName": "link",
+                  "Publication": {
+                    "Id": "tcm:0-634-1",
+                    "Title": "zzz"
+                  },
+                  "Id": "tcm:634-524005-8",
+                  "Title": "Link"
+                },
+                "FieldType": 4,
+                "XPath": "tcm:Content/custom:ExternalLink/custom:secondary",
+                "KeywordValues": []
+              }
+            },
+            "MetadataFields": {},
+            "ComponentType": 1,
+            "Folder": {
+              "PublicationId": "tcm:0-634-1",
+              "Id": "tcm:634-1459747-2",
+              "Title": "zzz"
+            },
+            "Categories": [],
+            "Version": 17,
+            "Publication": {
+              "Id": "tcm:0-634-1",
+              "Title": "zzz"
+            },
+            "OwningPublication": {
+              "Id": "tcm:0-371-1",
+              "Title": "zzz"
+            },
+            "Id": "tcm:634-826830",
+            "Title": "Link"
+          }
+        ],
+        "FieldType": 6,
+        "XPath": "tcm:Content/custom:Content/custom:main",
+        "KeywordValues": []
+      }
+    },
+    "MetadataFields": {},
+    "ComponentType": 1,
+    "Folder": {
+      "PublicationId": "tcm:0-634-1",
+      "Id": "tcm:634-1459747-2",
+      "Title": "xxx"
+    },
+    "Categories": [],
+    "Version": 13,
+    "Publication": {
+      "Id": "tcm:0-634-1",
+      "Title": "zzz"
+    },
+    "OwningPublication": {
+      "Id": "tcm:0-371-1",
+      "Title": "zzz"
+    },
+    "Id": "tcm:634-826831",
+    "Title": "zzz"
+  },
+  "ComponentTemplate": {
+    "OutputFormat": "HTML Fragment",
+    "RevisionDate": "2015-05-10T19:36:07.773",
+    "MetadataFields": {
+      "view": {
+        "Name": "view",
+        "Value": "event",
+        "Values": ["Event"],
+        "NumericValues": [],
+        "DateTimeValues": [],
+        "LinkedComponentValues": [],
+        "FieldType": 0,
+        "KeywordValues": []
+      }
+    },
+    "Folder": {
+      "PublicationId": "tcm:0-7-1",
+      "Id": "tcm:7-18-2",
+      "Title": "Component Templates"
+    },
+    "Publication": {
+      "Id": "tcm:0-7-1",
+      "Title": "zzz"
+    },
+    "OwningPublication": {
+      "Id": "tcm:0-3-1",
+      "Title": "zzz"
+    },
+    "Id": "tcm:7-105-32",
+    "Title": "zzz"
+  },
+  "IsDynamic": true,
+  "OrderOnPage": 0
+}

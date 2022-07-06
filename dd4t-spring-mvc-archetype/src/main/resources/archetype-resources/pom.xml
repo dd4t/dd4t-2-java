@@ -32,7 +32,7 @@
         <!-- Versions for the Tridion CD stack. Can be removed in a remote scenario -->
         <tridion.version>7.1.0</tridion.version>
         <activation.version>1.1.1</activation.version>
-        <activemq.version>5.13.0</activemq.version>
+        <activemq.version>5.15.9</activemq.version>
         <aspectj.version>1.8.1</aspectj.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <commons-io.version>2.11.0</commons-io.version>

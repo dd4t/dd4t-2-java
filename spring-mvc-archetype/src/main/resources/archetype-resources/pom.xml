@@ -75,7 +75,7 @@
         <commons-pool-version>1.5.3</commons-pool-version>
         <easylicense-version>2.5</easylicense-version>
         <json-smart-version>1.1.1</json-smart-version>
-        <xalan-version>2.7.1</xalan-version>
+        <xalan-version>2.7.2</xalan-version>
         <sqljdbc4-version>4.0.0</sqljdbc4-version>
 
         <!-- TODO: profile -->

@@ -36,7 +36,7 @@
         <javax.jms.version>1.1-rev-1</javax.jms.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <joda-time.version>2.10.3</joda-time.version>
-        <jsoup.version>1.14.3</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
         <jsp-api.version>2.2</jsp-api.version>
         <jstl.version>1.2</jstl.version>
         <slf4j.version>1.7.30</slf4j.version>

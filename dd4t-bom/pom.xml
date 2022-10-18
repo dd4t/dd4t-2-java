@@ -31,7 +31,7 @@
         <httpclient.version>4.5.13</httpclient.version>
 
         <jackson.version>2.10.5</jackson.version>
-        <jackson.databind.version>2.10.5.1</jackson.databind.version>
+        <jackson.databind.version>2.13.4.1</jackson.databind.version>
         <javax.cache-api.version>1.1.1</javax.cache-api.version>
         <javax.jms.version>1.1-rev-1</javax.jms.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>

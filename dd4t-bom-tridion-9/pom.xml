@@ -57,7 +57,7 @@
         <hibernate-core.version>5.4.12.Final</hibernate-core.version>
         <istack-commons-runtime.version>3.0.11</istack-commons-runtime.version>
         <jackson.version>2.10.5</jackson.version>
-        <jackson-databind.version>2.10.5.1</jackson-databind.version>
+        <jackson-databind.version>2.13.4.1</jackson-databind.version>
         <jakarta.xml.bind-api.version>2.3.2</jakarta.xml.bind-api.version>
         <jandex.version>2.0.5.Final</jandex.version>
         <jakarta.activation-api.version>1.2.1</jakarta.activation-api.version>

@@ -55,7 +55,7 @@
         <gson.version>2.3.1</gson.version>
         <guava.version>18.0</guava.version>
         <hibernate-annotations.version>4.0.5.Final</hibernate-annotations.version>
-        <hibernate.version>4.3.9.Final</hibernate.version>
+        <hibernate.version>5.3.20.Final</hibernate.version>
         <hibernate.jpa.version>1.0.0.Final</hibernate.jpa.version>
         <jandex.version>1.1.0.Final</jandex.version>
         <jaxb-api.version>2.1</jaxb-api.version>
